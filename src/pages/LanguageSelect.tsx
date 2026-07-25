@@ -19,7 +19,7 @@ export function LanguageSelect() {
 
   function handleContinue() {
     setLang(selected);
-    navigate('/dashboard');
+    navigate('/dashboard/live');
   }
 
   return (
