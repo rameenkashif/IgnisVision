@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BrandMark } from '../components/BrandMark';
+import { Logo } from '../components/Logo';
 import { useLanguage } from '../state/LanguageContext';
 import type { Lang } from '../state/LanguageContext';
+import '../styles/ambient.css';
 import '../components/AuthShell.css';
 import './LanguageSelect.css';
 
@@ -22,10 +23,10 @@ export function LanguageSelect() {
   }
 
   return (
-    <div className="auth-shell">
+    <div className="auth-shell ambient-glow">
       <div className="auth-card">
         <div className="auth-card-head">
-          <BrandMark size={44} />
+          <Logo height={56} glow />
           <h1>{t('chooseLanguage')}</h1>
           <p>{t('chooseLanguageSubtitle')}</p>
         </div>

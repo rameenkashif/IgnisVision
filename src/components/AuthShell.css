@@ -4,16 +4,19 @@
   align-items: center;
   justify-content: center;
   padding: 24px;
-  background: radial-gradient(circle at 50% 20%, #161c22 0%, #0a0d10 65%);
 }
 
 .auth-card {
+  position: relative;
+  z-index: 1;
   width: 100%;
   max-width: 380px;
-  background: var(--bg-1);
+  background: rgba(16, 21, 26, 0.82);
+  backdrop-filter: blur(6px);
   border: 1px solid var(--line);
   border-radius: 14px;
   padding: 32px 28px;
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.5);
   animation: card-rise 400ms ease-out both;
 }
 

@@ -1,0 +1,8 @@
+.iv-logo {
+  flex-shrink: 0;
+  display: block;
+}
+
+.iv-logo-glow {
+  filter: drop-shadow(0 0 18px rgba(255, 106, 43, 0.45)) drop-shadow(0 0 4px rgba(255, 106, 43, 0.3));
+}

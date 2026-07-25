@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BrandMark } from '../components/BrandMark';
+import { Logo } from '../components/Logo';
 import { useLanguage } from '../state/LanguageContext';
+import '../styles/ambient.css';
 import '../components/AuthShell.css';
 import './Login.css';
 
@@ -18,10 +19,10 @@ export function Login() {
   }
 
   return (
-    <div className="auth-shell">
+    <div className="auth-shell ambient-glow">
       <form className="auth-card" onSubmit={handleSubmit}>
         <div className="auth-card-head">
-          <BrandMark size={44} />
+          <Logo height={56} glow />
           <h1>{t('loginTitle')}</h1>
           <p>{t('loginSubtitle')}</p>
         </div>

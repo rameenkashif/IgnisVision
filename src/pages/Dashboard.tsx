@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import { BrandMark } from '../components/BrandMark';
+import { Logo } from '../components/Logo';
 import { useLanguage } from '../state/LanguageContext';
+import '../styles/ambient.css';
 import './Dashboard.css';
 
 export function Dashboard() {
@@ -8,8 +9,8 @@ export function Dashboard() {
   const { t } = useLanguage();
 
   return (
-    <div className="dash-placeholder">
-      <BrandMark size={56} />
+    <div className="dash-placeholder ambient-glow">
+      <Logo height={72} glow />
       <h1>{t('dashboardComingSoon')}</h1>
       <p>{t('dashboardNote')}</p>
       <button className="dash-logout" onClick={() => navigate('/login')}>
