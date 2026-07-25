@@ -1,0 +1,120 @@
+.splash {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: radial-gradient(circle at 50% 40%, #161c22 0%, #0a0d10 70%);
+  position: relative;
+}
+
+.splash-mark {
+  animation: splash-pop 700ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.splash-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 40px;
+  letter-spacing: 2px;
+  color: var(--text-hi);
+  display: flex;
+  gap: 12px;
+}
+
+.splash-title span {
+  opacity: 0;
+  animation: splash-rise 600ms ease-out forwards;
+}
+
+.splash-title span:first-child {
+  animation-delay: 500ms;
+}
+
+.splash-title span:last-child {
+  animation-delay: 700ms;
+  background: linear-gradient(90deg, var(--thermal), #ffb27a);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.splash-tagline {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-low);
+  opacity: 0;
+  animation: splash-rise 600ms ease-out 950ms forwards;
+}
+
+.splash-bar {
+  width: 160px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--bg-3);
+  overflow: hidden;
+  margin-top: 20px;
+  opacity: 0;
+  animation: splash-rise 400ms ease-out 1150ms forwards;
+}
+
+.splash-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--thermal), #ffb27a);
+  animation: splash-load 1400ms ease-out 1200ms forwards;
+}
+
+.splash-skip {
+  position: absolute;
+  bottom: 28px;
+  right: 28px;
+  background: none;
+  border: none;
+  color: var(--text-low);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  opacity: 0;
+  animation: splash-rise 400ms ease-out 1400ms forwards;
+}
+
+.splash-skip:hover {
+  color: var(--text-mid);
+}
+
+@keyframes splash-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes splash-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes splash-load {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}

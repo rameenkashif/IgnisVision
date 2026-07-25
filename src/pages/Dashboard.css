@@ -1,0 +1,39 @@
+.dash-placeholder {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  text-align: center;
+  padding: 24px;
+}
+
+.dash-placeholder h1 {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-hi);
+}
+
+.dash-placeholder p {
+  font-size: 12.5px;
+  color: var(--text-mid);
+  max-width: 360px;
+  line-height: 1.6;
+}
+
+.dash-logout {
+  margin-top: 10px;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  color: var(--text-hi);
+  border-radius: 7px;
+  padding: 8px 16px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.dash-logout:hover {
+  background: var(--bg-3);
+}

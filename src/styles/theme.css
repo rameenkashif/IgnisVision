@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  --bg-0: #0a0d10;
+  --bg-1: #10151a;
+  --bg-2: #161c22;
+  --bg-3: #1d242b;
+  --line: #262e36;
+  --line-soft: #1b2128;
+
+  --text-hi: #edeff1;
+  --text-mid: #9aa4ac;
+  --text-low: #5b646c;
+
+  --safe: #2fa66e;
+  --safe-dim: #173d2c;
+  --caution: #e8a93b;
+  --caution-dim: #4a3813;
+  --unsafe: #dd4a32;
+  --unsafe-dim: #4a1d14;
+  --blocked: #6b2e33;
+  --blocked-dim: #2a1416;
+
+  --thermal: #ff6a2b;
+  --accent: #3fa9e8;
+
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --font-body: 'Inter', sans-serif;
+
+  --sidebar-w: 224px;
+  --sidebar-w-collapsed: 64px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background: var(--bg-0);
+  color: var(--text-hi);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select {
+  font-family: var(--font-body);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 3px;
+}
