@@ -1,12 +1,31 @@
-/* Warm ambient glow treatment shared by post-splash screens (login, language, dashboard). */
+/* Warm ambient glow treatment shared by post-splash screens (login, language, dashboard) —
+   modeled on a reference with a bright glowing "horizon" band plus soft corner blooms. */
 .ambient-glow {
   position: relative;
   background-color: var(--bg-0);
   background-image:
-    radial-gradient(ellipse 60% 40% at 22% -8%, rgba(255, 106, 43, 0.22), transparent 60%),
-    radial-gradient(ellipse 55% 45% at 100% 108%, rgba(255, 106, 43, 0.16), transparent 62%),
-    radial-gradient(ellipse 50% 38% at 50% 50%, rgba(255, 106, 43, 0.08), transparent 70%);
+    radial-gradient(ellipse 65% 42% at 20% -10%, rgba(255, 106, 43, 0.26), transparent 60%),
+    radial-gradient(ellipse 60% 48% at 102% 112%, rgba(255, 106, 43, 0.2), transparent 62%),
+    radial-gradient(ellipse 55% 40% at 50% 50%, rgba(255, 106, 43, 0.09), transparent 70%);
   isolation: isolate;
+}
+
+/* the bright horizon glow band, anchored to the viewport bottom */
+.ambient-glow::after {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 45%;
+  pointer-events: none;
+  background-image: radial-gradient(
+    ellipse 55% 100% at 50% 100%,
+    rgba(255, 122, 53, 0.5),
+    rgba(255, 90, 32, 0.22) 45%,
+    transparent 75%
+  );
 }
 
 .ambient-glow::before {
@@ -14,7 +33,8 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.05;
+  opacity: 0.06;
   mix-blend-mode: overlay;
+  z-index: 0;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }

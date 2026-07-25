@@ -10,12 +10,14 @@ export function Dashboard() {
 
   return (
     <div className="dash-placeholder ambient-glow">
-      <Logo height={72} glow />
-      <h1>{t('dashboardComingSoon')}</h1>
-      <p>{t('dashboardNote')}</p>
-      <button className="dash-logout" onClick={() => navigate('/login')}>
-        {t('logOut')}
-      </button>
+      <div className="dash-content">
+        <Logo height={72} glow />
+        <h1>{t('dashboardComingSoon')}</h1>
+        <p>{t('dashboardNote')}</p>
+        <button className="dash-logout" onClick={() => navigate('/login')}>
+          {t('logOut')}
+        </button>
+      </div>
     </div>
   );
 }

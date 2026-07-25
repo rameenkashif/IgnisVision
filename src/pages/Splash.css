@@ -108,26 +108,26 @@
 .lt-flame {
   stroke: var(--thermal);
   filter: drop-shadow(0 0 5px rgba(255, 106, 43, 0.85));
-  animation: trace 750ms ease-out 150ms forwards;
+  animation: trace 550ms ease-out 100ms forwards;
 }
 
 .lt-flag {
   stroke: #4a9c6d;
   filter: drop-shadow(0 0 4px rgba(74, 156, 109, 0.75));
-  animation: trace 500ms ease-out 600ms forwards;
+  animation: trace 350ms ease-out 500ms forwards;
 }
 
 .lt-crescent,
 .lt-star {
   stroke: #ede6dc;
   filter: drop-shadow(0 0 4px rgba(237, 230, 220, 0.8));
-  animation: trace 400ms ease-out 900ms forwards;
+  animation: trace 300ms ease-out 750ms forwards;
 }
 
 .lt-mono {
   stroke: #ede6dc;
   filter: drop-shadow(0 0 4px rgba(237, 230, 220, 0.8));
-  animation: trace 500ms ease-out 1100ms forwards;
+  animation: trace 350ms ease-out 900ms forwards;
 }
 
 @keyframes trace {

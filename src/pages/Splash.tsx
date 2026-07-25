@@ -5,16 +5,16 @@ import './Splash.css';
 
 const PHASES = [
   { at: 0, label: 'INITIALIZING_CORE' },
-  { at: 350, label: 'TRACING_VECTOR_PATHS' },
-  { at: 1450, label: 'RENDERING_ASSETS' },
-  { at: 1950, label: 'SYNCING_SENSORS' },
-  { at: 2300, label: 'READY_FOR_COMMAND.' },
+  { at: 300, label: 'TRACING_VECTOR_PATHS' },
+  { at: 1260, label: 'RENDERING_ASSETS' },
+  { at: 1700, label: 'SYNCING_SENSORS' },
+  { at: 2000, label: 'READY_FOR_COMMAND.' },
 ];
 
-const FILLING_AT = 1450;
-const READY_AT = 2300;
-const SETTLE_AT = 2650;
-const NAVIGATE_AT = 4600;
+const FILLING_AT = 1260;
+const READY_AT = 2000;
+const SETTLE_AT = 2350;
+const NAVIGATE_AT = 4400;
 
 const PARTICLES = Array.from({ length: 22 }, (_, i) => {
   const seed = i * 137.51;

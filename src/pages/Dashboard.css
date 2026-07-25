@@ -4,9 +4,17 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 24px;
+}
+
+.dash-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 14px;
   text-align: center;
-  padding: 24px;
 }
 
 .dash-placeholder h1 {
