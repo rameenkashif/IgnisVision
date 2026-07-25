@@ -321,9 +321,15 @@
 
 .splash-skip {
   position: absolute;
-  top: 20px;
-  right: 24px;
+  top: 0;
+  right: 4px;
   z-index: 1;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: none;
   border: none;
   color: var(--text-low);

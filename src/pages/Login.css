@@ -15,6 +15,7 @@
 
 .login-field input {
   width: 100%;
+  min-height: 44px;
   background: var(--bg-2);
   border: 1px solid var(--line);
   color: var(--text-hi);
@@ -31,6 +32,7 @@
 
 .login-submit {
   width: 100%;
+  min-height: 44px;
   background: var(--thermal);
   border: 1px solid var(--thermal);
   color: #1a0800;

@@ -33,11 +33,12 @@
 
 .dash-logout {
   margin-top: 10px;
+  min-height: 44px;
+  padding: 0 20px;
   background: var(--bg-2);
   border: 1px solid var(--line);
   color: var(--text-hi);
   border-radius: 7px;
-  padding: 8px 16px;
   font-size: 12px;
   cursor: pointer;
 }
