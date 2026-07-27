@@ -1,7 +1,6 @@
 .lang-options {
   display: flex;
   gap: 10px;
-  margin-bottom: 20px;
 }
 
 .lang-option {
@@ -21,10 +20,6 @@
 }
 
 .lang-option:hover {
-  background: var(--bg-3);
-}
-
-.lang-option.active {
   border-color: var(--thermal);
   background: var(--bg-3);
 }
@@ -42,22 +37,4 @@
   text-transform: uppercase;
   letter-spacing: 0.4px;
   color: var(--text-low);
-}
-
-.lang-continue {
-  width: 100%;
-  min-height: 44px;
-  background: var(--thermal);
-  border: 1px solid var(--thermal);
-  color: #1a0800;
-  font-weight: 600;
-  border-radius: 7px;
-  padding: 10px 14px;
-  font-size: 13px;
-  cursor: pointer;
-  transition: background 150ms ease;
-}
-
-.lang-continue:hover {
-  background: #ff7e45;
 }

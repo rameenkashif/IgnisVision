@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Logo } from '../components/Logo';
 import { useLanguage } from '../state/LanguageContext';
@@ -7,18 +6,17 @@ import '../styles/ambient.css';
 import '../components/AuthShell.css';
 import './LanguageSelect.css';
 
-const OPTIONS: { code: Lang; label: string; native: string }[] = [
-  { code: 'en', label: 'English', native: 'English' },
-  { code: 'ur', label: 'Urdu', native: 'اردو' },
+const OPTIONS: { code: Lang; glyph: string; label: string }[] = [
+  { code: 'en', glyph: 'EN', label: 'English' },
+  { code: 'ur', glyph: 'اردو', label: 'Urdu' },
 ];
 
 export function LanguageSelect() {
   const navigate = useNavigate();
-  const { lang, setLang, t } = useLanguage();
-  const [selected, setSelected] = useState<Lang>(lang);
+  const { setLang, t } = useLanguage();
 
-  function handleContinue() {
-    setLang(selected);
+  function choose(code: Lang) {
+    setLang(code);
     navigate('/dashboard/live');
   }
 
@@ -33,21 +31,12 @@ export function LanguageSelect() {
 
         <div className="lang-options">
           {OPTIONS.map((opt) => (
-            <button
-              key={opt.code}
-              type="button"
-              className={'lang-option' + (selected === opt.code ? ' active' : '')}
-              onClick={() => setSelected(opt.code)}
-            >
-              <span className="lang-native">{opt.native}</span>
+            <button key={opt.code} type="button" className="lang-option" onClick={() => choose(opt.code)}>
+              <span className="lang-native">{opt.glyph}</span>
               <span className="lang-label">{opt.label}</span>
             </button>
           ))}
         </div>
-
-        <button type="button" className="lang-continue" onClick={handleContinue}>
-          {t('continue')}
-        </button>
       </div>
     </div>
   );

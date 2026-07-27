@@ -10,7 +10,7 @@ import './Login.css';
 export function Login() {
   const navigate = useNavigate();
   const { t } = useLanguage();
-  const [username, setUsername] = useState('');
+  const [commanderId, setCommanderId] = useState('rimsha.irfan');
   const [password, setPassword] = useState('');
 
   function handleSubmit(e: FormEvent) {
@@ -28,11 +28,11 @@ export function Login() {
         </div>
 
         <label className="login-field">
-          <span>{t('username')}</span>
+          <span>{t('commanderId')}</span>
           <input
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="commander@ignisvision"
+            value={commanderId}
+            onChange={(e) => setCommanderId(e.target.value)}
+            placeholder="rimsha.irfan"
             autoComplete="username"
           />
         </label>
@@ -52,7 +52,7 @@ export function Login() {
           {t('signIn')}
         </button>
 
-        <p className="login-note">{t('loginNote')}</p>
+        <p className="login-note">{t('loginFooter')}</p>
       </form>
     </div>
   );
