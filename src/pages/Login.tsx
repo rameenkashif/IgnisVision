@@ -22,7 +22,7 @@ export function Login() {
     <div className="auth-shell ambient-glow">
       <form className="auth-card" onSubmit={handleSubmit}>
         <div className="auth-card-head">
-          <Logo height={56} glow />
+          <Logo height={72} glow />
           <h1>{t('loginTitle')}</h1>
           <p>{t('loginSubtitle')}</p>
         </div>

@@ -37,8 +37,11 @@
 }
 
 .auth-card-head p {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-mid);
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 @keyframes card-rise {

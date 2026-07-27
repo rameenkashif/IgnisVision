@@ -33,20 +33,22 @@
 .login-submit {
   width: 100%;
   min-height: 44px;
-  background: var(--thermal);
+  background: linear-gradient(180deg, var(--thermal), #c73a17);
   border: 1px solid var(--thermal);
-  color: #1a0800;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
   font-weight: 600;
   border-radius: 7px;
   padding: 10px 14px;
   font-size: 13px;
   cursor: pointer;
   margin-top: 6px;
-  transition: background 150ms ease;
+  box-shadow: 0 6px 22px rgba(232, 90, 30, 0.4);
+  transition: filter 150ms ease;
 }
 
 .login-submit:hover {
-  background: #ff7e45;
+  filter: brightness(1.08);
 }
 
 .login-note {

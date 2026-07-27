@@ -24,7 +24,7 @@ export function LanguageSelect() {
     <div className="auth-shell ambient-glow">
       <div className="auth-card">
         <div className="auth-card-head">
-          <Logo height={56} glow />
+          <Logo height={72} glow />
           <h1>{t('chooseLanguage')}</h1>
           <p>{t('chooseLanguageSubtitle')}</p>
         </div>
