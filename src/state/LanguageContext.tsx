@@ -7,36 +7,12 @@ const STORAGE_KEY = 'iv-lang';
 
 const dict = {
   en: {
-    appName: 'Ignis Vision',
-    tagline: 'AI Fire Intelligence',
-    loginTitle: 'IGNIS VISION',
-    loginSubtitle: 'AI Fire Intelligence System',
-    commanderId: 'Commander ID',
-    password: 'Password',
-    signIn: 'Sign in',
-    loginFooter: 'Karachi Fire Department · Rescue 1122 partner access',
     chooseLanguage: 'Select language',
     chooseLanguageSubtitle: 'Console display language',
-    dashboardComingSoon: 'Dashboard — coming online',
-    dashboardNote:
-      'The full Commander Dashboard (live monitoring, zone map, alerts) is being rebuilt next.',
-    logOut: 'Log out',
   },
   ur: {
-    appName: 'اگنس ویژن',
-    tagline: 'اے آئی فائر انٹیلیجنس',
-    loginTitle: 'اگنس ویژن',
-    loginSubtitle: 'اے آئی فائر انٹیلیجنس سسٹم',
-    commanderId: 'کمانڈر آئی ڈی',
-    password: 'پاس ورڈ',
-    signIn: 'سائن ان',
-    loginFooter: 'کراچی فائر ڈیپارٹمنٹ · ریسکیو 1122 پارٹنر رسائی',
     chooseLanguage: 'زبان منتخب کریں',
     chooseLanguageSubtitle: 'کنسول ڈسپلے زبان',
-    dashboardComingSoon: 'ڈیش بورڈ — تیار ہو رہا ہے',
-    dashboardNote:
-      'مکمل کمانڈر ڈیش بورڈ (لائیو مانیٹرنگ، زون میپ، الرٹس) اگلے مرحلے میں بنایا جائے گا۔',
-    logOut: 'لاگ آؤٹ',
   },
 } as const;
 
@@ -46,7 +22,6 @@ interface LanguageContextValue {
   lang: Lang;
   setLang: (lang: Lang) => void;
   t: (key: DictKey) => string;
-  dir: 'ltr' | 'rtl';
 }
 
 const LanguageContext = createContext<LanguageContextValue | null>(null);
@@ -62,21 +37,17 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(STORAGE_KEY, next);
   };
 
-  const dir = lang === 'ur' ? 'rtl' : 'ltr';
-
   useEffect(() => {
     document.documentElement.lang = lang;
-    document.documentElement.dir = dir;
-  }, [lang, dir]);
+  }, [lang]);
 
   const value = useMemo<LanguageContextValue>(
     () => ({
       lang,
       setLang,
-      dir,
       t: (key: DictKey) => dict[lang][key],
     }),
-    [lang, dir],
+    [lang],
   );
 
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;

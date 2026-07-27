@@ -2,14 +2,13 @@ import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Logo } from '../components/Logo';
-import { useLanguage } from '../state/LanguageContext';
 import '../styles/ambient.css';
 import '../components/AuthShell.css';
 import './Login.css';
 
+// Always English: this screen appears before language selection in the flow.
 export function Login() {
   const navigate = useNavigate();
-  const { t } = useLanguage();
   const [commanderId, setCommanderId] = useState('rimsha.irfan');
   const [password, setPassword] = useState('');
 
@@ -23,12 +22,12 @@ export function Login() {
       <form className="auth-card" onSubmit={handleSubmit}>
         <div className="auth-card-head">
           <Logo height={72} glow />
-          <h1>{t('loginTitle')}</h1>
-          <p>{t('loginSubtitle')}</p>
+          <h1>IGNIS VISION</h1>
+          <p>AI Fire Intelligence System</p>
         </div>
 
         <label className="login-field">
-          <span>{t('commanderId')}</span>
+          <span>Commander ID</span>
           <input
             value={commanderId}
             onChange={(e) => setCommanderId(e.target.value)}
@@ -38,7 +37,7 @@ export function Login() {
         </label>
 
         <label className="login-field">
-          <span>{t('password')}</span>
+          <span>Password</span>
           <input
             type="password"
             value={password}
@@ -49,10 +48,10 @@ export function Login() {
         </label>
 
         <button type="submit" className="login-submit">
-          {t('signIn')}
+          Sign in
         </button>
 
-        <p className="login-note">{t('loginFooter')}</p>
+        <p className="login-note">Karachi Fire Department · Rescue 1122 partner access</p>
       </form>
     </div>
   );
