@@ -46,4 +46,6 @@
 html[lang='ur'] {
   --font-display: var(--font-display-ur);
   --font-body: var(--font-body-ur);
+  /* No monospace Urdu face exists; Plex Mono would fall back to a random system font. */
+  --font-mono: var(--font-body-ur);
 }

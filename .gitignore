@@ -9,3 +9,5 @@ dist/
 backups/
 .DS_Store
 *.tsbuildinfo
+test-results/
+playwright-report/

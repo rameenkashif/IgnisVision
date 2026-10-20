@@ -1,0 +1,273 @@
+{
+  "app": {
+    "name": "Ignis Vision",
+    "tagline": "AI fire intelligence system",
+    "org": "Rescue 1122",
+    "orgFull": "Rescue 1122 · Punjab Emergency Service"
+  },
+  "common": {
+    "loading": "Loading…",
+    "retry": "Try again",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "back": "Back",
+    "next": "Next",
+    "skip": "Skip",
+    "finish": "Finish",
+    "save": "Save",
+    "saved": "Saved",
+    "on": "On",
+    "off": "Off",
+    "signOut": "Sign out",
+    "comingSoonTitle": "This module is being built",
+    "comingSoonBody": "It arrives in an upcoming build. Navigation, sign-in and language settings already work."
+  },
+  "splash": {
+    "skip": "Skip"
+  },
+  "signin": {
+    "title": "IGNIS VISION",
+    "username": "Username",
+    "password": "Password",
+    "submit": "Sign in",
+    "submitting": "Signing in…",
+    "foot": "Rescue 1122 · Authorised personnel only"
+  },
+  "language": {
+    "title": "Select language",
+    "subtitle": "Display language",
+    "en": "English",
+    "ur": "Urdu",
+    "hint": "You can change this any time from the top bar."
+  },
+  "onboarding": {
+    "title": "Getting started",
+    "steps": {
+      "welcome": {
+        "title": "Welcome to Ignis Vision",
+        "body": "Ignis Vision supports fire response with AI analysis of building zones and thermal imagery. This short tour shows the parts you will use."
+      },
+      "disclaimer": {
+        "title": "Decision support, not a guarantee",
+        "body": "Always apply your training and judgement. A zone shown as safe is only as current as its last analysis, and a missing detection does not guarantee nobody is present."
+      },
+      "live": {
+        "title": "Live monitoring",
+        "body": "Log an emergency, assign responders to zones and watch the zone risk map, alerts and the ranked list of people detected update in real time."
+      },
+      "capture": {
+        "title": "Zone capture",
+        "body": "Point your phone's rear camera at a zone and press Start. The server classifies the zone as safe, caution, unsafe or blocked and speaks critical alerts."
+      },
+      "analysis": {
+        "title": "Thermal and image analysis",
+        "body": "Upload thermal images or videos. People are detected, their posture is classified and they are ranked by the Rescue Priority Index."
+      },
+      "reports": {
+        "title": "Incident records",
+        "body": "Closed incidents keep a full timeline, zone history and victim list, and can be exported as a PDF in English or Urdu."
+      },
+      "trainer": {
+        "title": "Simulation trainer",
+        "body": "Practise classifying zones and postures on real incident media, then compare your answers with the reference answer and the model's output."
+      },
+      "admin": {
+        "title": "Administration",
+        "body": "Manage user accounts and roles, training scenarios and system settings. Every change you make is recorded in the audit log."
+      },
+      "controls": {
+        "title": "Always within reach",
+        "body": "The top bar has the language switch, the connection indicator and the ? button, which opens help for the screen you are on. You can replay this tour from Settings."
+      }
+    }
+  },
+  "changePassword": {
+    "title": "Set a new password",
+    "subtitle": "Your password was set by an administrator. Choose your own to continue.",
+    "current": "Current password",
+    "new": "New password",
+    "confirm": "Confirm new password",
+    "rules": "At least 8 characters, with letters and numbers.",
+    "submit": "Save password",
+    "mismatch": "The two new passwords do not match."
+  },
+  "nav": {
+    "groups": {
+      "operations": "Operations",
+      "training": "Training",
+      "system": "System"
+    },
+    "live": "Live monitoring",
+    "capture": "Zone capture",
+    "analysis": "Thermal & image analysis",
+    "reports": "Incident reports",
+    "team": "Team deployment",
+    "trainer": "Training simulator",
+    "trainerResults": "Trainee results",
+    "admin": "Administration",
+    "settings": "Settings",
+    "help": "Help"
+  },
+  "roles": {
+    "admin": "Administrator",
+    "incident_commander": "Incident Commander",
+    "field_responder": "Field Responder",
+    "trainee": "Trainee",
+    "training_staff": "Training Staff"
+  },
+  "shell": {
+    "openMenu": "Open menu",
+    "collapse": "Collapse sidebar",
+    "expand": "Expand sidebar",
+    "help": "Help for this screen",
+    "online": "Online",
+    "offline": "Offline",
+    "liveLost": "Live link lost",
+    "liveOk": "Live",
+    "cameraOn": "Camera on",
+    "cameraOff": "Camera off",
+    "cameraBlocked": "Camera blocked",
+    "language": "Language",
+    "offlineBanner": "No internet connection. Showing the last information received.",
+    "idleWarning": "You will be signed out in {{seconds}} seconds because of inactivity.",
+    "staySignedIn": "Stay signed in"
+  },
+  "signedOut": {
+    "idle_timeout": "You were signed out after 30 minutes of inactivity.",
+    "account_deactivated": "This account has been deactivated. Contact your administrator.",
+    "session_expired": "Your session has ended. Please sign in again.",
+    "signed_out": "You have signed out."
+  },
+  "pages": {
+    "live": {
+      "crumbs": "Operations / Live monitoring",
+      "title": "Live monitoring",
+      "subtitle": "Active incidents, zone risk map, alerts and detected people."
+    },
+    "capture": {
+      "crumbs": "Operations / Zone capture",
+      "title": "Zone capture",
+      "subtitle": "Stream your phone camera to classify a zone."
+    },
+    "analysis": {
+      "crumbs": "Operations / Thermal & image analysis",
+      "title": "Thermal & image analysis",
+      "subtitle": "Upload thermal images or videos to detect and rank people."
+    },
+    "reports": {
+      "crumbs": "Operations / Incident reports",
+      "title": "Incident reports",
+      "subtitle": "Records, timelines and PDF reports of past incidents."
+    },
+    "team": {
+      "crumbs": "Operations / Team deployment",
+      "title": "Team deployment",
+      "subtitle": "Assign responders to zones."
+    },
+    "trainer": {
+      "crumbs": "Training / Simulation trainer",
+      "title": "Scenario-based training",
+      "subtitle": "Classify zones and postures, then compare with the reference and the model."
+    },
+    "trainerResults": {
+      "crumbs": "Training / Trainee results",
+      "title": "Trainee results",
+      "subtitle": "Attempts and progress for every trainee."
+    },
+    "admin": {
+      "crumbs": "System / Administration",
+      "title": "Administration",
+      "subtitle": "Users, scenarios, system settings, status and audit log."
+    },
+    "settings": {
+      "crumbs": "System / Settings",
+      "title": "Settings",
+      "subtitle": "Your preferences for language, voice and alerts."
+    },
+    "help": { "crumbs": "System / Help", "title": "Help", "subtitle": "How each screen works." }
+  },
+  "forbidden": {
+    "title": "Not available for your role",
+    "body": "Your account does not have access to this screen. Ask your administrator if you need it."
+  },
+  "notFound": {
+    "title": "Page not found",
+    "body": "This address does not exist.",
+    "home": "Go to start page"
+  },
+  "settings": {
+    "language": "Display language",
+    "voice": "Spoken alerts",
+    "voiceHint": "Read critical alerts aloud in your language.",
+    "sound": "Sound on critical alerts",
+    "onboarding": "Getting-started tour",
+    "replay": "Replay tour",
+    "account": "Account",
+    "signedInAs": "Signed in as {{name}} ({{role}})",
+    "changePassword": "Change password"
+  },
+  "help": {
+    "index": "All help topics",
+    "back": "All topics",
+    "topics": {
+      "getting-started": {
+        "title": "Getting started",
+        "body": "Sign in with the username and password from your administrator. Choose English or Urdu; you can switch any time with the language button in the top bar. The ? button on every screen opens help for that screen."
+      },
+      "live": {
+        "title": "Live monitoring",
+        "body": "Shows the active incident: key figures, the zone risk map, real-time alerts and people detected, ranked by priority. Zones without a current analysis are shown as unclassified, never as safe."
+      },
+      "capture": {
+        "title": "Zone capture",
+        "body": "Choose the incident and zone, then press Start. Keep the rear camera pointed at the zone. The result appears as a large status label and critical changes are spoken aloud. The camera needs a secure (HTTPS) connection and permission."
+      },
+      "analysis": {
+        "title": "Thermal & image analysis",
+        "body": "Drop a thermal image or video, tag it to an incident and zone, and wait for the analysis. Each person is shown with a box, posture label, priority band and confidence. Low-confidence postures are flagged."
+      },
+      "reports": {
+        "title": "Incident reports",
+        "body": "Lists past incidents with filters. Open one to see its timeline, zone history, people detected and media, and download the PDF report in English or Urdu."
+      },
+      "team": {
+        "title": "Team deployment",
+        "body": "Assign field responders to zones and reassign them during an incident. The full assignment history is kept."
+      },
+      "trainer": {
+        "title": "Simulation trainer",
+        "body": "Pick a scenario, label each zone region and each person's posture, then submit. You will see your answer next to the reference answer and the model's output, with a score. You can retry any scenario."
+      },
+      "admin": {
+        "title": "Administration",
+        "body": "Create and deactivate accounts, reset passwords, manage training scenarios, tune system settings and review the audit log. Every change is recorded."
+      },
+      "settings": {
+        "title": "Settings",
+        "body": "Choose your language, turn spoken alerts and alert sounds on or off, change your password and replay the getting-started tour."
+      }
+    }
+  },
+  "errors": {
+    "invalid_credentials": "Username or password is incorrect.",
+    "account_deactivated": "This account has been deactivated. Contact your administrator.",
+    "not_authenticated": "Please sign in.",
+    "token_expired": "Your session expired. Please sign in again.",
+    "invalid_token": "Your session is no longer valid. Please sign in again.",
+    "session_expired": "Your session has ended. Please sign in again.",
+    "idle_timeout": "You were signed out because of inactivity.",
+    "refresh_reused": "For your security this session was ended. Please sign in again.",
+    "refresh_race": "Please try again.",
+    "forbidden": "You do not have permission for this action.",
+    "password_change_required": "Set a new password to continue.",
+    "password_too_short": "Password must be at least 8 characters.",
+    "password_needs_letters_and_numbers": "Password must contain both letters and numbers.",
+    "password_unchanged": "Choose a password different from the current one.",
+    "current_password_incorrect": "Current password is incorrect.",
+    "validation_failed": "Some fields are missing or invalid.",
+    "not_found": "Not found.",
+    "conflict": "This conflicts with existing data.",
+    "network": "Cannot reach the server. Check your internet connection and try again.",
+    "unknown": "Something went wrong. Please try again."
+  }
+}

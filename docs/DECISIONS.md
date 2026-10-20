@@ -49,3 +49,19 @@ Every assumption made while building from `HANDOFF.md`. **Owner-confirmed** rows
 | Confirmations | Destructive admin endpoints take `{"confirm": true}` (deactivate, reset password; later close/delete incident). | SRS §5.2.3: the API enforces it too, not only the UI dialog. |
 | Seed station | "Rescue 1122 — Lahore HQ" (Lahore, Punjab). | Rescue 1122 HQ; rename via DB/admin later. |
 | RBAC tests | `tests/test_rbac.py` holds the role × endpoint matrix, plus a guard test that **fails if any `/api/v1` route has no matrix row**. | Keeps §6 enforced as routers are added. |
+
+## Phase 2: frontend shell
+
+| Area | Decision | Why |
+|---|---|---|
+| Access token | Kept **in memory only** (Zustand); never in localStorage. Page reloads restore the session from the httpOnly refresh cookie via `POST /auth/refresh`. | XSS can't read a token that isn't stored. |
+| Refresh | Single-flight per tab **and** across tabs (Web Locks API, `iv-refresh`), so the rotating cookie is never sent twice; `409 refresh_race` retried once as a fallback. Expired-token requests are replayed after refresh. | Avoids tripping the backend's reuse detection with multiple tabs. |
+| Idle timer | Client signs out after 30 min without pointer/key/touch/wheel input, with a 60-second warning banner, unless the screen has set `keepAlive` (live/capture of an active incident, Phase 3/4) or the last heartbeat said the user is in an active incident. Heartbeat at most once a minute, only after interaction (or always under keepAlive). | Client half of SRS §5.3.1; matches the backend rule. |
+| First run | `onboarding_completed = false` ⇒ sign-in → language choice → role-tailored walkthrough. Returning users get their saved profile language. The tour is replayable from Settings. | SRS §3.1.2. |
+| Language | Switching sets `<html lang dir>`, saves to localStorage and the profile (`PATCH /auth/me`) and never navigates or remounts, so page state is kept. CSS uses logical properties; Urdu disables letter-spacing/uppercase (they break Arabic-script joining), uses taller line height and uses Noto Sans Arabic in place of the monospace face. | SRS §5.4.6.3. |
+| Urdu fonts | Noto Nastaliq Urdu for headings, Noto Sans Arabic for body and small labels; Nastaliq is unreadable at the prototype's 9–11 px label sizes. | HANDOFF §4.1 asked to test which reads better small. |
+| Navigation | `src/lib/nav.ts` mirrors HANDOFF §6. Routes are additionally wrapped in `RequireNav`, which shows "not available for your role" (the backend still returns 403 regardless). Admin sees Live/Reports/Team read-only and no trainer attempts; training staff see all trainee results. | §6 matrix. |
+| Phone layout | ≤ 768 px: sidebar becomes an off-canvas drawer (mirrored in RTL), every control ≥ 48 px, no horizontal scroll at 360 px. | SRS §5.4.6.1. |
+| Splash | Plays `public/splash.mp4` once per browser session (skip button, 8 s cap); skipped entirely with `prefers-reduced-motion`. | Prototype flow without annoying reloads. |
+| Typed client | `backend/scripts/export_openapi.py` → `frontend/src/api/openapi.json` → `openapi-typescript` → `schema.d.ts`, used by `openapi-fetch`. A backend test and a CI step fail if either file drifts. | HANDOFF §3 (typed client from OpenAPI). |
+| Not-yet-built modules | Live, Capture, Analysis, Reports, Team, Trainer, Admin render a translated "being built" placeholder with the correct title, crumbs, help topic and role guard. | Shell is complete; modules arrive in Phases 3–8. |

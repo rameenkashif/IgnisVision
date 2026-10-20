@@ -63,6 +63,19 @@ New migration after changing models:
 cd backend && DATABASE_URL=… alembic revision --autogenerate -m "describe change" && alembic upgrade head
 ```
 
+End-to-end tests (Playwright) run against the Docker stack:
+
+```bash
+docker compose exec -e SEED_PASSWORD=Demo-pass-1234 backend python -m app.db.seed --reset-passwords
+cd frontend && npx playwright install chromium && E2E_PASSWORD=Demo-pass-1234 npm run e2e
+```
+
+After changing backend endpoints, regenerate the typed client (CI fails if you forget):
+
+```bash
+cd backend && python scripts/export_openapi.py && cd ../frontend && npm run gen:api
+```
+
 API conventions and auth flows: [`docs/API.md`](docs/API.md).
 
 ## Backups
@@ -75,4 +88,4 @@ docker compose exec -T db pg_restore -U ignis -d ignis --clean --if-exists < bac
 
 ## Status
 
-Phase 0 (scaffold, Docker, HTTPS, CI) and Phase 1 (database schema, auth, RBAC, user admin, audit, settings) complete. See `HANDOFF.md` §13 for the phase plan.
+Phase 0 (scaffold, Docker, HTTPS, CI) Phase 1 (database schema, auth, RBAC, user admin, audit, settings) and Phase 2 (frontend shell: splash, sign-in, language + RTL, onboarding, role-based navigation, indicators, help skeleton, settings) complete. See `HANDOFF.md` §13 for the phase plan.
