@@ -31,3 +31,21 @@ Every assumption made while building from `HANDOFF.md`. **Owner-confirmed** rows
 | CSP | Strict CSP for the app (Google Fonts allowed). `/api/docs` gets a scoped CSP allowing jsDelivr + inline script for Swagger UI. | OpenAPI docs must stay reachable (SRS §3.3.8) without weakening the app's policy. |
 | Backups | `backup` service: `pg_dump -Fc` daily into `./backups/`, deletes dumps older than `BACKUP_RETENTION_DAYS` (7), writes `backups/LAST_BACKUP` for `/admin/status`. | SRS §5.2.2. |
 | Python deps | `requirements.txt` (app), `requirements-dev.txt` (tests/lint), `requirements-ml.txt` (torch etc., never installed by default). | HANDOFF §9: nothing outside `app/ml/` imports ML libs. |
+
+## Phase 1: database, auth, RBAC
+
+| Area | Decision | Why |
+|---|---|---|
+| Enums | Stored as `VARCHAR` + `CHECK` constraint (SQLAlchemy `native_enum=False`), not native PG enums. | Adding a value later is a plain migration; no `ALTER TYPE` dance. |
+| Schema | Full HANDOFF §5 schema created in the first migration, so later phases add behaviour, not tables. Additions: `users.onboarding_completed`; `refresh_tokens.family_id`, `last_activity_at`, `replaced_by_id`; `incidents.deleted_at` (soft delete); `thermal_detections.client_detection_uuid`, `meta`, `model_versions`; `sync_batches.app_version`. | Needed by the onboarding flow, idle rule, rotation, audited deletes and mobile dedupe. |
+| Sessions | One sign-in = one refresh-token **family**. Each refresh rotates (old row revoked, `replaced_by_id` set). Replaying a rotated token **revokes the whole family** (theft signal) — except within a 10 s grace window, which returns `409 refresh_race` so two tabs refreshing at once don't log the user out. | Rotation + reuse detection per OWASP; grace handles real multi-tab use. |
+| Idle rule | Activity = login and `POST /auth/heartbeat` (stored on the session). **Refresh does not count as activity**, so a background refresh loop can't keep an idle session alive. Refresh is refused (`401 idle_timeout`) after 30 min idle unless the user is commander or current assignee of an `active` incident. The frontend sends heartbeats on user interaction and continuously on live/capture screens of an active incident. | SRS §5.3.1. |
+| Logout | Authenticated by the refresh token (cookie or body), so it works after the 15-min access token expires. Ends the whole family. | Logging out must always work. |
+| Deactivation | Revokes all sessions immediately. `/auth/refresh` and `/auth/mobile/refresh-bundle` return `410 account_deactivated`, checked before any other token state, so the phone always wipes its offline bundle. | SRS UC-08 AF1. |
+| `must_change_password` | While set, every endpoint except `GET/PATCH /auth/me`, `/auth/change-password`, `/auth/heartbeat` and `/auth/logout` returns `403 password_change_required`. Set on admin-created users and admin resets. | SRS UC-08 AF2. |
+| Argon2 params | argon2id, t=3, m=64 MiB, p=2. Hashes are transparently upgraded on login if params change. | Hash leaves the server in the mobile bundle. |
+| Production guard | Backend refuses to start with `ENVIRONMENT=prod` and a placeholder `JWT_SECRET`. | Prevents shipping the example secret. |
+| Admin self-protection | An admin can't deactivate or demote their own account (`409 cannot_modify_self`). | Avoids locking everyone out. |
+| Confirmations | Destructive admin endpoints take `{"confirm": true}` (deactivate, reset password; later close/delete incident). | SRS §5.2.3: the API enforces it too, not only the UI dialog. |
+| Seed station | "Rescue 1122 — Lahore HQ" (Lahore, Punjab). | Rescue 1122 HQ; rename via DB/admin later. |
+| RBAC tests | `tests/test_rbac.py` holds the role × endpoint matrix, plus a guard test that **fails if any `/api/v1` route has no matrix row**. | Keeps §6 enforced as routers are added. |

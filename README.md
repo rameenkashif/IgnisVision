@@ -14,6 +14,15 @@ cp .env.example .env        # then set POSTGRES_PASSWORD and JWT_SECRET
 docker compose up -d --build
 ```
 
+Create the demo station, accounts and default settings (idempotent; migrations run automatically on backend start):
+
+```bash
+docker compose exec backend python -m app.db.seed          # prints the demo password
+# or choose it: docker compose exec -e SEED_PASSWORD=YourPass123 backend python -m app.db.seed
+```
+
+Demo accounts (one per role): `admin`, `commander1`, `responder1`, `trainee1`, `trainer1`.
+
 Open **https://localhost**. Health: `https://localhost/api/v1/health`, readiness (checks DB): `/api/v1/health/ready`, API docs: `/api/docs`.
 
 Caddy uses its own local CA (`tls internal`), so the browser warns the first time. To trust it:
@@ -41,9 +50,20 @@ cd frontend && npm install && npm run dev
 Checks (same as CI):
 
 ```bash
-cd backend  && pip install -r requirements-dev.txt && ruff check . && black --check . && pytest -q
+# backend tests need a disposable Postgres; its schema is dropped and rebuilt each run
+docker run -d --name ignis-testdb -e POSTGRES_USER=ignis -e POSTGRES_PASSWORD=ignis -e POSTGRES_DB=ignis -p 5433:5432 postgres:16-alpine
+cd backend  && pip install -r requirements-dev.txt && ruff check . && black --check . \
+  && DATABASE_URL=postgresql+asyncpg://ignis:ignis@localhost:5433/ignis pytest -q
 cd frontend && npm ci && npm run lint && npm run format:check && npm run typecheck && npm test && npm run build
 ```
+
+New migration after changing models:
+
+```bash
+cd backend && DATABASE_URL=… alembic revision --autogenerate -m "describe change" && alembic upgrade head
+```
+
+API conventions and auth flows: [`docs/API.md`](docs/API.md).
 
 ## Backups
 
@@ -55,4 +75,4 @@ docker compose exec -T db pg_restore -U ignis -d ignis --clean --if-exists < bac
 
 ## Status
 
-Phase 0 (scaffold, Docker, HTTPS, CI) complete. See `HANDOFF.md` §13 for the phase plan.
+Phase 0 (scaffold, Docker, HTTPS, CI) and Phase 1 (database schema, auth, RBAC, user admin, audit, settings) complete. See `HANDOFF.md` §13 for the phase plan.

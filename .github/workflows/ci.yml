@@ -34,6 +34,8 @@ jobs:
       - run: pip install -r requirements-dev.txt
       - run: ruff check .
       - run: black --check .
+      - name: Migrations match models
+        run: alembic upgrade head && alembic check
       - run: pytest -q
 
   frontend:
@@ -60,7 +62,9 @@ jobs:
     needs: [backend, frontend]
     steps:
       - uses: actions/checkout@v4
-      - run: cp .env.example .env
+      - run: |
+          cp .env.example .env
+          sed -i "s/^JWT_SECRET=.*/JWT_SECRET=$(openssl rand -hex 32)/; s/^POSTGRES_PASSWORD=.*/POSTGRES_PASSWORD=ci-$(openssl rand -hex 8)/" .env
       - run: docker compose build
       - name: Smoke test the stack over HTTPS
         run: |
@@ -71,6 +75,9 @@ jobs:
           done
           curl -skf https://localhost/api/v1/health/ready
           curl -skf https://localhost/ | grep -q '<div id="root">'
+          docker compose exec -T -e SEED_PASSWORD=Ci-demo-1234 backend python -m app.db.seed
+          curl -skf https://localhost/api/v1/auth/login -H 'content-type: application/json' \
+            -d '{"username":"admin","password":"Ci-demo-1234"}' | grep -q access_token
       - if: always()
         run: docker compose logs --no-color | tail -200
       - if: always()
