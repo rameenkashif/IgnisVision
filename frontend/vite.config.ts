@@ -18,6 +18,7 @@ export default defineConfig(({ mode }) => ({
   },
   test: {
     environment: 'jsdom',
+    include: ['src/**/*.test.{ts,tsx}'], // e2e/ belongs to Playwright
     globals: true,
     setupFiles: ['./src/setupTests.ts'],
   },
