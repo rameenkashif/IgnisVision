@@ -67,3 +67,13 @@ def require_roles(*roles: str):
         return user
 
     return _guard
+
+
+async def bearer_user(request: Request, db: AsyncSession) -> User:
+    """For endpoints that authenticate conditionally (e.g. signed media URLs)."""
+    user, _ = await _load_user(request, db)
+    if not user.is_active:
+        raise AppError(401, "account_deactivated")
+    if user.must_change_password:
+        raise AppError(403, "password_change_required")
+    return user

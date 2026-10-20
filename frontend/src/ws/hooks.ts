@@ -33,8 +33,7 @@ export function useIncidentStream(incidentId: string | undefined): Date | null {
             void qc.invalidateQueries({ queryKey: keys.assignments(incidentId) });
             break;
           case 'zone.updated':
-            void qc.invalidateQueries({ queryKey: keys.incident(incidentId) });
-            break;
+            break; // the incident.updated that follows carries the new aggregate
           case 'incident.deleted':
             void qc.invalidateQueries({ queryKey: ['incidents'] });
             break;

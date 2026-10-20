@@ -33,6 +33,7 @@ MATRIX = [
     ("DELETE", f"/api/v1/assignments/{X}", None, COMMANDER),
     ("GET", "/api/v1/assignments/mine", None, ALL),
     ("GET", "/api/v1/responders", None, COMMANDER),
+    ("GET", "/api/v1/capture/targets", None, {"incident_commander", "field_responder"}),
     ("GET", f"/api/v1/incidents/{X}/alerts", None, INCIDENT_READERS),
     ("POST", f"/api/v1/alerts/{X}/ack", None, COMMANDER),
     ("GET", "/api/v1/users", None, ADMIN),
@@ -86,6 +87,7 @@ def test_matrix_covers_every_route():
         "/api/v1/auth/change-password",
         "/api/v1/auth/mobile/login",
         "/api/v1/auth/mobile/refresh-bundle",
+        "/api/v1/media/{media_id}",  # signed-URL or bearer; tested in test_capture.py
     }
     import re
 

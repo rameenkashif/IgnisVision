@@ -20,6 +20,7 @@ const zone = (over: Partial<ZoneOut>): ZoneOut => ({
   assessment_id: null,
   assignees: [],
   victim_count: 0,
+  reasons: [],
   ...over,
 });
 

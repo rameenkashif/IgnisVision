@@ -1,10 +1,20 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.v1.router import api_router
 from app.core.config import get_settings
 from app.core.errors import install_error_handlers
+from app.ml.registry import load_models
+from app.ws.capture import router as capture_router
 from app.ws.routes import router as ws_router
+
+
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    load_models()  # refuses to start if ML_BACKEND=real fails (HANDOFF §9.2)
+    yield
 
 
 def create_app() -> FastAPI:
@@ -15,6 +25,7 @@ def create_app() -> FastAPI:
         docs_url="/api/docs",
         redoc_url=None,
         openapi_url="/api/openapi.json",
+        lifespan=lifespan,
     )
     app.add_middleware(
         CORSMiddleware,
@@ -26,6 +37,7 @@ def create_app() -> FastAPI:
     install_error_handlers(app)
     app.include_router(api_router)
     app.include_router(ws_router)
+    app.include_router(capture_router)
     return app
 
 

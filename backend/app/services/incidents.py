@@ -29,6 +29,7 @@ from app.schemas.incidents import (
     ZoneOut,
 )
 from app.services import settings as settings_svc
+from app.services.media import media_url
 
 SEVERITY_ORDER = {"safe": 0, "caution": 1, "unsafe": 2, "blocked": 3}
 
@@ -224,6 +225,9 @@ async def load_detail(db: AsyncSession, inc: Incident) -> IncidentDetail:
                 risk_score=a.risk_score if a else None,
                 confidence=a.confidence if a else None,
                 assessment_id=z.current_assessment_id,
+                frame_url=media_url(a.media_id) if a else None,
+                overlay_url=media_url(a.overlay_media_id) if a else None,
+                reasons=a.reasons if a else [],
                 assignees=by_zone.get(z.id, []),
                 victim_count=victim_counts.get(z.id, 0),
             )

@@ -347,7 +347,10 @@
     "updatedAt": "Updated {{time}}",
     "risk": "Risk",
     "confidence": "Confidence",
-    "floor": "Floor {{n}}"
+    "floor": "Floor {{n}}",
+    "overlayToggle": "Overlay",
+    "noFrameZone": "No frame for this zone yet.",
+    "zoneCount_one": "{{count}} zone"
   },
   "kpi": {
     "incident": "Active incident",
@@ -413,5 +416,60 @@
     "analysis_failed": "Zone {{zone}} could not be analysed (e.g. heavy smoke). Previous status kept.",
     "camera_lost": "Camera feed lost for zone {{zone}}.",
     "system": "{{message}}"
+  },
+  "capture": {
+    "noTargets": "No active incident to capture. Zone capture opens once the commander starts live monitoring.",
+    "incident": "Incident",
+    "zone": "Zone",
+    "assignedToYou": "assigned to you",
+    "start": "Start capture",
+    "stop": "Stop capture",
+    "connecting": "Connecting…",
+    "reconnecting": "Connection lost — reconnecting…",
+    "streaming": "Streaming {{fps}} frame/s",
+    "overlay": "Show analysis overlay",
+    "lastUpdate": "Last result {{time}} · {{ms}} ms",
+    "waiting": "Point the rear camera at the zone and press Start.",
+    "notAnalysable": "Could not analyse this frame — previous status kept. Move closer or wait for smoke to clear.",
+    "zoneMap": "Zone map",
+    "result": "Zone status",
+    "reasonsTitle": "Why",
+    "voiceUnavailable": "Spoken alerts are not available on this device in your language — alerts are shown here instead.",
+    "frameError": "A frame was rejected ({{code}}). Capture continues."
+  },
+  "camera": {
+    "insecure": "The camera needs a secure connection. Open the app over https:// (not http:// or a file).",
+    "unsupported": "This browser cannot use the camera. Use a recent Chrome, Edge, Safari or Firefox.",
+    "denied": "Camera permission was denied. Allow camera access for this site in the browser settings, then try again.",
+    "no_camera": "No camera was found on this device.",
+    "in_use": "The camera is being used by another app. Close it and try again.",
+    "unknown": "The camera could not be started. Try again."
+  },
+  "voice": {
+    "zone_unsafe": "Zone {{zone}} is unsafe. Turn back.",
+    "zone_blocked": "Zone {{zone}} is blocked. Find another route.",
+    "zone_rapid_change": "Warning. Zone {{zone}} is now {{to}}. Turn back.",
+    "victim_critical": "Critical victim detected in zone {{zone}}.",
+    "analysis_failed": "Zone {{zone}} cannot be analysed right now.",
+    "camera_lost": "Camera feed lost for zone {{zone}}.",
+    "capture_started": "Capture started for zone {{zone}}.",
+    "camera_error": "Camera not available."
+  },
+  "reasons": {
+    "no_damage": "No structural damage detected.",
+    "damage_present": "{{cls}} detected ({{conf}}% confidence).",
+    "surface_damage": "Cracks/spalling cover {{pct}}% of walls, columns or ceiling.",
+    "collapse_detected": "Possible collapse detected ({{conf}}% confidence).",
+    "exposed_rebar": "Exposed reinforcement visible.",
+    "passage_blocked": "Debris or collapse covers {{pct}}% of the floor/doorway.",
+    "frame_obstructed": "Debris or collapse covers {{pct}}% of the view.",
+    "not_analysable": "Not enough visible structure to analyse ({{structure_pct}}% recognised)."
+  },
+  "damage": {
+    "crack": "Crack",
+    "spalling": "Spalling",
+    "exposed_rebar": "Exposed rebar",
+    "collapse": "Collapse",
+    "debris": "Debris"
   }
 }

@@ -50,3 +50,66 @@ export async function closeOpenIncidents(baseURL: string) {
   }
   await ctx.dispose();
 }
+
+/** Commander creates + activates an incident through the API; returns {id, code}. */
+export async function activeIncident(
+  baseURL: string,
+  assign: { username: string; zone: string }[] = [],
+) {
+  const { request } = await import('@playwright/test');
+  const ctx = await request.newContext({ baseURL, ignoreHTTPSErrors: true });
+  const login = await ctx.post('/api/v1/auth/login', {
+    data: { username: 'commander1', password: PASSWORD },
+  });
+  const headers = { Authorization: `Bearer ${(await login.json()).access_token}` };
+  const responders = (await (await ctx.get('/api/v1/responders', { headers })).json()) as {
+    id: string;
+    username: string;
+  }[];
+  const inc = await (
+    await ctx.post('/api/v1/incidents', {
+      headers,
+      data: {
+        address: 'Capture test, Mall Road',
+        floors: 1,
+        zones_per_floor: 3,
+        assignments: assign.map((a) => ({
+          user_id: responders.find((r) => r.username === a.username)!.id,
+          zone_code: a.zone,
+        })),
+      },
+    })
+  ).json();
+  await ctx.post(`/api/v1/incidents/${inc.id}/activate`, { headers });
+  await ctx.dispose();
+  return inc as { id: string; code: string };
+}
+
+/** Record speechSynthesis output (headless Chromium has no voices) as window.__spoken. */
+export const recordSpeech = () => {
+  const spoken: string[] = [];
+  (window as unknown as { __spoken: string[] }).__spoken = spoken;
+  const voices = [
+    { lang: 'en-GB', name: 'Test English', default: true, localService: true, voiceURI: 'en' },
+    { lang: 'ur-PK', name: 'Test Urdu', default: false, localService: true, voiceURI: 'ur' },
+  ];
+  // Plain utterance class: Chromium only accepts real SpeechSynthesisVoice objects otherwise.
+  (window as unknown as { SpeechSynthesisUtterance: unknown }).SpeechSynthesisUtterance = class {
+    lang = '';
+    voice: unknown = null;
+    rate = 1;
+    constructor(public text: string) {}
+  };
+  Object.defineProperty(window, 'speechSynthesis', {
+    configurable: true,
+    value: {
+      speaking: false,
+      pending: false,
+      getVoices: () => voices,
+      speak: (u: SpeechSynthesisUtterance) => spoken.push(u.text),
+      cancel: () => undefined,
+      addEventListener: () => undefined,
+      removeEventListener: () => undefined,
+    },
+  });
+};

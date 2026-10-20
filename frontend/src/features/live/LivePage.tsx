@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import {
@@ -17,14 +17,37 @@ import { KpiStrip } from '../../components/KpiStrip';
 import { ConfirmDialog } from '../../components/Modal';
 import { PageHeader } from '../../components/PageHeader';
 import { ZoneGrid, ZoneLegend } from '../../components/ZoneGrid';
+import { currentLang } from '../../i18n';
 import { alertText } from '../../lib/alerts';
+import { speak } from '../../lib/tts';
+import { usePrefs } from '../../stores/prefs';
 import { formatTime } from '../../lib/format';
 import { initials } from '../../lib/nav';
 import { useAuth } from '../../stores/auth';
 import { useUi } from '../../stores/ui';
 import { useIncidentStream, useStationStream } from '../../ws/hooks';
 import { DispatchModal } from './DispatchModal';
+import { RgbPanel } from './RgbPanel';
 import { ZoneDrawer } from './ZoneDrawer';
+
+/** Speak newly arriving critical alerts on the commander dashboard (HANDOFF §8.4). */
+function useSpeakCriticalAlerts(alerts: AlertOut[]) {
+  const { t } = useTranslation();
+  const voiceOn = usePrefs((s) => s.voiceAlerts);
+  const seen = useRef<Set<string> | null>(null);
+  useEffect(() => {
+    if (seen.current === null) {
+      seen.current = new Set(alerts.map((a) => a.id)); // don't read out the backlog on load
+      return;
+    }
+    for (const a of alerts) {
+      if (seen.current.has(a.id)) continue;
+      seen.current.add(a.id);
+      if (voiceOn && a.severity === 'crit' && !a.acknowledged_at)
+        speak(alertText(t, a), currentLang());
+    }
+  }, [alerts, voiceOn, t]);
+}
 
 function Clock() {
   const [now, setNow] = useState(() => new Date());
@@ -225,6 +248,7 @@ function LiveView({
   }, [setKeepAlive]);
 
   const items = useMemo(() => alerts.data?.items ?? [], [alerts.data]);
+  useSpeakCriticalAlerts(items);
   const topCrit = items.find((a) => a.severity === 'crit' && !a.acknowledged_at);
   const zone = incident.zones.find((z) => z.id === zoneId) ?? null;
   const openZone = (z: ZoneOut) => setZoneId(z.id);
@@ -274,14 +298,7 @@ function LiveView({
             <div className="feed-placeholder">{t('live.noThermal')}</div>
           </div>
         </div>
-        <div className="panel">
-          <div className="panel-head">
-            <h2>{t('live.rgb')}</h2>
-          </div>
-          <div className="panel-body">
-            <div className="feed-placeholder">{t('live.noRgb')}</div>
-          </div>
-        </div>
+        <RgbPanel zones={incident.zones} />
         <div className="panel">
           <div className="panel-head">
             <h2>{t('live.structuralMap')}</h2>

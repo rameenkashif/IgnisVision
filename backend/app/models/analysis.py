@@ -83,6 +83,7 @@ class ZoneAssessment(UUIDPk, Base):
         ForeignKey("capture_sessions.id", ondelete="SET NULL"), index=True
     )
     media_id: Mapped[uuid.UUID | None] = mapped_column(ForeignKey("media_assets.id"))
+    overlay_media_id: Mapped[uuid.UUID | None] = mapped_column(ForeignKey("media_assets.id"))
     status: Mapped[str] = mapped_column(str_enum(*ZONE_STATUSES, name="zone_status"))
     risk_score: Mapped[float] = mapped_column(Float)
     confidence: Mapped[float] = mapped_column(Float)

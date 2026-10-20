@@ -41,6 +41,9 @@ class ZoneOut(BaseModel):
     risk_score: float | None
     confidence: float | None
     assessment_id: uuid.UUID | None
+    frame_url: str | None = None  # latest analysed RGB frame (signed, short-lived)
+    overlay_url: str | None = None
+    reasons: list = []
     assignees: list[UserRef]
     victim_count: int
 

@@ -5,6 +5,9 @@ import os
 
 os.environ["ENVIRONMENT"] = "test"
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://ignis:ignis@localhost:5432/ignis")
+import tempfile  # noqa: E402
+
+os.environ["MEDIA_ROOT"] = tempfile.mkdtemp(prefix="ignis-media-")
 
 import asyncio  # noqa: E402
 import uuid  # noqa: E402

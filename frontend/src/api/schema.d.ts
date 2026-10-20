@@ -244,6 +244,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/capture/targets": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Capture Targets
+         * @description Zones the user may stream: any zone of an active incident; own assignments first.
+         */
+        get: operations["capture_targets_api_v1_capture_targets_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/health": {
         parameters: {
             query?: never;
@@ -406,6 +426,27 @@ export interface paths {
         };
         /** List Zones */
         get: operations["list_zones_api_v1_incidents__incident_id__zones_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/media/{media_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Media
+         * @description Auth: a valid short-lived signature (for <img>/<video>), or a bearer token with access
+         *     to the incident. Supports HTTP Range (video seeking).
+         */
+        get: operations["get_media_api_v1_media__media_id__get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -724,6 +765,14 @@ export interface components {
             id: string;
             /** Ip */
             ip: unknown | null;
+        };
+        /** CaptureTarget */
+        CaptureTarget: {
+            /** Assigned To Me */
+            assigned_to_me: boolean;
+            incident: components["schemas"]["IncidentSummary"];
+            /** Zones */
+            zones: components["schemas"]["TargetZone"][];
         };
         /** ChangePasswordIn */
         ChangePasswordIn: {
@@ -1127,6 +1176,64 @@ export interface components {
             /** Name */
             name: string;
         };
+        /** TargetZone */
+        TargetZone: {
+            /** Assessment Id */
+            assessment_id: string | null;
+            /** Assigned To Me */
+            assigned_to_me: boolean;
+            /** Assignees */
+            assignees: components["schemas"]["UserRef"][];
+            /** Code */
+            code: string;
+            /** Confidence */
+            confidence: number | null;
+            /**
+             * Floor Id
+             * Format: uuid
+             */
+            floor_id: string;
+            /** Floor Number */
+            floor_number: number;
+            /** Frame Url */
+            frame_url?: string | null;
+            /** Grid Col */
+            grid_col: number;
+            /** Grid Row */
+            grid_row: number;
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Label */
+            label: string | null;
+            /** Overlay Url */
+            overlay_url?: string | null;
+            /**
+             * Reasons
+             * @default []
+             */
+            reasons: unknown[];
+            /** Risk Score */
+            risk_score: number | null;
+            /** Stale */
+            stale: boolean;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "unclassified" | "safe" | "caution" | "unsafe" | "blocked";
+            /** Status Updated At */
+            status_updated_at: string | null;
+            /**
+             * Stored Status
+             * @enum {string}
+             */
+            stored_status: "unclassified" | "safe" | "caution" | "unsafe" | "blocked";
+            /** Victim Count */
+            victim_count: number;
+        };
         /** TokenOut */
         TokenOut: {
             /** Access Token */
@@ -1264,6 +1371,8 @@ export interface components {
             floor_id: string;
             /** Floor Number */
             floor_number: number;
+            /** Frame Url */
+            frame_url?: string | null;
             /** Grid Col */
             grid_col: number;
             /** Grid Row */
@@ -1275,6 +1384,13 @@ export interface components {
             id: string;
             /** Label */
             label: string | null;
+            /** Overlay Url */
+            overlay_url?: string | null;
+            /**
+             * Reasons
+             * @default []
+             */
+            reasons: unknown[];
             /** Risk Score */
             risk_score: number | null;
             /** Stale */
@@ -1733,6 +1849,26 @@ export interface operations {
             };
         };
     };
+    capture_targets_api_v1_capture_targets_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CaptureTarget"][];
+                };
+            };
+        };
+    };
     health_api_v1_health_get: {
         parameters: {
             query?: never;
@@ -2130,6 +2266,38 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["ZoneOut"][];
                 };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_media_api_v1_media__media_id__get: {
+        parameters: {
+            query?: {
+                exp?: number | null;
+                sig?: string | null;
+            };
+            header?: never;
+            path: {
+                media_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             /** @description Validation Error */
             422: {

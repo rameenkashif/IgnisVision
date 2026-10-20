@@ -68,7 +68,9 @@ Allowed: incident commanders, admins; field responders for an `active` incident 
 {"type": "alert.created", "alert": {"id": "…", "severity": "crit", "type": "zone_unsafe", "message_key": "alerts.zone_unsafe", "message_params": {"zone": "F1-Z2"}, …}}
 {"type": "alert.acknowledged", "alert": {…}}
 {"type": "incident.deleted", "incident_id": "…"}
-// From Phase 4/5: zone.updated, victim.upserted, job.progress, capture.session
+{"type": "zone.updated", "zone_id": "…", "status": "unsafe", "analysable": true, "risk_score": 0.75, "confidence": 0.8, "assessment_id": "…", "frame_url": "/api/v1/media/…?exp=…&sig=…", "overlay_url": "…", "at": "…"}
+{"type": "capture.session", "session": {"id": "…", "zone_id": "…", "zone_code": "F1-Z2", "user_id": "…", "state": "started|ended", "frames_received": 0, "frames_analysed": 0}}
+// From Phase 5: victim.upserted, job.progress
 ```
 
 ### `/ws/station`
@@ -80,3 +82,26 @@ Allowed: incident commanders and admins. Keeps incident lists current.
 {"type": "incident.updated", "incident": { /* IncidentSummary */ }}
 {"type": "incident.deleted", "incident_id": "…"}
 ```
+
+### `/ws/capture` (zone capture from a phone)
+
+Allowed: incident commanders and field responders, for any zone of an `active` incident (`GET /capture/targets` lists them, own assignments first).
+
+1. `{"type": "auth", "token": "…"}`, then `{"type": "start", "zone_id": "…"}`.
+   Reply: `{"type": "started", "session_id": "…", "target_fps": 1.0, "zone_code": "F1-Z2"}`.
+2. Send **binary JPEG frames** (≤ 2 MB, ~960 px wide) at `target_fps`. The server keeps only the newest frame (latest-frame-wins) and answers each analysed frame with:
+
+   ```json
+   {"type": "zone_result", "zone_id": "…", "zone_code": "F1-Z2", "status": "caution", "analysable": true,
+    "risk_score": 0.4, "confidence": 0.81,
+    "reasons": [{"key": "reasons.damage_present", "params": {"cls": "crack", "conf": 48}}],
+    "damage": [{"cls": "crack", "confidence": 0.48, "area_pct": 1.5, "element": "wall", "polygon": [[0.1, 0.3], …]}],
+    "frame_url": "/api/v1/media/…?exp=…&sig=…", "overlay_url": "…", "latency_ms": 62}
+   ```
+
+   When analysis isn't possible (`analysable: false`), `status` is the zone's previous status, never "safe" by default.
+3. Alerts for this zone: `{"type": "alert", "severity": "crit", "alert_type": "zone_rapid_change", "message_key": "alerts.zone_rapid_change", "params": {"zone": "F1-Z2", "from": "caution", "to": "unsafe"}}`. Speak them with the `voice.<alert_type>` template.
+4. Bad frames: `{"type": "error", "code": "not_jpeg" | "frame_too_large" | "undecodable_frame"}` (the session continues).
+5. `{"type": "stop"}` ends the session cleanly. A dropped connection ends it too and raises a `camera_lost` info alert.
+
+Close codes: `4401` auth, `4403` zone not capturable (role, inactive incident), `4400` malformed start.

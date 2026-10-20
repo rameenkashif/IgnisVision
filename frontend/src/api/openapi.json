@@ -450,6 +450,31 @@
         "title": "AuditOut",
         "type": "object"
       },
+      "CaptureTarget": {
+        "properties": {
+          "assigned_to_me": {
+            "title": "Assigned To Me",
+            "type": "boolean"
+          },
+          "incident": {
+            "$ref": "#/components/schemas/IncidentSummary"
+          },
+          "zones": {
+            "items": {
+              "$ref": "#/components/schemas/TargetZone"
+            },
+            "title": "Zones",
+            "type": "array"
+          }
+        },
+        "required": [
+          "incident",
+          "assigned_to_me",
+          "zones"
+        ],
+        "title": "CaptureTarget",
+        "type": "object"
+      },
       "ChangePasswordIn": {
         "properties": {
           "current_password": {
@@ -1606,6 +1631,183 @@
         "title": "StationRef",
         "type": "object"
       },
+      "TargetZone": {
+        "properties": {
+          "assessment_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Assessment Id"
+          },
+          "assigned_to_me": {
+            "title": "Assigned To Me",
+            "type": "boolean"
+          },
+          "assignees": {
+            "items": {
+              "$ref": "#/components/schemas/UserRef"
+            },
+            "title": "Assignees",
+            "type": "array"
+          },
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "confidence": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Confidence"
+          },
+          "floor_id": {
+            "format": "uuid",
+            "title": "Floor Id",
+            "type": "string"
+          },
+          "floor_number": {
+            "title": "Floor Number",
+            "type": "integer"
+          },
+          "frame_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Frame Url"
+          },
+          "grid_col": {
+            "title": "Grid Col",
+            "type": "integer"
+          },
+          "grid_row": {
+            "title": "Grid Row",
+            "type": "integer"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Label"
+          },
+          "overlay_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Overlay Url"
+          },
+          "reasons": {
+            "default": [],
+            "items": {},
+            "title": "Reasons",
+            "type": "array"
+          },
+          "risk_score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Risk Score"
+          },
+          "stale": {
+            "title": "Stale",
+            "type": "boolean"
+          },
+          "status": {
+            "enum": [
+              "unclassified",
+              "safe",
+              "caution",
+              "unsafe",
+              "blocked"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "status_updated_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status Updated At"
+          },
+          "stored_status": {
+            "enum": [
+              "unclassified",
+              "safe",
+              "caution",
+              "unsafe",
+              "blocked"
+            ],
+            "title": "Stored Status",
+            "type": "string"
+          },
+          "victim_count": {
+            "title": "Victim Count",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "floor_id",
+          "floor_number",
+          "code",
+          "label",
+          "grid_row",
+          "grid_col",
+          "status",
+          "stored_status",
+          "stale",
+          "status_updated_at",
+          "risk_score",
+          "confidence",
+          "assessment_id",
+          "assignees",
+          "victim_count",
+          "assigned_to_me"
+        ],
+        "title": "TargetZone",
+        "type": "object"
+      },
       "TokenOut": {
         "properties": {
           "access_token": {
@@ -2016,6 +2218,17 @@
             "title": "Floor Number",
             "type": "integer"
           },
+          "frame_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Frame Url"
+          },
           "grid_col": {
             "title": "Grid Col",
             "type": "integer"
@@ -2039,6 +2252,23 @@
               }
             ],
             "title": "Label"
+          },
+          "overlay_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Overlay Url"
+          },
+          "reasons": {
+            "default": [],
+            "items": {},
+            "title": "Reasons",
+            "type": "array"
           },
           "risk_score": {
             "anyOf": [
@@ -2761,6 +2991,32 @@
         ]
       }
     },
+    "/api/v1/capture/targets": {
+      "get": {
+        "description": "Zones the user may stream: any zone of an active incident; own assignments first.",
+        "operationId": "capture_targets_api_v1_capture_targets_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/CaptureTarget"
+                  },
+                  "title": "Response Capture Targets Api V1 Capture Targets Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Capture Targets",
+        "tags": [
+          "capture"
+        ]
+      }
+    },
     "/api/v1/health": {
       "get": {
         "operationId": "health_api_v1_health_get",
@@ -3466,6 +3722,75 @@
         "summary": "List Zones",
         "tags": [
           "zones"
+        ]
+      }
+    },
+    "/api/v1/media/{media_id}": {
+      "get": {
+        "description": "Auth: a valid short-lived signature (for <img>/<video>), or a bearer token with access\nto the incident. Supports HTTP Range (video seeking).",
+        "operationId": "get_media_api_v1_media__media_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "media_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Media Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "exp",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Exp"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sig",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Sig"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Media",
+        "tags": [
+          "media"
         ]
       }
     },

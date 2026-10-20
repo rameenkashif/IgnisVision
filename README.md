@@ -23,7 +23,7 @@ docker compose exec backend python -m app.db.seed          # prints the demo pas
 
 Demo accounts (one per role): `admin`, `commander1`, `responder1`, `trainee1`, `trainer1`.
 
-Open **https://localhost**. Health: `https://localhost/api/v1/health`, readiness (checks DB): `/api/v1/health/ready`, API docs: `/api/docs`.
+Open **https://localhost**. For a demo storyline (safe → caution → unsafe while capturing) set `MOCK_SCENARIO=escalating` in `.env`. Health: `https://localhost/api/v1/health`, readiness (checks DB): `/api/v1/health/ready`, API docs: `/api/docs`.
 
 Caddy uses its own local CA (`tls internal`), so the browser warns the first time. To trust it:
 
@@ -88,4 +88,4 @@ docker compose exec -T db pg_restore -U ignis -d ignis --clean --if-exists < bac
 
 ## Status
 
-Phase 0 (scaffold, Docker, HTTPS, CI) Phase 1 (database schema, auth, RBAC, user admin, audit, settings) Phase 2 (frontend shell: splash, sign-in, language + RTL, onboarding, role-based navigation, indicators, help skeleton, settings) and Phase 3 (incidents, zones, teams, alerts, live dashboard, WebSocket channels) complete. See `HANDOFF.md` §13 for the phase plan.
+Phase 0 (scaffold, Docker, HTTPS, CI) Phase 1 (database schema, auth, RBAC, user admin, audit, settings) Phase 2 (frontend shell: splash, sign-in, language + RTL, onboarding, role-based navigation, indicators, help skeleton, settings) Phase 3 (incidents, zones, teams, alerts, live dashboard, WebSocket channels) and Phase 4 (ML seam with mock models, zone risk fusion, phone zone capture, spoken alerts) complete. Model integration: [`docs/MODEL_INTEGRATION.md`](docs/MODEL_INTEGRATION.md). See `HANDOFF.md` §13 for the phase plan.
