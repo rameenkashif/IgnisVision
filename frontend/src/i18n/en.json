@@ -184,7 +184,11 @@
       "title": "Settings",
       "subtitle": "Your preferences for language, voice and alerts."
     },
-    "help": { "crumbs": "System / Help", "title": "Help", "subtitle": "How each screen works." }
+    "help": {
+      "crumbs": "System / Help",
+      "title": "Help",
+      "subtitle": "How each screen works."
+    }
   },
   "forbidden": {
     "title": "Not available for your role",
@@ -269,5 +273,145 @@
     "conflict": "This conflicts with existing data.",
     "network": "Cannot reach the server. Check your internet connection and try again.",
     "unknown": "Something went wrong. Please try again."
+  },
+  "status": {
+    "unclassified": "Unclassified",
+    "safe": "Safe",
+    "caution": "Caution",
+    "unsafe": "Unsafe",
+    "blocked": "Blocked",
+    "stale": "No current analysis"
+  },
+  "incidentStatus": {
+    "draft": "Draft",
+    "dispatched": "Dispatched",
+    "active": "Active",
+    "closed": "Closed"
+  },
+  "structure": {
+    "commercial": "Commercial",
+    "residential": "Residential",
+    "industrial": "Industrial",
+    "other": "Other"
+  },
+  "incidentType": {
+    "structural": "Structural fire",
+    "chemical": "Chemical fire",
+    "electrical": "Electrical fire",
+    "other": "Other"
+  },
+  "live": {
+    "emptyTitle": "No active emergency",
+    "emptyBody": "The console is idle. When a call comes in and a team is dispatched, log the emergency to start structural mapping and zone assignment.",
+    "emptyBodyReadOnly": "There is no open incident right now.",
+    "logEmergency": "Log new emergency",
+    "briefingTitle": "Teams dispatched — zones assigned, awaiting zone capture",
+    "briefingSub": "{{count}} responders assigned across {{zones}} zones.",
+    "goLive": "Teams on site — start live monitoring",
+    "sectorMap": "Building — sector map",
+    "zoneCount": "{{count}} zones",
+    "assignedNotLive": "Assigned — not yet analysed",
+    "structuralMap": "Structural map",
+    "liveFusion": "Live fusion",
+    "alerts": "Real-time alerts",
+    "noAlerts": "No alerts yet.",
+    "humans": "People detected",
+    "noHumans": "No people detected yet. Upload thermal images or videos to analyse.",
+    "thermal": "Thermal detections",
+    "noThermal": "No thermal analysis yet for this incident.",
+    "rgb": "Latest zone frame",
+    "noRgb": "No zone capture yet. Responders start capture from their phones.",
+    "zoneClassification": "Zone classification",
+    "safetyThreshold": "Building safety threshold",
+    "evacOkTitle": "Building within safe operating threshold",
+    "evacOkSub": "Safe + caution zones at {{pct}}% of analysed zones (threshold {{threshold}}%).",
+    "evacWarnTitle": "Below safe operating threshold — consider evacuation",
+    "evacWarnSub": "Safe + caution zones at {{pct}}% of analysed zones (threshold {{threshold}}%).",
+    "evacUnknownTitle": "Not enough analysed zones",
+    "evacUnknownSub": "No zone has a current analysis yet.",
+    "unclassifiedShare": "{{pct}}% of zones have no current analysis.",
+    "closeIncident": "Close incident",
+    "closeTitle": "Close incident {{code}}?",
+    "closeBody": "Live monitoring ends, all team assignments are released and the incident report is compiled. This cannot be undone.",
+    "closed": "Incident {{code}} closed.",
+    "connectionLost": "Connection lost — showing the last update from {{time}}. Reconnecting…",
+    "selectIncident": "Open incidents",
+    "acknowledge": "Acknowledge",
+    "zoneDrawerTitle": "Zone {{code}}",
+    "zoneLabel": "Zone label",
+    "zoneHistory": "Risk history",
+    "noHistory": "No analyses for this zone yet.",
+    "assignedTo": "Assigned to",
+    "nobodyAssigned": "Nobody assigned",
+    "victimsInZone": "{{count}} people detected",
+    "updatedAt": "Updated {{time}}",
+    "risk": "Risk",
+    "confidence": "Confidence",
+    "floor": "Floor {{n}}"
+  },
+  "kpi": {
+    "incident": "Active incident",
+    "victims": "People detected",
+    "victimsSub": "This incident",
+    "building": "Building status",
+    "units": "Response units",
+    "unitsSub": "Assigned",
+    "ai": "AI confidence",
+    "aiSub": "Current analyses",
+    "awaiting": "Awaiting analysis"
+  },
+  "dispatch": {
+    "title": "Log new emergency",
+    "s1": "Incident location",
+    "s2": "Structural map — zones",
+    "s3": "Team dispatch — responder, zone, device",
+    "address": "Address",
+    "city": "City",
+    "structureType": "Structure type",
+    "incidentType": "Incident type",
+    "reportedBy": "Reported by",
+    "floors": "Floors",
+    "zonesPerFloor": "Zones per floor",
+    "zoneHint": "Name zones if useful (e.g. Lobby). Codes are fixed: F1-Z1, F1-Z2…",
+    "responder": "Responder",
+    "zone": "Zone",
+    "device": "Device label (optional)",
+    "noZone": "No zone yet",
+    "addResponder": "+ Add responder",
+    "remove": "Remove",
+    "busy": "on {{code}}",
+    "noResponders": "No active field responders. An administrator can add them.",
+    "submit": "Dispatch team & create incident",
+    "submitting": "Dispatching…",
+    "addressRequired": "Enter the incident address."
+  },
+  "team": {
+    "chooseIncident": "Incident",
+    "current": "Current assignments",
+    "history": "Assignment history",
+    "none": "No responders assigned.",
+    "noOpen": "No open incident. Team assignments appear here once an emergency is logged.",
+    "since": "Since",
+    "until": "Until",
+    "reassign": "Move to zone",
+    "unassign": "Release",
+    "assign": "Assign",
+    "add": "Assign a responder",
+    "mine": "My assignment",
+    "mineNone": "You are not assigned to an open incident.",
+    "readOnly": "Read-only view."
+  },
+  "confirm": {
+    "cancel": "Cancel",
+    "confirm": "Confirm"
+  },
+  "alerts": {
+    "zone_unsafe": "Zone {{zone}} is unsafe.",
+    "zone_blocked": "Zone {{zone}} is blocked.",
+    "zone_rapid_change": "Zone {{zone}} changed rapidly from {{from}} to {{to}}.",
+    "victim_critical": "Critical-priority person detected in zone {{zone}}.",
+    "analysis_failed": "Zone {{zone}} could not be analysed (e.g. heavy smoke). Previous status kept.",
+    "camera_lost": "Camera feed lost for zone {{zone}}.",
+    "system": "{{message}}"
   }
 }

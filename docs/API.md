@@ -1,6 +1,6 @@
 # API guide
 
-Full, always-current reference: **`/api/docs`** (OpenAPI / Swagger UI). This page covers the cross-cutting rules and the contracts that OpenAPI can't express well. WebSocket and mobile-sync contracts are added in Phases 3–5.
+Full, always-current reference: **`/api/docs`** (OpenAPI / Swagger UI). This page covers the cross-cutting rules and the contracts that OpenAPI can't express well. The mobile-sync contract is added in Phase 5.
 
 ## Conventions
 
@@ -48,3 +48,35 @@ Password rule (SRS §5.5.4): at least 8 characters, containing letters and numbe
 ## Roles
 
 `admin`, `incident_commander`, `field_responder`, `trainee`, `training_staff`. The access matrix is HANDOFF §6 and is enforced and tested in `backend/tests/test_rbac.py`.
+
+## Live channels (WebSocket)
+
+Both use `wss://<host>/ws/...` and the same handshake:
+
+1. Connect, then send `{"type": "auth", "token": "<access token>"}` as the **first** message (never put the token in the URL).
+2. The server replies `{"type": "ready", ...}` and then streams events. It sends `{"type": "ping"}` every 25 s; you may send `{"type": "ping"}` and get `{"type": "pong"}`.
+3. Close codes: `4401` (missing/expired/invalid token: refresh and reconnect), `4403` (role not allowed), `4404` (incident not found). Before closing, the server sends `{"type": "error", "code": "..."}`.
+4. After every (re)connect, refetch `GET /incidents/{id}`; events are not replayed.
+
+### `/ws/incidents/{incident_id}`
+
+Allowed: incident commanders, admins; field responders for an `active` incident or one they are assigned to.
+
+```jsonc
+{"type": "incident.updated", "incident": { /* full GET /incidents/{id} body: zones, kpis, assignments */ }}
+{"type": "assignment.changed", "assignment": {"id": "…", "zone_code": "F1-Z2", "user": {…}, "unassigned_at": null, …}}
+{"type": "alert.created", "alert": {"id": "…", "severity": "crit", "type": "zone_unsafe", "message_key": "alerts.zone_unsafe", "message_params": {"zone": "F1-Z2"}, …}}
+{"type": "alert.acknowledged", "alert": {…}}
+{"type": "incident.deleted", "incident_id": "…"}
+// From Phase 4/5: zone.updated, victim.upserted, job.progress, capture.session
+```
+
+### `/ws/station`
+
+Allowed: incident commanders and admins. Keeps incident lists current.
+
+```jsonc
+{"type": "incident.created", "incident": { /* IncidentSummary */ }}
+{"type": "incident.updated", "incident": { /* IncidentSummary */ }}
+{"type": "incident.deleted", "incident_id": "…"}
+```

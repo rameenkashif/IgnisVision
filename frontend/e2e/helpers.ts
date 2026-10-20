@@ -32,3 +32,21 @@ export async function navKeys(page: Page): Promise<string[]> {
     .locator('[data-nav]')
     .evaluateAll((els) => els.map((e) => e.getAttribute('data-nav')!));
 }
+
+/** Close every open incident through the API so each test starts from the empty state. */
+export async function closeOpenIncidents(baseURL: string) {
+  const { request } = await import('@playwright/test');
+  const ctx = await request.newContext({ baseURL, ignoreHTTPSErrors: true });
+  const login = await ctx.post('/api/v1/auth/login', {
+    data: { username: 'commander1', password: PASSWORD },
+  });
+  const token = (await login.json()).access_token as string;
+  const headers = { Authorization: `Bearer ${token}` };
+  const list = await ctx.get('/api/v1/incidents?status=dispatched&status=active&limit=200', {
+    headers,
+  });
+  for (const inc of (await list.json()).items as { id: string }[]) {
+    await ctx.post(`/api/v1/incidents/${inc.id}/close`, { headers, data: { confirm: true } });
+  }
+  await ctx.dispose();
+}

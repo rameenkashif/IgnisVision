@@ -117,3 +117,28 @@ def as_role(make_user, login):
         return u, await login(u)
 
     return _as
+
+
+@pytest.fixture
+def create_incident(client):
+    async def _create(headers: dict, responders: list[User] = (), **overrides) -> dict:
+        body = {
+            "address": "Gul Plaza, M.A Jinnah Road",
+            "city": "Lahore",
+            "structure_type": "commercial",
+            "incident_type": "structural",
+            "reported_by": "Control room",
+            "floors": 2,
+            "zones_per_floor": 4,
+            "zone_labels": {"F1-Z1": "Lobby"},
+            "assignments": [
+                {"user_id": str(u.id), "zone_code": f"F1-Z{i + 1}", "device_label": f"Rig {i + 1}"}
+                for i, u in enumerate(responders)
+            ],
+            **overrides,
+        }
+        r = await client.post("/api/v1/incidents", json=body, headers=headers)
+        assert r.status_code == 201, r.text
+        return r.json()
+
+    return _create

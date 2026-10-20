@@ -39,6 +39,60 @@ export interface paths {
         patch: operations["update_settings_api_v1_admin_settings_patch"];
         trace?: never;
     };
+    "/api/v1/alerts/{alert_id}/ack": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Acknowledge */
+        post: operations["acknowledge_api_v1_alerts__alert_id__ack_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/assignments/mine": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * My Assignments
+         * @description A responder's own current assignments ("own assignment only", HANDOFF §6).
+         */
+        get: operations["my_assignments_api_v1_assignments_mine_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/assignments/{assignment_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Unassign */
+        delete: operations["unassign_api_v1_assignments__assignment_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/auth/change-password": {
         parameters: {
             query?: never;
@@ -234,6 +288,145 @@ export interface paths {
         /** List Incidents */
         get: operations["list_incidents_api_v1_incidents_get"];
         put?: never;
+        /**
+         * Create Incident
+         * @description Dispatch modal: incident, floors, zones and team assignments in one transaction.
+         */
+        post: operations["create_incident_api_v1_incidents_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/incidents/{incident_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Incident */
+        get: operations["get_incident_api_v1_incidents__incident_id__get"];
+        put?: never;
+        post?: never;
+        /**
+         * Delete Incident
+         * @description Admin-only soft delete with confirmation and audit (SRS §5.5.3).
+         */
+        delete: operations["delete_incident_api_v1_incidents__incident_id__delete"];
+        options?: never;
+        head?: never;
+        /** Update Incident */
+        patch: operations["update_incident_api_v1_incidents__incident_id__patch"];
+        trace?: never;
+    };
+    "/api/v1/incidents/{incident_id}/activate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Activate Incident
+         * @description Briefing → live (teams on site, operations begin).
+         */
+        post: operations["activate_incident_api_v1_incidents__incident_id__activate_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/incidents/{incident_id}/alerts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Alerts */
+        get: operations["list_alerts_api_v1_incidents__incident_id__alerts_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/incidents/{incident_id}/assignments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Assignments */
+        get: operations["list_assignments_api_v1_incidents__incident_id__assignments_get"];
+        put?: never;
+        /**
+         * Assign
+         * @description Assign a responder to a zone. If already assigned in this incident, this is a
+         *     reassignment: the old row is closed (history kept), a new one opened (SRS UC-07 AF).
+         */
+        post: operations["assign_api_v1_incidents__incident_id__assignments_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/incidents/{incident_id}/close": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Close Incident */
+        post: operations["close_incident_api_v1_incidents__incident_id__close_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/incidents/{incident_id}/zones": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Zones */
+        get: operations["list_zones_api_v1_incidents__incident_id__zones_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/responders": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Responders
+         * @description Active field responders for the dispatch form, with their current open incident.
+         */
+        get: operations["list_responders_api_v1_responders_get"];
+        put?: never;
         post?: never;
         delete?: never;
         options?: never;
@@ -331,10 +524,173 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/zones/{zone_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Update Zone */
+        patch: operations["update_zone_api_v1_zones__zone_id__patch"];
+        trace?: never;
+    };
+    "/api/v1/zones/{zone_id}/assessments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Zone Assessments
+         * @description Zone risk history, newest first (SRS UC-05 postcondition).
+         */
+        get: operations["zone_assessments_api_v1_zones__zone_id__assessments_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** AlertList */
+        AlertList: {
+            /** Items */
+            items: components["schemas"]["AlertOut"][];
+            /** Total */
+            total: number;
+        };
+        /** AlertOut */
+        AlertOut: {
+            /** Acknowledged At */
+            acknowledged_at: string | null;
+            /** Acknowledged By */
+            acknowledged_by: string | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Incident Id
+             * Format: uuid
+             */
+            incident_id: string;
+            /** Message Key */
+            message_key: string;
+            /** Message Params */
+            message_params: Record<string, never>;
+            /**
+             * Severity
+             * @enum {string}
+             */
+            severity: "crit" | "warn" | "info";
+            /** Type */
+            type: string;
+            /** Zone Id */
+            zone_id: string | null;
+        };
+        /** AssessmentOut */
+        AssessmentOut: {
+            /** Analysable */
+            analysable: boolean;
+            /** Confidence */
+            confidence: number;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Reasons */
+            reasons: unknown[];
+            /** Risk Score */
+            risk_score: number;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "unclassified" | "safe" | "caution" | "unsafe" | "blocked";
+            /**
+             * Zone Id
+             * Format: uuid
+             */
+            zone_id: string;
+        };
+        /** AssignmentCreate */
+        AssignmentCreate: {
+            /** Device Label */
+            device_label?: string | null;
+            /**
+             * User Id
+             * Format: uuid
+             */
+            user_id: string;
+            /** Zone Id */
+            zone_id?: string | null;
+        };
+        /** AssignmentIn */
+        AssignmentIn: {
+            /** Device Label */
+            device_label?: string | null;
+            /**
+             * User Id
+             * Format: uuid
+             */
+            user_id: string;
+            /** Zone Code */
+            zone_code?: string | null;
+        };
+        /** AssignmentOut */
+        AssignmentOut: {
+            /**
+             * Assigned At
+             * Format: date-time
+             */
+            assigned_at: string;
+            /** Assigned By */
+            assigned_by: string | null;
+            /** Device Label */
+            device_label: string | null;
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Incident Id
+             * Format: uuid
+             */
+            incident_id: string;
+            /** Unassigned At */
+            unassigned_at: string | null;
+            user: components["schemas"]["UserRef"];
+            /** Zone Code */
+            zone_code: string | null;
+            /** Zone Id */
+            zone_id: string | null;
+        };
         /** AuditList */
         AuditList: {
             /** Items */
@@ -415,6 +771,18 @@ export interface components {
             /** Username */
             username: string;
         };
+        /** FloorOut */
+        FloorOut: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Label */
+            label: string;
+            /** Number */
+            number: number;
+        };
         /** HTTPValidationError */
         HTTPValidationError: {
             /** Detail */
@@ -432,6 +800,92 @@ export interface components {
              */
             ok: boolean;
         };
+        /**
+         * IncidentCreate
+         * @description Matches the prototype's dispatch modal: one transaction creates everything.
+         */
+        IncidentCreate: {
+            /** Address */
+            address: string;
+            /** Assignments */
+            assignments?: components["schemas"]["AssignmentIn"][];
+            /** City */
+            city?: string | null;
+            /** Floors */
+            floors: number;
+            /**
+             * Incident Type
+             * @default other
+             * @enum {string}
+             */
+            incident_type: "structural" | "chemical" | "electrical" | "other";
+            /** Reported By */
+            reported_by?: string | null;
+            /**
+             * Structure Type
+             * @default other
+             * @enum {string}
+             */
+            structure_type: "commercial" | "residential" | "industrial" | "other";
+            /** Zone Labels */
+            zone_labels?: {
+                [key: string]: string;
+            };
+            /** Zones Per Floor */
+            zones_per_floor: number;
+        };
+        /** IncidentDetail */
+        IncidentDetail: {
+            /** Activated At */
+            activated_at: string | null;
+            /** Address */
+            address: string | null;
+            /** Assignments */
+            assignments: components["schemas"]["AssignmentOut"][];
+            /** City */
+            city: string | null;
+            /** Closed At */
+            closed_at: string | null;
+            /** Code */
+            code: string;
+            commander: components["schemas"]["UserRef"] | null;
+            /** Floors */
+            floors: components["schemas"]["FloorOut"][];
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Incident Type
+             * @enum {string}
+             */
+            incident_type: "structural" | "chemical" | "electrical" | "other";
+            kpis: components["schemas"]["Kpis"];
+            /**
+             * Opened At
+             * Format: date-time
+             */
+            opened_at: string;
+            /** Reported By */
+            reported_by: string | null;
+            /** Source */
+            source: string;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "draft" | "dispatched" | "active" | "closed";
+            /**
+             * Structure Type
+             * @enum {string}
+             */
+            structure_type: "commercial" | "residential" | "industrial" | "other";
+            /** Summary Text */
+            summary_text: string | null;
+            /** Zones */
+            zones: components["schemas"]["ZoneOut"][];
+        };
         /** IncidentList */
         IncidentList: {
             /** Items */
@@ -441,6 +895,8 @@ export interface components {
         };
         /** IncidentSummary */
         IncidentSummary: {
+            /** Activated At */
+            activated_at: string | null;
             /** Address */
             address: string | null;
             /** City */
@@ -454,19 +910,77 @@ export interface components {
              * Format: uuid
              */
             id: string;
-            /** Incident Type */
-            incident_type: string;
+            /**
+             * Incident Type
+             * @enum {string}
+             */
+            incident_type: "structural" | "chemical" | "electrical" | "other";
             /**
              * Opened At
              * Format: date-time
              */
             opened_at: string;
+            /** Reported By */
+            reported_by: string | null;
             /** Source */
             source: string;
-            /** Status */
-            status: string;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "draft" | "dispatched" | "active" | "closed";
+            /**
+             * Structure Type
+             * @enum {string}
+             */
+            structure_type: "commercial" | "residential" | "industrial" | "other";
+        };
+        /** IncidentUpdate */
+        IncidentUpdate: {
+            /** Address */
+            address?: string | null;
+            /** City */
+            city?: string | null;
+            /** Incident Type */
+            incident_type?: ("structural" | "chemical" | "electrical" | "other") | null;
+            /** Reported By */
+            reported_by?: string | null;
             /** Structure Type */
-            structure_type: string;
+            structure_type?: ("commercial" | "residential" | "industrial" | "other") | null;
+            /** Summary Text */
+            summary_text?: string | null;
+        };
+        /** Kpis */
+        Kpis: {
+            /** Ai Confidence */
+            ai_confidence: number | null;
+            /** Below Threshold */
+            below_threshold: boolean;
+            /**
+             * Building Status
+             * @enum {string}
+             */
+            building_status: "unclassified" | "safe" | "caution" | "unsafe" | "blocked";
+            /** Classified */
+            classified: number;
+            /** Evac Ok Pct */
+            evac_ok_pct: number | null;
+            /** Evacuation Threshold Pct */
+            evacuation_threshold_pct: number;
+            /** Response Units */
+            response_units: number;
+            /** Stale Zone Seconds */
+            stale_zone_seconds: number;
+            /** Unclassified Pct */
+            unclassified_pct: number;
+            /** Victims Detected */
+            victims_detected: number;
+            /** Zones By Status */
+            zones_by_status: {
+                [key: string]: number;
+            };
+            /** Zones Total */
+            zones_total: number;
         };
         /** LoginIn */
         LoginIn: {
@@ -536,6 +1050,42 @@ export interface components {
             token_type: string;
             user: components["schemas"]["UserOut"];
         };
+        /** MyAssignment */
+        MyAssignment: {
+            /**
+             * Assigned At
+             * Format: date-time
+             */
+            assigned_at: string;
+            /** Assigned By */
+            assigned_by: string | null;
+            /** Device Label */
+            device_label: string | null;
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Incident Code */
+            incident_code: string;
+            /**
+             * Incident Id
+             * Format: uuid
+             */
+            incident_id: string;
+            /**
+             * Incident Status
+             * @enum {string}
+             */
+            incident_status: "draft" | "dispatched" | "active" | "closed";
+            /** Unassigned At */
+            unassigned_at: string | null;
+            user: components["schemas"]["UserRef"];
+            /** Zone Code */
+            zone_code: string | null;
+            /** Zone Id */
+            zone_id: string | null;
+        };
         /** PasswordReset */
         PasswordReset: {
             /** Temporary Password */
@@ -552,6 +1102,20 @@ export interface components {
             confirm: boolean;
             /** New Password */
             new_password?: string | null;
+        };
+        /** ResponderOut */
+        ResponderOut: {
+            /** Active Incident Code */
+            active_incident_code: string | null;
+            /** Full Name */
+            full_name: string;
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Username */
+            username: string;
         };
         /** StationRef */
         StationRef: {
@@ -649,6 +1213,18 @@ export interface components {
             /** Username */
             username: string;
         };
+        /** UserRef */
+        UserRef: {
+            /** Full Name */
+            full_name: string;
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Username */
+            username: string;
+        };
         /** UserUpdate */
         UserUpdate: {
             /** Full Name */
@@ -670,6 +1246,58 @@ export interface components {
             msg: string;
             /** Error Type */
             type: string;
+        };
+        /** ZoneOut */
+        ZoneOut: {
+            /** Assessment Id */
+            assessment_id: string | null;
+            /** Assignees */
+            assignees: components["schemas"]["UserRef"][];
+            /** Code */
+            code: string;
+            /** Confidence */
+            confidence: number | null;
+            /**
+             * Floor Id
+             * Format: uuid
+             */
+            floor_id: string;
+            /** Floor Number */
+            floor_number: number;
+            /** Grid Col */
+            grid_col: number;
+            /** Grid Row */
+            grid_row: number;
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Label */
+            label: string | null;
+            /** Risk Score */
+            risk_score: number | null;
+            /** Stale */
+            stale: boolean;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "unclassified" | "safe" | "caution" | "unsafe" | "blocked";
+            /** Status Updated At */
+            status_updated_at: string | null;
+            /**
+             * Stored Status
+             * @enum {string}
+             */
+            stored_status: "unclassified" | "safe" | "caution" | "unsafe" | "blocked";
+            /** Victim Count */
+            victim_count: number;
+        };
+        /** ZoneUpdate */
+        ZoneUpdate: {
+            /** Label */
+            label?: string | null;
         };
     };
     responses: never;
@@ -756,6 +1384,88 @@ export interface operations {
                 };
                 content: {
                     "application/json": Record<string, never>;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    acknowledge_api_v1_alerts__alert_id__ack_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                alert_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AlertOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    my_assignments_api_v1_assignments_mine_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MyAssignment"][];
+                };
+            };
+        };
+    };
+    unassign_api_v1_assignments__assignment_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                assignment_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AssignmentOut"];
                 };
             };
             /** @description Validation Error */
@@ -1066,7 +1776,10 @@ export interface operations {
     list_incidents_api_v1_incidents_get: {
         parameters: {
             query?: {
-                status?: string | null;
+                status?: ("draft" | "dispatched" | "active" | "closed")[] | null;
+                q?: string | null;
+                from?: string | null;
+                to?: string | null;
                 limit?: number;
                 offset?: number;
             };
@@ -1092,6 +1805,359 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_incident_api_v1_incidents_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IncidentCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IncidentDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_incident_api_v1_incidents__incident_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                incident_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IncidentDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_incident_api_v1_incidents__incident_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                incident_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Confirm"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_incident_api_v1_incidents__incident_id__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                incident_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IncidentUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IncidentDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    activate_incident_api_v1_incidents__incident_id__activate_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                incident_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IncidentDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_alerts_api_v1_incidents__incident_id__alerts_get: {
+        parameters: {
+            query?: {
+                severity?: ("crit" | "warn" | "info")[] | null;
+                unacknowledged?: boolean;
+                limit?: number;
+                offset?: number;
+            };
+            header?: never;
+            path: {
+                incident_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AlertList"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_assignments_api_v1_incidents__incident_id__assignments_get: {
+        parameters: {
+            query?: {
+                include_history?: boolean;
+            };
+            header?: never;
+            path: {
+                incident_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AssignmentOut"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    assign_api_v1_incidents__incident_id__assignments_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                incident_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AssignmentCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AssignmentOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    close_incident_api_v1_incidents__incident_id__close_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                incident_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Confirm"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IncidentDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_zones_api_v1_incidents__incident_id__zones_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                incident_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ZoneOut"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_responders_api_v1_responders_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponderOut"][];
                 };
             };
         };
@@ -1307,6 +2373,74 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["PasswordReset"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_zone_api_v1_zones__zone_id__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                zone_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ZoneUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ZoneOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    zone_assessments_api_v1_zones__zone_id__assessments_get: {
+        parameters: {
+            query?: {
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                zone_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AssessmentOut"][];
                 };
             };
             /** @description Validation Error */

@@ -88,4 +88,4 @@ docker compose exec -T db pg_restore -U ignis -d ignis --clean --if-exists < bac
 
 ## Status
 
-Phase 0 (scaffold, Docker, HTTPS, CI) Phase 1 (database schema, auth, RBAC, user admin, audit, settings) and Phase 2 (frontend shell: splash, sign-in, language + RTL, onboarding, role-based navigation, indicators, help skeleton, settings) complete. See `HANDOFF.md` §13 for the phase plan.
+Phase 0 (scaffold, Docker, HTTPS, CI) Phase 1 (database schema, auth, RBAC, user admin, audit, settings) Phase 2 (frontend shell: splash, sign-in, language + RTL, onboarding, role-based navigation, indicators, help skeleton, settings) and Phase 3 (incidents, zones, teams, alerts, live dashboard, WebSocket channels) complete. See `HANDOFF.md` §13 for the phase plan.

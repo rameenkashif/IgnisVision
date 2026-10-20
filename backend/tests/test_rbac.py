@@ -9,6 +9,7 @@ from tests.conftest import ROLES
 ALL = set(ROLES)
 ADMIN = {"admin"}
 INCIDENT_READERS = {"admin", "incident_commander"}
+COMMANDER = {"incident_commander"}
 X = str(uuid.uuid4())
 
 # (method, path, json body, roles allowed)
@@ -18,6 +19,22 @@ MATRIX = [
     ("POST", "/api/v1/auth/heartbeat", None, ALL),
     ("GET", "/api/v1/settings", None, ALL),
     ("GET", "/api/v1/incidents", None, INCIDENT_READERS),
+    ("POST", "/api/v1/incidents", {"address": "A", "floors": 1, "zones_per_floor": 1}, COMMANDER),
+    ("GET", f"/api/v1/incidents/{X}", None, INCIDENT_READERS),
+    ("PATCH", f"/api/v1/incidents/{X}", {"city": "Lahore"}, COMMANDER),
+    ("POST", f"/api/v1/incidents/{X}/activate", None, COMMANDER),
+    ("POST", f"/api/v1/incidents/{X}/close", {"confirm": True}, COMMANDER),
+    ("DELETE", f"/api/v1/incidents/{X}", {"confirm": True}, ADMIN),
+    ("GET", f"/api/v1/incidents/{X}/zones", None, INCIDENT_READERS),
+    ("PATCH", f"/api/v1/zones/{X}", {"label": "L"}, COMMANDER),
+    ("GET", f"/api/v1/zones/{X}/assessments", None, INCIDENT_READERS),
+    ("GET", f"/api/v1/incidents/{X}/assignments", None, INCIDENT_READERS),
+    ("POST", f"/api/v1/incidents/{X}/assignments", {"user_id": X}, COMMANDER),
+    ("DELETE", f"/api/v1/assignments/{X}", None, COMMANDER),
+    ("GET", "/api/v1/assignments/mine", None, ALL),
+    ("GET", "/api/v1/responders", None, COMMANDER),
+    ("GET", f"/api/v1/incidents/{X}/alerts", None, INCIDENT_READERS),
+    ("POST", f"/api/v1/alerts/{X}/ack", None, COMMANDER),
     ("GET", "/api/v1/users", None, ADMIN),
     ("POST", "/api/v1/users", {"username": "u_rbac", "full_name": "R", "role": "trainee"}, ADMIN),
     ("GET", f"/api/v1/users/{X}", None, ADMIN),
@@ -70,13 +87,18 @@ def test_matrix_covers_every_route():
         "/api/v1/auth/mobile/login",
         "/api/v1/auth/mobile/refresh-bundle",
     }
-    covered = {(m, p.replace(X, "{user_id}")) for m, p, _, _ in MATRIX}
+    import re
+
+    def norm(p: str) -> str:
+        return re.sub(r"\{[^}]+\}", "{}", p.replace(X, "{}"))
+
+    covered = {(m, norm(p)) for m, p, _, _ in MATRIX}
     missing = []
     for route in app.routes:
         path = getattr(route, "path", "")
         if not path.startswith("/api/v1") or path in exempt:
             continue
         for m in getattr(route, "methods", set()) - {"HEAD", "OPTIONS"}:
-            if (m, path) not in covered:
+            if (m, norm(path)) not in covered:
                 missing.append(f"{m} {path}")
     assert not missing, f"routes without RBAC matrix rows: {missing}"

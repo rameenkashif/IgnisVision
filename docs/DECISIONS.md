@@ -65,3 +65,21 @@ Every assumption made while building from `HANDOFF.md`. **Owner-confirmed** rows
 | Splash | Plays `public/splash.mp4` once per browser session (skip button, 8 s cap); skipped entirely with `prefers-reduced-motion`. | Prototype flow without annoying reloads. |
 | Typed client | `backend/scripts/export_openapi.py` → `frontend/src/api/openapi.json` → `openapi-typescript` → `schema.d.ts`, used by `openapi-fetch`. A backend test and a CI step fail if either file drifts. | HANDOFF §3 (typed client from OpenAPI). |
 | Not-yet-built modules | Live, Capture, Analysis, Reports, Team, Trainer, Admin render a translated "being built" placeholder with the correct title, crumbs, help topic and role guard. | Shell is complete; modules arrive in Phases 3–8. |
+
+## Phase 3: incidents, zones, teams, live channel
+
+| Area | Decision | Why |
+|---|---|---|
+| Lifecycle | The dispatch form creates the incident directly as `dispatched` (briefing state). "Teams on site — start live monitoring" → `active`. Close (with `{"confirm": true}`) → `closed`, which also ends all open team assignments (history kept) and therefore the idle-logout exemption. `draft` is kept in the schema but unused by the UI. | Mirrors the prototype's empty → briefing → live flow. |
+| Incident code | `IV-<year>-<NNNN>` from a Postgres sequence (never reused, even after deletes). | Human-readable, collision-free. |
+| Grid | Zone codes `F<floor>-Z<n>`, `grid_row = floor-1`, `grid_col = n-1`; the map shows the top floor first. Labels are optional and editable. | Prototype grid (Q12 default). |
+| Stale rule | Applied when serving: a zone without an analysis, or whose last analysis is older than `stale_zone_seconds`, is returned as `status: "unclassified"` (with `stale: true` and the raw `stored_status`). The frontend only ever colours by `status`. Tested on both sides. | SRS §5.2.3 / §5.5.2: never show safe without a current analysis. |
+| KPIs | Building status = worst current status among classified zones; evacuation % = (safe + caution) / *classified* zones, with the unclassified share shown separately; response units = distinct currently assigned responders; AI confidence = mean confidence of current (non-stale) assessments. | HANDOFF §4.2. |
+| Reassignment | Assigning a responder who already has an open assignment in the incident closes the old row and opens a new one. Unassign is a soft close. | SRS UC-07 AF; full history for the report. |
+| Live channels | `wss://…/ws/incidents/{id}` as specified, plus **`wss://…/ws/station`** (incident created / status change / deleted) so a second dashboard picks up a brand-new incident without polling. Both authenticate with the first message. Server pings every 25 s; the client reconnects with exponential backoff + jitter, refreshes its token on close code 4401, and refetches the aggregate after every reconnect. | HANDOFF §7.2 plus the Phase 3 exit criterion. |
+| WS access | Incident channel: commanders and admins; field responders for any `active` incident or one they're assigned to (needed for zone capture in Phase 4); others `4403`. Station channel: commanders and admins. | HANDOFF §6. |
+| Events | `incident.updated` carries the full aggregate (zones, KPIs, assignments), so clients just replace their cached copy. Also `assignment.changed`, `alert.created`, `alert.acknowledged`, `incident.deleted`. In-process `EventBus` with bounded per-subscriber queues (slow clients drop old events instead of blocking). | Simple and correct at SRS scale (10 users); Redis-backed bus can replace it behind the same interface. |
+| Alerts | Stored as `message_key` + `params`; status words in params are translated at render time, so each viewer reads alerts in their own language. Commanders acknowledge; the newest unacknowledged critical alert turns the top bar red. | HANDOFF §5 / §4.2. |
+| Delete | Admin-only soft delete (`deleted_at`) with confirmation and audit entry; deleted incidents 404 everywhere. | SRS §5.5.3. |
+| Live screen keep-alive | The live view of an `active` incident sets `keepAlive`, so the client heartbeats and never idle-logs-out there. | SRS §5.3.1. |
+| Zone drawer | Opens below the shell header so the language switch, Help and indicators stay reachable. | Found by the e2e test; SRS §3.1.2. |

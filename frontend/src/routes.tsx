@@ -7,7 +7,9 @@ import { Language } from './features/onboarding/Language';
 import { Onboarding } from './features/onboarding/Onboarding';
 import { SignIn } from './features/onboarding/SignIn';
 import { Splash } from './features/onboarding/Splash';
+import { LivePage } from './features/live/LivePage';
 import { SettingsPage } from './features/settings/SettingsPage';
+import { TeamPage } from './features/team/TeamPage';
 import { AppShell, type RouteHandle } from './features/shell/AppShell';
 import {
   NotFound,
@@ -59,11 +61,11 @@ export const routes: RouteObject[] = [
     ),
     children: [
       { path: '/home', element: <RedirectHome /> },
-      { path: '/live', ...guarded('live', <ComingSoon page="live" />) },
+      { path: '/live', ...guarded('live', <LivePage />) },
       { path: '/capture', ...guarded('capture', <ComingSoon page="capture" />, { camera: true }) },
       { path: '/analysis', ...guarded('analysis', <ComingSoon page="analysis" />) },
       { path: '/reports', ...guarded('reports', <ComingSoon page="reports" />) },
-      { path: '/team', ...guarded('team', <ComingSoon page="team" />) },
+      { path: '/team', ...guarded('team', <TeamPage />) },
       { path: '/trainer', ...guarded('trainer', <ComingSoon page="trainer" />) },
       {
         path: '/trainer/results',

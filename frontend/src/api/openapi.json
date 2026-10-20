@@ -1,6 +1,345 @@
 {
   "components": {
     "schemas": {
+      "AlertList": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/AlertOut"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total"
+        ],
+        "title": "AlertList",
+        "type": "object"
+      },
+      "AlertOut": {
+        "properties": {
+          "acknowledged_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Acknowledged At"
+          },
+          "acknowledged_by": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Acknowledged By"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "incident_id": {
+            "format": "uuid",
+            "title": "Incident Id",
+            "type": "string"
+          },
+          "message_key": {
+            "title": "Message Key",
+            "type": "string"
+          },
+          "message_params": {
+            "title": "Message Params",
+            "type": "object"
+          },
+          "severity": {
+            "enum": [
+              "crit",
+              "warn",
+              "info"
+            ],
+            "title": "Severity",
+            "type": "string"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          },
+          "zone_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Zone Id"
+          }
+        },
+        "required": [
+          "id",
+          "incident_id",
+          "zone_id",
+          "severity",
+          "type",
+          "message_key",
+          "message_params",
+          "acknowledged_by",
+          "acknowledged_at",
+          "created_at"
+        ],
+        "title": "AlertOut",
+        "type": "object"
+      },
+      "AssessmentOut": {
+        "properties": {
+          "analysable": {
+            "title": "Analysable",
+            "type": "boolean"
+          },
+          "confidence": {
+            "title": "Confidence",
+            "type": "number"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "reasons": {
+            "items": {},
+            "title": "Reasons",
+            "type": "array"
+          },
+          "risk_score": {
+            "title": "Risk Score",
+            "type": "number"
+          },
+          "status": {
+            "enum": [
+              "unclassified",
+              "safe",
+              "caution",
+              "unsafe",
+              "blocked"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "zone_id": {
+            "format": "uuid",
+            "title": "Zone Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "zone_id",
+          "status",
+          "risk_score",
+          "confidence",
+          "analysable",
+          "reasons",
+          "created_at"
+        ],
+        "title": "AssessmentOut",
+        "type": "object"
+      },
+      "AssignmentCreate": {
+        "properties": {
+          "device_label": {
+            "anyOf": [
+              {
+                "maxLength": 120,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Device Label"
+          },
+          "user_id": {
+            "format": "uuid",
+            "title": "User Id",
+            "type": "string"
+          },
+          "zone_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Zone Id"
+          }
+        },
+        "required": [
+          "user_id"
+        ],
+        "title": "AssignmentCreate",
+        "type": "object"
+      },
+      "AssignmentIn": {
+        "properties": {
+          "device_label": {
+            "anyOf": [
+              {
+                "maxLength": 120,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Device Label"
+          },
+          "user_id": {
+            "format": "uuid",
+            "title": "User Id",
+            "type": "string"
+          },
+          "zone_code": {
+            "anyOf": [
+              {
+                "maxLength": 32,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Zone Code"
+          }
+        },
+        "required": [
+          "user_id"
+        ],
+        "title": "AssignmentIn",
+        "type": "object"
+      },
+      "AssignmentOut": {
+        "properties": {
+          "assigned_at": {
+            "format": "date-time",
+            "title": "Assigned At",
+            "type": "string"
+          },
+          "assigned_by": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Assigned By"
+          },
+          "device_label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Device Label"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "incident_id": {
+            "format": "uuid",
+            "title": "Incident Id",
+            "type": "string"
+          },
+          "unassigned_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unassigned At"
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserRef"
+          },
+          "zone_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Zone Code"
+          },
+          "zone_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Zone Id"
+          }
+        },
+        "required": [
+          "id",
+          "incident_id",
+          "zone_id",
+          "zone_code",
+          "user",
+          "device_label",
+          "assigned_at",
+          "unassigned_at",
+          "assigned_by"
+        ],
+        "title": "AssignmentOut",
+        "type": "object"
+      },
       "AuditList": {
         "properties": {
           "items": {
@@ -208,6 +547,30 @@
         "title": "CredentialBundle",
         "type": "object"
       },
+      "FloorOut": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "number": {
+            "title": "Number",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "number",
+          "label"
+        ],
+        "title": "FloorOut",
+        "type": "object"
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -244,6 +607,273 @@
         "title": "HeartbeatOut",
         "type": "object"
       },
+      "IncidentCreate": {
+        "description": "Matches the prototype's dispatch modal: one transaction creates everything.",
+        "properties": {
+          "address": {
+            "maxLength": 400,
+            "minLength": 1,
+            "title": "Address",
+            "type": "string"
+          },
+          "assignments": {
+            "items": {
+              "$ref": "#/components/schemas/AssignmentIn"
+            },
+            "maxItems": 100,
+            "title": "Assignments",
+            "type": "array"
+          },
+          "city": {
+            "anyOf": [
+              {
+                "maxLength": 120,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "City"
+          },
+          "floors": {
+            "maximum": 50.0,
+            "minimum": 1.0,
+            "title": "Floors",
+            "type": "integer"
+          },
+          "incident_type": {
+            "default": "other",
+            "enum": [
+              "structural",
+              "chemical",
+              "electrical",
+              "other"
+            ],
+            "title": "Incident Type",
+            "type": "string"
+          },
+          "reported_by": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reported By"
+          },
+          "structure_type": {
+            "default": "other",
+            "enum": [
+              "commercial",
+              "residential",
+              "industrial",
+              "other"
+            ],
+            "title": "Structure Type",
+            "type": "string"
+          },
+          "zone_labels": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Zone Labels",
+            "type": "object"
+          },
+          "zones_per_floor": {
+            "maximum": 20.0,
+            "minimum": 1.0,
+            "title": "Zones Per Floor",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "address",
+          "floors",
+          "zones_per_floor"
+        ],
+        "title": "IncidentCreate",
+        "type": "object"
+      },
+      "IncidentDetail": {
+        "properties": {
+          "activated_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Activated At"
+          },
+          "address": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Address"
+          },
+          "assignments": {
+            "items": {
+              "$ref": "#/components/schemas/AssignmentOut"
+            },
+            "title": "Assignments",
+            "type": "array"
+          },
+          "city": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "City"
+          },
+          "closed_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Closed At"
+          },
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "commander": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/UserRef"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "floors": {
+            "items": {
+              "$ref": "#/components/schemas/FloorOut"
+            },
+            "title": "Floors",
+            "type": "array"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "incident_type": {
+            "enum": [
+              "structural",
+              "chemical",
+              "electrical",
+              "other"
+            ],
+            "title": "Incident Type",
+            "type": "string"
+          },
+          "kpis": {
+            "$ref": "#/components/schemas/Kpis"
+          },
+          "opened_at": {
+            "format": "date-time",
+            "title": "Opened At",
+            "type": "string"
+          },
+          "reported_by": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reported By"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "draft",
+              "dispatched",
+              "active",
+              "closed"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "structure_type": {
+            "enum": [
+              "commercial",
+              "residential",
+              "industrial",
+              "other"
+            ],
+            "title": "Structure Type",
+            "type": "string"
+          },
+          "summary_text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Summary Text"
+          },
+          "zones": {
+            "items": {
+              "$ref": "#/components/schemas/ZoneOut"
+            },
+            "title": "Zones",
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "code",
+          "address",
+          "city",
+          "structure_type",
+          "incident_type",
+          "reported_by",
+          "status",
+          "source",
+          "opened_at",
+          "activated_at",
+          "closed_at",
+          "commander",
+          "summary_text",
+          "floors",
+          "zones",
+          "assignments",
+          "kpis"
+        ],
+        "title": "IncidentDetail",
+        "type": "object"
+      },
       "IncidentList": {
         "properties": {
           "items": {
@@ -267,6 +897,18 @@
       },
       "IncidentSummary": {
         "properties": {
+          "activated_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Activated At"
+          },
           "address": {
             "anyOf": [
               {
@@ -311,6 +953,12 @@
             "type": "string"
           },
           "incident_type": {
+            "enum": [
+              "structural",
+              "chemical",
+              "electrical",
+              "other"
+            ],
             "title": "Incident Type",
             "type": "string"
           },
@@ -319,15 +967,38 @@
             "title": "Opened At",
             "type": "string"
           },
+          "reported_by": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reported By"
+          },
           "source": {
             "title": "Source",
             "type": "string"
           },
           "status": {
+            "enum": [
+              "draft",
+              "dispatched",
+              "active",
+              "closed"
+            ],
             "title": "Status",
             "type": "string"
           },
           "structure_type": {
+            "enum": [
+              "commercial",
+              "residential",
+              "industrial",
+              "other"
+            ],
             "title": "Structure Type",
             "type": "string"
           }
@@ -339,12 +1010,204 @@
           "city",
           "structure_type",
           "incident_type",
+          "reported_by",
           "status",
           "source",
           "opened_at",
+          "activated_at",
           "closed_at"
         ],
         "title": "IncidentSummary",
+        "type": "object"
+      },
+      "IncidentUpdate": {
+        "properties": {
+          "address": {
+            "anyOf": [
+              {
+                "maxLength": 400,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Address"
+          },
+          "city": {
+            "anyOf": [
+              {
+                "maxLength": 120,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "City"
+          },
+          "incident_type": {
+            "anyOf": [
+              {
+                "enum": [
+                  "structural",
+                  "chemical",
+                  "electrical",
+                  "other"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Incident Type"
+          },
+          "reported_by": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reported By"
+          },
+          "structure_type": {
+            "anyOf": [
+              {
+                "enum": [
+                  "commercial",
+                  "residential",
+                  "industrial",
+                  "other"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Structure Type"
+          },
+          "summary_text": {
+            "anyOf": [
+              {
+                "maxLength": 10000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Summary Text"
+          }
+        },
+        "title": "IncidentUpdate",
+        "type": "object"
+      },
+      "Kpis": {
+        "properties": {
+          "ai_confidence": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ai Confidence"
+          },
+          "below_threshold": {
+            "title": "Below Threshold",
+            "type": "boolean"
+          },
+          "building_status": {
+            "enum": [
+              "unclassified",
+              "safe",
+              "caution",
+              "unsafe",
+              "blocked"
+            ],
+            "title": "Building Status",
+            "type": "string"
+          },
+          "classified": {
+            "title": "Classified",
+            "type": "integer"
+          },
+          "evac_ok_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Evac Ok Pct"
+          },
+          "evacuation_threshold_pct": {
+            "title": "Evacuation Threshold Pct",
+            "type": "integer"
+          },
+          "response_units": {
+            "title": "Response Units",
+            "type": "integer"
+          },
+          "stale_zone_seconds": {
+            "title": "Stale Zone Seconds",
+            "type": "integer"
+          },
+          "unclassified_pct": {
+            "title": "Unclassified Pct",
+            "type": "number"
+          },
+          "victims_detected": {
+            "title": "Victims Detected",
+            "type": "integer"
+          },
+          "zones_by_status": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "propertyNames": {
+              "enum": [
+                "unclassified",
+                "safe",
+                "caution",
+                "unsafe",
+                "blocked"
+              ]
+            },
+            "title": "Zones By Status",
+            "type": "object"
+          },
+          "zones_total": {
+            "title": "Zones Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "zones_total",
+          "zones_by_status",
+          "classified",
+          "building_status",
+          "evac_ok_pct",
+          "unclassified_pct",
+          "evacuation_threshold_pct",
+          "below_threshold",
+          "victims_detected",
+          "response_units",
+          "ai_confidence",
+          "stale_zone_seconds"
+        ],
+        "title": "Kpis",
         "type": "object"
       },
       "LoginIn": {
@@ -525,6 +1388,115 @@
         "title": "MobileTokenOut",
         "type": "object"
       },
+      "MyAssignment": {
+        "properties": {
+          "assigned_at": {
+            "format": "date-time",
+            "title": "Assigned At",
+            "type": "string"
+          },
+          "assigned_by": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Assigned By"
+          },
+          "device_label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Device Label"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "incident_code": {
+            "title": "Incident Code",
+            "type": "string"
+          },
+          "incident_id": {
+            "format": "uuid",
+            "title": "Incident Id",
+            "type": "string"
+          },
+          "incident_status": {
+            "enum": [
+              "draft",
+              "dispatched",
+              "active",
+              "closed"
+            ],
+            "title": "Incident Status",
+            "type": "string"
+          },
+          "unassigned_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unassigned At"
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserRef"
+          },
+          "zone_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Zone Code"
+          },
+          "zone_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Zone Id"
+          }
+        },
+        "required": [
+          "id",
+          "incident_id",
+          "zone_id",
+          "zone_code",
+          "user",
+          "device_label",
+          "assigned_at",
+          "unassigned_at",
+          "assigned_by",
+          "incident_code",
+          "incident_status"
+        ],
+        "title": "MyAssignment",
+        "type": "object"
+      },
       "PasswordReset": {
         "properties": {
           "temporary_password": {
@@ -577,6 +1549,42 @@
           "confirm"
         ],
         "title": "ResetPassword",
+        "type": "object"
+      },
+      "ResponderOut": {
+        "properties": {
+          "active_incident_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Active Incident Code"
+          },
+          "full_name": {
+            "title": "Full Name",
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "username": {
+            "title": "Username",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "full_name",
+          "username",
+          "active_incident_code"
+        ],
+        "title": "ResponderOut",
         "type": "object"
       },
       "StationRef": {
@@ -831,6 +1839,30 @@
         "title": "UserOut",
         "type": "object"
       },
+      "UserRef": {
+        "properties": {
+          "full_name": {
+            "title": "Full Name",
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "username": {
+            "title": "Username",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "full_name",
+          "username"
+        ],
+        "title": "UserRef",
+        "type": "object"
+      },
       "UserUpdate": {
         "properties": {
           "full_name": {
@@ -937,6 +1969,168 @@
           "type"
         ],
         "title": "ValidationError",
+        "type": "object"
+      },
+      "ZoneOut": {
+        "properties": {
+          "assessment_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Assessment Id"
+          },
+          "assignees": {
+            "items": {
+              "$ref": "#/components/schemas/UserRef"
+            },
+            "title": "Assignees",
+            "type": "array"
+          },
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "confidence": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Confidence"
+          },
+          "floor_id": {
+            "format": "uuid",
+            "title": "Floor Id",
+            "type": "string"
+          },
+          "floor_number": {
+            "title": "Floor Number",
+            "type": "integer"
+          },
+          "grid_col": {
+            "title": "Grid Col",
+            "type": "integer"
+          },
+          "grid_row": {
+            "title": "Grid Row",
+            "type": "integer"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Label"
+          },
+          "risk_score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Risk Score"
+          },
+          "stale": {
+            "title": "Stale",
+            "type": "boolean"
+          },
+          "status": {
+            "enum": [
+              "unclassified",
+              "safe",
+              "caution",
+              "unsafe",
+              "blocked"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "status_updated_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status Updated At"
+          },
+          "stored_status": {
+            "enum": [
+              "unclassified",
+              "safe",
+              "caution",
+              "unsafe",
+              "blocked"
+            ],
+            "title": "Stored Status",
+            "type": "string"
+          },
+          "victim_count": {
+            "title": "Victim Count",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "floor_id",
+          "floor_number",
+          "code",
+          "label",
+          "grid_row",
+          "grid_col",
+          "status",
+          "stored_status",
+          "stale",
+          "status_updated_at",
+          "risk_score",
+          "confidence",
+          "assessment_id",
+          "assignees",
+          "victim_count"
+        ],
+        "title": "ZoneOut",
+        "type": "object"
+      },
+      "ZoneUpdate": {
+        "properties": {
+          "label": {
+            "anyOf": [
+              {
+                "maxLength": 120,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Label"
+          }
+        },
+        "title": "ZoneUpdate",
         "type": "object"
       }
     }
@@ -1133,6 +2327,118 @@
         "summary": "Update Settings",
         "tags": [
           "settings"
+        ]
+      }
+    },
+    "/api/v1/alerts/{alert_id}/ack": {
+      "post": {
+        "operationId": "acknowledge_api_v1_alerts__alert_id__ack_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "alert_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Alert Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Acknowledge",
+        "tags": [
+          "alerts"
+        ]
+      }
+    },
+    "/api/v1/assignments/mine": {
+      "get": {
+        "description": "A responder's own current assignments (\"own assignment only\", HANDOFF §6).",
+        "operationId": "my_assignments_api_v1_assignments_mine_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/MyAssignment"
+                  },
+                  "title": "Response My Assignments Api V1 Assignments Mine Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "My Assignments",
+        "tags": [
+          "teams"
+        ]
+      }
+    },
+    "/api/v1/assignments/{assignment_id}": {
+      "delete": {
+        "operationId": "unassign_api_v1_assignments__assignment_id__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "assignment_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Assignment Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssignmentOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Unassign",
+        "tags": [
+          "teams"
         ]
       }
     },
@@ -1510,13 +2816,73 @@
             "schema": {
               "anyOf": [
                 {
-                  "type": "string"
+                  "items": {
+                    "enum": [
+                      "draft",
+                      "dispatched",
+                      "active",
+                      "closed"
+                    ],
+                    "type": "string"
+                  },
+                  "type": "array"
                 },
                 {
                   "type": "null"
                 }
               ],
               "title": "Status"
+            }
+          },
+          {
+            "in": "query",
+            "name": "q",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maxLength": 100,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Q"
+            }
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "From"
+            }
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "To"
             }
           },
           {
@@ -1568,6 +2934,564 @@
         "summary": "List Incidents",
         "tags": [
           "incidents"
+        ]
+      },
+      "post": {
+        "description": "Dispatch modal: incident, floors, zones and team assignments in one transaction.",
+        "operationId": "create_incident_api_v1_incidents_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IncidentCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IncidentDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Create Incident",
+        "tags": [
+          "incidents"
+        ]
+      }
+    },
+    "/api/v1/incidents/{incident_id}": {
+      "delete": {
+        "description": "Admin-only soft delete with confirmation and audit (SRS §5.5.3).",
+        "operationId": "delete_incident_api_v1_incidents__incident_id__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "incident_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Incident Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Confirm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Delete Incident",
+        "tags": [
+          "incidents"
+        ]
+      },
+      "get": {
+        "operationId": "get_incident_api_v1_incidents__incident_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "incident_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Incident Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IncidentDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Incident",
+        "tags": [
+          "incidents"
+        ]
+      },
+      "patch": {
+        "operationId": "update_incident_api_v1_incidents__incident_id__patch",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "incident_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Incident Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IncidentUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IncidentDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Update Incident",
+        "tags": [
+          "incidents"
+        ]
+      }
+    },
+    "/api/v1/incidents/{incident_id}/activate": {
+      "post": {
+        "description": "Briefing → live (teams on site, operations begin).",
+        "operationId": "activate_incident_api_v1_incidents__incident_id__activate_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "incident_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Incident Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IncidentDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Activate Incident",
+        "tags": [
+          "incidents"
+        ]
+      }
+    },
+    "/api/v1/incidents/{incident_id}/alerts": {
+      "get": {
+        "operationId": "list_alerts_api_v1_incidents__incident_id__alerts_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "incident_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Incident Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "severity",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "items": {
+                    "enum": [
+                      "crit",
+                      "warn",
+                      "info"
+                    ],
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Severity"
+            }
+          },
+          {
+            "in": "query",
+            "name": "unacknowledged",
+            "required": false,
+            "schema": {
+              "default": false,
+              "title": "Unacknowledged",
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 100,
+              "maximum": 500,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertList"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "List Alerts",
+        "tags": [
+          "alerts"
+        ]
+      }
+    },
+    "/api/v1/incidents/{incident_id}/assignments": {
+      "get": {
+        "operationId": "list_assignments_api_v1_incidents__incident_id__assignments_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "incident_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Incident Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "include_history",
+            "required": false,
+            "schema": {
+              "default": false,
+              "title": "Include History",
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/AssignmentOut"
+                  },
+                  "title": "Response List Assignments Api V1 Incidents  Incident Id  Assignments Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "List Assignments",
+        "tags": [
+          "teams"
+        ]
+      },
+      "post": {
+        "description": "Assign a responder to a zone. If already assigned in this incident, this is a\nreassignment: the old row is closed (history kept), a new one opened (SRS UC-07 AF).",
+        "operationId": "assign_api_v1_incidents__incident_id__assignments_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "incident_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Incident Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignmentCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssignmentOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Assign",
+        "tags": [
+          "teams"
+        ]
+      }
+    },
+    "/api/v1/incidents/{incident_id}/close": {
+      "post": {
+        "operationId": "close_incident_api_v1_incidents__incident_id__close_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "incident_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Incident Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Confirm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IncidentDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Close Incident",
+        "tags": [
+          "incidents"
+        ]
+      }
+    },
+    "/api/v1/incidents/{incident_id}/zones": {
+      "get": {
+        "operationId": "list_zones_api_v1_incidents__incident_id__zones_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "incident_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Incident Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ZoneOut"
+                  },
+                  "title": "Response List Zones Api V1 Incidents  Incident Id  Zones Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "List Zones",
+        "tags": [
+          "zones"
+        ]
+      }
+    },
+    "/api/v1/responders": {
+      "get": {
+        "description": "Active field responders for the dispatch form, with their current open incident.",
+        "operationId": "list_responders_api_v1_responders_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ResponderOut"
+                  },
+                  "title": "Response List Responders Api V1 Responders Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "List Responders",
+        "tags": [
+          "teams"
         ]
       }
     },
@@ -1942,6 +3866,119 @@
         "summary": "Reset Password",
         "tags": [
           "users"
+        ]
+      }
+    },
+    "/api/v1/zones/{zone_id}": {
+      "patch": {
+        "operationId": "update_zone_api_v1_zones__zone_id__patch",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "zone_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Zone Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ZoneUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ZoneOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Update Zone",
+        "tags": [
+          "zones"
+        ]
+      }
+    },
+    "/api/v1/zones/{zone_id}/assessments": {
+      "get": {
+        "description": "Zone risk history, newest first (SRS UC-05 postcondition).",
+        "operationId": "zone_assessments_api_v1_zones__zone_id__assessments_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "zone_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Zone Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "maximum": 500,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/AssessmentOut"
+                  },
+                  "title": "Response Zone Assessments Api V1 Zones  Zone Id  Assessments Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Zone Assessments",
+        "tags": [
+          "zones"
         ]
       }
     }

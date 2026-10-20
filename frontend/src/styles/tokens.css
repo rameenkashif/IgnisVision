@@ -41,6 +41,13 @@
   --font-display-ur: 'Noto Nastaliq Urdu', serif;
   --font-body-ur: 'Noto Sans Arabic', sans-serif;
   --touch-min: 48px;
+  --header-h: 56px;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --header-h: 72px;
+  }
 }
 
 html[lang='ur'] {
