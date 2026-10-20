@@ -1,0 +1,50 @@
+.hello {
+  min-height: 100vh;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 8px;
+  padding: 16px;
+  text-align: center;
+}
+.brand-mark {
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--bg-0);
+  background: linear-gradient(135deg, var(--thermal), var(--unsafe));
+}
+.hello h1 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  margin: 8px 0 0;
+}
+.sub {
+  color: var(--text-mid);
+  margin: 0;
+}
+.chip {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  color: var(--text-mid);
+}
+.chip-safe {
+  color: var(--safe);
+  background: var(--safe-dim);
+  border-color: var(--safe);
+}
+.chip-unsafe {
+  color: var(--unsafe);
+  background: var(--unsafe-dim);
+  border-color: var(--unsafe);
+}

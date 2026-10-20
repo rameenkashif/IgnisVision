@@ -1,0 +1,4 @@
+# Real model backends (ML_BACKEND=real). NOT installed by default; see docs/MODEL_INTEGRATION.md.
+torch
+ultralytics
+transformers

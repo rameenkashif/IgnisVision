@@ -1,0 +1,49 @@
+/* Ported verbatim from docs/reference/ignis_vision_dashboard.html (:root), plus SRS additions. */
+:root {
+  --bg-0: #0a0d10;
+  --bg-1: #10151a;
+  --bg-2: #161c22;
+  --bg-3: #1d242b;
+  --line: #262e36;
+  --line-soft: #1b2128;
+  --text-hi: #edeff1;
+  --text-mid: #9aa4ac;
+  --text-low: #5b646c;
+  --safe: #2fa66e;
+  --safe-dim: #173d2c;
+  --caution: #e8a93b;
+  --caution-dim: #4a3813;
+  --unsafe: #dd4a32;
+  --unsafe-dim: #4a1d14;
+  --blocked: #6b2e33;
+  --blocked-dim: #2a1416;
+  --thermal: #ff6a2b;
+  --accent: #3fa9e8;
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --font-body: 'Inter', sans-serif;
+  --sidebar-w: 224px;
+  --sidebar-w-collapsed: 64px;
+
+  /* Additions (HANDOFF §4.1) */
+  --unclassified: #4a525a;
+  --unclassified-dim: #1f252b;
+  --unclassified-pattern: repeating-linear-gradient(
+    45deg,
+    var(--unclassified-dim) 0 6px,
+    transparent 6px 12px
+  );
+  /* Victim priority — deliberately distinct from zone colours (SRS §3.1.2) */
+  --prio-critical: #ff3b5c;
+  --prio-high: #ff7a59;
+  --prio-medium: #f2c94c;
+  --prio-low: #56ccf2;
+  --font-display-ur: 'Noto Nastaliq Urdu', serif;
+  --font-body-ur: 'Noto Sans Arabic', sans-serif;
+  --touch-min: 48px;
+}
+
+html[lang='ur'] {
+  --font-display: var(--font-display-ur);
+  --font-body: var(--font-body-ur);
+}
