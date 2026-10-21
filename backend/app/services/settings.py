@@ -62,6 +62,7 @@ SCHEMAS: dict[str, Any] = {
     "rpi.weights": RpiWeights,
     "rpi.posture_scores": PostureScores,
     "rpi.low_confidence_factor": float,
+    "rpi.low_confidence_threshold": float,
     "rpi.bands": RpiBands,
     "zone_fusion": ZoneFusion,
     "stale_zone_seconds": int,
@@ -78,6 +79,7 @@ DEFAULTS: dict[str, Any] = {
     "rpi.weights": {"w_p": 0.6, "w_c": 0.25, "w_r": 0.15},
     "rpi.posture_scores": {"lying": 1.0, "bending": 0.6, "sitting": 0.5, "standing": 0.2},
     "rpi.low_confidence_factor": 0.9,
+    "rpi.low_confidence_threshold": 0.6,  # posture confidence below this → flagged
     "rpi.bands": {"critical": 0.75, "high": 0.55, "medium": 0.35},
     "zone_fusion": {
         "min_structure_share": 0.15,
@@ -109,6 +111,7 @@ PUBLIC_KEYS = {
 
 _SCALAR_BOUNDS: dict[str, tuple[float, float]] = {
     "rpi.low_confidence_factor": (0.0, 1.0),
+    "rpi.low_confidence_threshold": (0.0, 1.0),
     "stale_zone_seconds": (10, 3600),
     "rapid_change_window_s": (5, 3600),
     "analysis_failed_alert_interval_s": (10, 3600),

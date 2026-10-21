@@ -20,12 +20,13 @@ def _sig(media_id: str, exp: int) -> str:
     return hmac.new(key, f"media:{media_id}:{exp}".encode(), hashlib.sha256).hexdigest()[:32]
 
 
-def media_url(media_id: uuid.UUID | str | None) -> str | None:
+def media_url(media_id: uuid.UUID | str | None, suffix: str = "") -> str | None:
+    """Signed URL for the file (suffix "" ) or a derivative such as "/thumbnail"."""
     if media_id is None:
         return None
     exp = int(time.time()) + URL_TTL_S
     exp -= exp % 60  # stable for a minute, so cached images aren't re-downloaded every frame
-    return f"/api/v1/media/{media_id}?exp={exp}&sig={_sig(str(media_id), exp)}"
+    return f"/api/v1/media/{media_id}{suffix}?exp={exp}&sig={_sig(str(media_id), exp)}"
 
 
 def signature_valid(media_id: uuid.UUID, exp: int | None, sig: str | None) -> bool:

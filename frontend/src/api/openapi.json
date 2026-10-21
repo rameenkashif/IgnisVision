@@ -450,6 +450,33 @@
         "title": "AuditOut",
         "type": "object"
       },
+      "Body_upload_thermal_api_v1_incidents__incident_id__thermal_uploads_post": {
+        "properties": {
+          "file": {
+            "description": "Thermal image (JPEG/PNG) or video (MP4/WebM/MOV)",
+            "format": "binary",
+            "title": "File",
+            "type": "string"
+          },
+          "zone_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Zone Id"
+          }
+        },
+        "required": [
+          "file"
+        ],
+        "title": "Body_upload_thermal_api_v1_incidents__incident_id__thermal_uploads_post",
+        "type": "object"
+      },
       "CaptureTarget": {
         "properties": {
           "assigned_to_me": {
@@ -570,6 +597,179 @@
           "issued_at"
         ],
         "title": "CredentialBundle",
+        "type": "object"
+      },
+      "DetectionOut": {
+        "properties": {
+          "bbox": {
+            "items": {
+              "type": "number"
+            },
+            "title": "Bbox",
+            "type": "array"
+          },
+          "detected_at": {
+            "format": "date-time",
+            "title": "Detected At",
+            "type": "string"
+          },
+          "detection_confidence": {
+            "title": "Detection Confidence",
+            "type": "number"
+          },
+          "env_risk": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Env Risk"
+          },
+          "frame_index": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Frame Index"
+          },
+          "frame_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Frame Url"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "keypoints": {
+            "anyOf": [
+              {
+                "items": {},
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Keypoints"
+          },
+          "low_confidence": {
+            "title": "Low Confidence",
+            "type": "boolean"
+          },
+          "media_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Media Id"
+          },
+          "posture": {
+            "enum": [
+              "standing",
+              "sitting",
+              "lying",
+              "bending"
+            ],
+            "title": "Posture",
+            "type": "string"
+          },
+          "posture_confidence": {
+            "title": "Posture Confidence",
+            "type": "number"
+          },
+          "rpi_band": {
+            "enum": [
+              "critical",
+              "high",
+              "medium",
+              "low"
+            ],
+            "title": "Rpi Band",
+            "type": "string"
+          },
+          "rpi_score": {
+            "title": "Rpi Score",
+            "type": "number"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          },
+          "timestamp_ms": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Timestamp Ms"
+          },
+          "track_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Track Id"
+          },
+          "zone_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Zone Id"
+          }
+        },
+        "required": [
+          "id",
+          "media_id",
+          "zone_id",
+          "frame_index",
+          "timestamp_ms",
+          "track_id",
+          "bbox",
+          "keypoints",
+          "posture",
+          "posture_confidence",
+          "low_confidence",
+          "detection_confidence",
+          "env_risk",
+          "rpi_score",
+          "rpi_band",
+          "source",
+          "detected_at"
+        ],
+        "title": "DetectionOut",
         "type": "object"
       },
       "FloorOut": {
@@ -1134,6 +1334,109 @@
         "title": "IncidentUpdate",
         "type": "object"
       },
+      "JobOut": {
+        "properties": {
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          },
+          "finished_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Finished At"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "job_type": {
+            "title": "Job Type",
+            "type": "string"
+          },
+          "media_id": {
+            "format": "uuid",
+            "title": "Media Id",
+            "type": "string"
+          },
+          "model_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Name"
+          },
+          "model_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Version"
+          },
+          "progress": {
+            "title": "Progress",
+            "type": "number"
+          },
+          "started_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started At"
+          },
+          "status": {
+            "enum": [
+              "queued",
+              "running",
+              "done",
+              "failed"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "media_id",
+          "job_type",
+          "status",
+          "progress",
+          "error",
+          "model_name",
+          "model_version",
+          "started_at",
+          "finished_at"
+        ],
+        "title": "JobOut",
+        "type": "object"
+      },
       "Kpis": {
         "properties": {
           "ai_confidence": {
@@ -1612,6 +1915,29 @@
         "title": "ResponderOut",
         "type": "object"
       },
+      "SampleFrame": {
+        "properties": {
+          "frame_index": {
+            "title": "Frame Index",
+            "type": "integer"
+          },
+          "timestamp_ms": {
+            "title": "Timestamp Ms",
+            "type": "integer"
+          },
+          "url": {
+            "title": "Url",
+            "type": "string"
+          }
+        },
+        "required": [
+          "frame_index",
+          "timestamp_ms",
+          "url"
+        ],
+        "title": "SampleFrame",
+        "type": "object"
+      },
       "StationRef": {
         "properties": {
           "id": {
@@ -1629,6 +1955,68 @@
           "name"
         ],
         "title": "StationRef",
+        "type": "object"
+      },
+      "SyncResponse": {
+        "properties": {
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/SyncResult"
+            },
+            "title": "Results",
+            "type": "array"
+          }
+        },
+        "required": [
+          "results"
+        ],
+        "title": "SyncResponse",
+        "type": "object"
+      },
+      "SyncResult": {
+        "properties": {
+          "client_uuid": {
+            "title": "Client Uuid",
+            "type": "string"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          },
+          "incident_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Incident Id"
+          },
+          "status": {
+            "enum": [
+              "created",
+              "duplicate",
+              "error"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "client_uuid",
+          "status"
+        ],
+        "title": "SyncResult",
         "type": "object"
       },
       "TargetZone": {
@@ -1808,6 +2196,132 @@
         "title": "TargetZone",
         "type": "object"
       },
+      "ThermalUploadOut": {
+        "properties": {
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "detections": {
+            "title": "Detections",
+            "type": "integer"
+          },
+          "duration_s": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Duration S"
+          },
+          "height": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Height"
+          },
+          "job": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/JobOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "kind": {
+            "enum": [
+              "thermal_image",
+              "thermal_video"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "media_id": {
+            "format": "uuid",
+            "title": "Media Id",
+            "type": "string"
+          },
+          "people": {
+            "title": "People",
+            "type": "integer"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          },
+          "thumbnail_url": {
+            "title": "Thumbnail Url",
+            "type": "string"
+          },
+          "url": {
+            "title": "Url",
+            "type": "string"
+          },
+          "width": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Width"
+          },
+          "zone_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Zone Code"
+          },
+          "zone_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Zone Id"
+          }
+        },
+        "required": [
+          "media_id",
+          "kind",
+          "source",
+          "zone_id",
+          "zone_code",
+          "created_at",
+          "url",
+          "thumbnail_url",
+          "duration_s",
+          "width",
+          "height",
+          "job",
+          "detections",
+          "people"
+        ],
+        "title": "ThermalUploadOut",
+        "type": "object"
+      },
       "TokenOut": {
         "properties": {
           "access_token": {
@@ -1838,6 +2352,26 @@
           "user"
         ],
         "title": "TokenOut",
+        "type": "object"
+      },
+      "UploadAccepted": {
+        "properties": {
+          "job_id": {
+            "format": "uuid",
+            "title": "Job Id",
+            "type": "string"
+          },
+          "media_id": {
+            "format": "uuid",
+            "title": "Media Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "media_id",
+          "job_id"
+        ],
+        "title": "UploadAccepted",
         "type": "object"
       },
       "UserCreate": {
@@ -2171,6 +2705,249 @@
           "type"
         ],
         "title": "ValidationError",
+        "type": "object"
+      },
+      "VictimOut": {
+        "properties": {
+          "bbox": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bbox"
+          },
+          "best_detection_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Best Detection Id"
+          },
+          "detection_confidence": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Detection Confidence"
+          },
+          "env_risk": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Env Risk"
+          },
+          "first_seen_at": {
+            "format": "date-time",
+            "title": "First Seen At",
+            "type": "string"
+          },
+          "frame_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Frame Url"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "incident_id": {
+            "format": "uuid",
+            "title": "Incident Id",
+            "type": "string"
+          },
+          "last_seen_at": {
+            "format": "date-time",
+            "title": "Last Seen At",
+            "type": "string"
+          },
+          "low_confidence": {
+            "title": "Low Confidence",
+            "type": "boolean"
+          },
+          "media_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Media Id"
+          },
+          "media_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Media Url"
+          },
+          "posture": {
+            "enum": [
+              "standing",
+              "sitting",
+              "lying",
+              "bending"
+            ],
+            "title": "Posture",
+            "type": "string"
+          },
+          "posture_confidence": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Posture Confidence"
+          },
+          "rpi_band": {
+            "enum": [
+              "critical",
+              "high",
+              "medium",
+              "low"
+            ],
+            "title": "Rpi Band",
+            "type": "string"
+          },
+          "rpi_score": {
+            "title": "Rpi Score",
+            "type": "number"
+          },
+          "source": {
+            "enum": [
+              "web_upload",
+              "mobile_sync"
+            ],
+            "title": "Source",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "detected",
+              "rescued",
+              "false_positive"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "timestamp_ms": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Timestamp Ms"
+          },
+          "track_key": {
+            "title": "Track Key",
+            "type": "string"
+          },
+          "zone_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Zone Code"
+          },
+          "zone_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Zone Id"
+          }
+        },
+        "required": [
+          "id",
+          "incident_id",
+          "zone_id",
+          "zone_code",
+          "track_key",
+          "posture",
+          "posture_confidence",
+          "low_confidence",
+          "detection_confidence",
+          "rpi_score",
+          "rpi_band",
+          "env_risk",
+          "status",
+          "source",
+          "first_seen_at",
+          "last_seen_at",
+          "best_detection_id",
+          "media_id",
+          "media_url",
+          "timestamp_ms",
+          "bbox"
+        ],
+        "title": "VictimOut",
+        "type": "object"
+      },
+      "VictimUpdate": {
+        "properties": {
+          "status": {
+            "enum": [
+              "detected",
+              "rescued",
+              "false_positive"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "title": "VictimUpdate",
         "type": "object"
       },
       "ZoneOut": {
@@ -3678,6 +4455,153 @@
         ]
       }
     },
+    "/api/v1/incidents/{incident_id}/thermal-uploads": {
+      "get": {
+        "operationId": "list_thermal_uploads_api_v1_incidents__incident_id__thermal_uploads_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "incident_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Incident Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ThermalUploadOut"
+                  },
+                  "title": "Response List Thermal Uploads Api V1 Incidents  Incident Id  Thermal Uploads Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "List Thermal Uploads",
+        "tags": [
+          "thermal"
+        ]
+      },
+      "post": {
+        "description": "Accepts the file, queues analysis and returns immediately (poll GET /jobs/{id} or watch\njob.progress / victim.upserted on the incident channel).",
+        "operationId": "upload_thermal_api_v1_incidents__incident_id__thermal_uploads_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "incident_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Incident Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_upload_thermal_api_v1_incidents__incident_id__thermal_uploads_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadAccepted"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Upload Thermal",
+        "tags": [
+          "thermal"
+        ]
+      }
+    },
+    "/api/v1/incidents/{incident_id}/victims": {
+      "get": {
+        "description": "Ranked by Rescue Priority Index (highest first); rescued and false positives last.",
+        "operationId": "list_victims_api_v1_incidents__incident_id__victims_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "incident_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Incident Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/VictimOut"
+                  },
+                  "title": "Response List Victims Api V1 Incidents  Incident Id  Victims Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "List Victims",
+        "tags": [
+          "thermal"
+        ]
+      }
+    },
     "/api/v1/incidents/{incident_id}/zones": {
       "get": {
         "operationId": "list_zones_api_v1_incidents__incident_id__zones_get",
@@ -3722,6 +4646,49 @@
         "summary": "List Zones",
         "tags": [
           "zones"
+        ]
+      }
+    },
+    "/api/v1/jobs/{job_id}": {
+      "get": {
+        "operationId": "get_job_api_v1_jobs__job_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Job Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Job",
+        "tags": [
+          "thermal"
         ]
       }
     },
@@ -3794,6 +4761,246 @@
         ]
       }
     },
+    "/api/v1/media/{media_id}/detections": {
+      "get": {
+        "operationId": "media_detections_api_v1_media__media_id__detections_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "media_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Media Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/DetectionOut"
+                  },
+                  "title": "Response Media Detections Api V1 Media  Media Id  Detections Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Media Detections",
+        "tags": [
+          "thermal"
+        ]
+      }
+    },
+    "/api/v1/media/{media_id}/frames": {
+      "get": {
+        "description": "The 2 fps samples a video was analysed on (empty for images).",
+        "operationId": "media_frames_api_v1_media__media_id__frames_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "media_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Media Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/SampleFrame"
+                  },
+                  "title": "Response Media Frames Api V1 Media  Media Id  Frames Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Media Frames",
+        "tags": [
+          "thermal"
+        ]
+      }
+    },
+    "/api/v1/media/{media_id}/frames/{frame_index}": {
+      "get": {
+        "operationId": "media_frame_api_v1_media__media_id__frames__frame_index__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "media_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Media Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "frame_index",
+            "required": true,
+            "schema": {
+              "title": "Frame Index",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "exp",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Exp"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sig",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Sig"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Media Frame",
+        "tags": [
+          "thermal"
+        ]
+      }
+    },
+    "/api/v1/media/{media_id}/thumbnail": {
+      "get": {
+        "operationId": "media_thumbnail_api_v1_media__media_id__thumbnail_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "media_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Media Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "exp",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Exp"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sig",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Sig"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Media Thumbnail",
+        "tags": [
+          "thermal"
+        ]
+      }
+    },
     "/api/v1/responders": {
       "get": {
         "description": "Active field responders for the dispatch form, with their current open incident.",
@@ -3839,6 +5046,28 @@
         "summary": "Public Settings",
         "tags": [
           "settings"
+        ]
+      }
+    },
+    "/api/v1/sync/incidents": {
+      "post": {
+        "description": "application/json, or multipart/form-data with a `payload` JSON part plus thermal frame\nparts whose filenames match `frame_ref`. A duplicate returns 200 with status \"duplicate\".",
+        "operationId": "sync_incidents_api_v1_sync_incidents_post",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SyncResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Sync Incidents",
+        "tags": [
+          "mobile sync"
         ]
       }
     },
@@ -4191,6 +5420,59 @@
         "summary": "Reset Password",
         "tags": [
           "users"
+        ]
+      }
+    },
+    "/api/v1/victims/{victim_id}": {
+      "patch": {
+        "operationId": "update_victim_api_v1_victims__victim_id__patch",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "victim_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Victim Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VictimUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VictimOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Update Victim",
+        "tags": [
+          "thermal"
         ]
       }
     },

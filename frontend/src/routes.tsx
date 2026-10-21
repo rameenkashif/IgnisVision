@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { createBrowserRouter, type RouteObject } from 'react-router-dom';
 import { ComingSoon } from './components/ComingSoon';
+import { AnalysisPage } from './features/analysis/AnalysisPage';
 import { CapturePage } from './features/capture/CapturePage';
 import { HelpIndex, HelpTopic } from './features/help/Help';
 import { ChangePassword } from './features/onboarding/ChangePassword';
@@ -64,7 +65,7 @@ export const routes: RouteObject[] = [
       { path: '/home', element: <RedirectHome /> },
       { path: '/live', ...guarded('live', <LivePage />) },
       { path: '/capture', ...guarded('capture', <CapturePage />, { camera: true }) },
-      { path: '/analysis', ...guarded('analysis', <ComingSoon page="analysis" />) },
+      { path: '/analysis', ...guarded('analysis', <AnalysisPage />) },
       { path: '/reports', ...guarded('reports', <ComingSoon page="reports" />) },
       { path: '/team', ...guarded('team', <TeamPage />) },
       { path: '/trainer', ...guarded('trainer', <ComingSoon page="trainer" />) },

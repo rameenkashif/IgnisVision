@@ -417,6 +417,48 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/incidents/{incident_id}/thermal-uploads": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Thermal Uploads */
+        get: operations["list_thermal_uploads_api_v1_incidents__incident_id__thermal_uploads_get"];
+        put?: never;
+        /**
+         * Upload Thermal
+         * @description Accepts the file, queues analysis and returns immediately (poll GET /jobs/{id} or watch
+         *     job.progress / victim.upserted on the incident channel).
+         */
+        post: operations["upload_thermal_api_v1_incidents__incident_id__thermal_uploads_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/incidents/{incident_id}/victims": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Victims
+         * @description Ranked by Rescue Priority Index (highest first); rescued and false positives last.
+         */
+        get: operations["list_victims_api_v1_incidents__incident_id__victims_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/incidents/{incident_id}/zones": {
         parameters: {
             query?: never;
@@ -426,6 +468,23 @@ export interface paths {
         };
         /** List Zones */
         get: operations["list_zones_api_v1_incidents__incident_id__zones_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/jobs/{job_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Job */
+        get: operations["get_job_api_v1_jobs__job_id__get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -447,6 +506,77 @@ export interface paths {
          *     to the incident. Supports HTTP Range (video seeking).
          */
         get: operations["get_media_api_v1_media__media_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/media/{media_id}/detections": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Media Detections */
+        get: operations["media_detections_api_v1_media__media_id__detections_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/media/{media_id}/frames": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Media Frames
+         * @description The 2 fps samples a video was analysed on (empty for images).
+         */
+        get: operations["media_frames_api_v1_media__media_id__frames_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/media/{media_id}/frames/{frame_index}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Media Frame */
+        get: operations["media_frame_api_v1_media__media_id__frames__frame_index__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/media/{media_id}/thumbnail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Media Thumbnail */
+        get: operations["media_thumbnail_api_v1_media__media_id__thumbnail_get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -486,6 +616,27 @@ export interface paths {
         get: operations["public_settings_api_v1_settings_get"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/sync/incidents": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Sync Incidents
+         * @description application/json, or multipart/form-data with a `payload` JSON part plus thermal frame
+         *     parts whose filenames match `frame_ref`. A duplicate returns 200 with status "duplicate".
+         */
+        post: operations["sync_incidents_api_v1_sync_incidents_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -563,6 +714,23 @@ export interface paths {
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    "/api/v1/victims/{victim_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Update Victim */
+        patch: operations["update_victim_api_v1_victims__victim_id__patch"];
         trace?: never;
     };
     "/api/v1/zones/{zone_id}": {
@@ -766,6 +934,17 @@ export interface components {
             /** Ip */
             ip: unknown | null;
         };
+        /** Body_upload_thermal_api_v1_incidents__incident_id__thermal_uploads_post */
+        Body_upload_thermal_api_v1_incidents__incident_id__thermal_uploads_post: {
+            /**
+             * File
+             * Format: binary
+             * @description Thermal image (JPEG/PNG) or video (MP4/WebM/MOV)
+             */
+            file: string;
+            /** Zone Id */
+            zone_id?: string | null;
+        };
         /** CaptureTarget */
         CaptureTarget: {
             /** Assigned To Me */
@@ -819,6 +998,57 @@ export interface components {
             user_id: string;
             /** Username */
             username: string;
+        };
+        /** DetectionOut */
+        DetectionOut: {
+            /** Bbox */
+            bbox: number[];
+            /**
+             * Detected At
+             * Format: date-time
+             */
+            detected_at: string;
+            /** Detection Confidence */
+            detection_confidence: number;
+            /** Env Risk */
+            env_risk: number | null;
+            /** Frame Index */
+            frame_index: number | null;
+            /** Frame Url */
+            frame_url?: string | null;
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Keypoints */
+            keypoints: unknown[] | null;
+            /** Low Confidence */
+            low_confidence: boolean;
+            /** Media Id */
+            media_id: string | null;
+            /**
+             * Posture
+             * @enum {string}
+             */
+            posture: "standing" | "sitting" | "lying" | "bending";
+            /** Posture Confidence */
+            posture_confidence: number;
+            /**
+             * Rpi Band
+             * @enum {string}
+             */
+            rpi_band: "critical" | "high" | "medium" | "low";
+            /** Rpi Score */
+            rpi_score: number;
+            /** Source */
+            source: string;
+            /** Timestamp Ms */
+            timestamp_ms: number | null;
+            /** Track Id */
+            track_id: number | null;
+            /** Zone Id */
+            zone_id: string | null;
         };
         /** FloorOut */
         FloorOut: {
@@ -999,6 +1229,38 @@ export interface components {
             /** Summary Text */
             summary_text?: string | null;
         };
+        /** JobOut */
+        JobOut: {
+            /** Error */
+            error: string | null;
+            /** Finished At */
+            finished_at: string | null;
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Job Type */
+            job_type: string;
+            /**
+             * Media Id
+             * Format: uuid
+             */
+            media_id: string;
+            /** Model Name */
+            model_name: string | null;
+            /** Model Version */
+            model_version: string | null;
+            /** Progress */
+            progress: number;
+            /** Started At */
+            started_at: string | null;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "queued" | "running" | "done" | "failed";
+        };
         /** Kpis */
         Kpis: {
             /** Ai Confidence */
@@ -1166,6 +1428,15 @@ export interface components {
             /** Username */
             username: string;
         };
+        /** SampleFrame */
+        SampleFrame: {
+            /** Frame Index */
+            frame_index: number;
+            /** Timestamp Ms */
+            timestamp_ms: number;
+            /** Url */
+            url: string;
+        };
         /** StationRef */
         StationRef: {
             /**
@@ -1175,6 +1446,25 @@ export interface components {
             id: string;
             /** Name */
             name: string;
+        };
+        /** SyncResponse */
+        SyncResponse: {
+            /** Results */
+            results: components["schemas"]["SyncResult"][];
+        };
+        /** SyncResult */
+        SyncResult: {
+            /** Client Uuid */
+            client_uuid: string;
+            /** Error */
+            error?: string | null;
+            /** Incident Id */
+            incident_id?: string | null;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "created" | "duplicate" | "error";
         };
         /** TargetZone */
         TargetZone: {
@@ -1234,6 +1524,45 @@ export interface components {
             /** Victim Count */
             victim_count: number;
         };
+        /** ThermalUploadOut */
+        ThermalUploadOut: {
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /** Detections */
+            detections: number;
+            /** Duration S */
+            duration_s: number | null;
+            /** Height */
+            height: number | null;
+            job: components["schemas"]["JobOut"] | null;
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "thermal_image" | "thermal_video";
+            /**
+             * Media Id
+             * Format: uuid
+             */
+            media_id: string;
+            /** People */
+            people: number;
+            /** Source */
+            source: string;
+            /** Thumbnail Url */
+            thumbnail_url: string;
+            /** Url */
+            url: string;
+            /** Width */
+            width: number | null;
+            /** Zone Code */
+            zone_code: string | null;
+            /** Zone Id */
+            zone_id: string | null;
+        };
         /** TokenOut */
         TokenOut: {
             /** Access Token */
@@ -1248,6 +1577,19 @@ export interface components {
              */
             token_type: string;
             user: components["schemas"]["UserOut"];
+        };
+        /** UploadAccepted */
+        UploadAccepted: {
+            /**
+             * Job Id
+             * Format: uuid
+             */
+            job_id: string;
+            /**
+             * Media Id
+             * Format: uuid
+             */
+            media_id: string;
         };
         /** UserCreate */
         UserCreate: {
@@ -1353,6 +1695,85 @@ export interface components {
             msg: string;
             /** Error Type */
             type: string;
+        };
+        /** VictimOut */
+        VictimOut: {
+            /** Bbox */
+            bbox: number[] | null;
+            /** Best Detection Id */
+            best_detection_id: string | null;
+            /** Detection Confidence */
+            detection_confidence: number | null;
+            /** Env Risk */
+            env_risk: number | null;
+            /**
+             * First Seen At
+             * Format: date-time
+             */
+            first_seen_at: string;
+            /** Frame Url */
+            frame_url?: string | null;
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Incident Id
+             * Format: uuid
+             */
+            incident_id: string;
+            /**
+             * Last Seen At
+             * Format: date-time
+             */
+            last_seen_at: string;
+            /** Low Confidence */
+            low_confidence: boolean;
+            /** Media Id */
+            media_id: string | null;
+            /** Media Url */
+            media_url: string | null;
+            /**
+             * Posture
+             * @enum {string}
+             */
+            posture: "standing" | "sitting" | "lying" | "bending";
+            /** Posture Confidence */
+            posture_confidence: number | null;
+            /**
+             * Rpi Band
+             * @enum {string}
+             */
+            rpi_band: "critical" | "high" | "medium" | "low";
+            /** Rpi Score */
+            rpi_score: number;
+            /**
+             * Source
+             * @enum {string}
+             */
+            source: "web_upload" | "mobile_sync";
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "detected" | "rescued" | "false_positive";
+            /** Timestamp Ms */
+            timestamp_ms: number | null;
+            /** Track Key */
+            track_key: string;
+            /** Zone Code */
+            zone_code: string | null;
+            /** Zone Id */
+            zone_id: string | null;
+        };
+        /** VictimUpdate */
+        VictimUpdate: {
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "detected" | "rescued" | "false_positive";
         };
         /** ZoneOut */
         ZoneOut: {
@@ -2247,6 +2668,103 @@ export interface operations {
             };
         };
     };
+    list_thermal_uploads_api_v1_incidents__incident_id__thermal_uploads_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                incident_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ThermalUploadOut"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    upload_thermal_api_v1_incidents__incident_id__thermal_uploads_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                incident_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["Body_upload_thermal_api_v1_incidents__incident_id__thermal_uploads_post"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UploadAccepted"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_victims_api_v1_incidents__incident_id__victims_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                incident_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VictimOut"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     list_zones_api_v1_incidents__incident_id__zones_get: {
         parameters: {
             query?: never;
@@ -2278,7 +2796,165 @@ export interface operations {
             };
         };
     };
+    get_job_api_v1_jobs__job_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                job_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["JobOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     get_media_api_v1_media__media_id__get: {
+        parameters: {
+            query?: {
+                exp?: number | null;
+                sig?: string | null;
+            };
+            header?: never;
+            path: {
+                media_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    media_detections_api_v1_media__media_id__detections_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                media_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DetectionOut"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    media_frames_api_v1_media__media_id__frames_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                media_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SampleFrame"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    media_frame_api_v1_media__media_id__frames__frame_index__get: {
+        parameters: {
+            query?: {
+                exp?: number | null;
+                sig?: string | null;
+            };
+            header?: never;
+            path: {
+                media_id: string;
+                frame_index: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    media_thumbnail_api_v1_media__media_id__thumbnail_get: {
         parameters: {
             query?: {
                 exp?: number | null;
@@ -2346,6 +3022,26 @@ export interface operations {
                 };
                 content: {
                     "application/json": Record<string, never>;
+                };
+            };
+        };
+    };
+    sync_incidents_api_v1_sync_incidents_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SyncResponse"];
                 };
             };
         };
@@ -2541,6 +3237,41 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["PasswordReset"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_victim_api_v1_victims__victim_id__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                victim_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VictimUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VictimOut"];
                 };
             };
             /** @description Validation Error */

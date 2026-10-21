@@ -63,6 +63,9 @@ async def _clean_tables() -> AsyncIterator[None]:
         await ensure_defaults(db)
         await db.commit()
     yield
+    from app.jobs.queue import get_queue
+
+    await get_queue().shutdown()  # workers belong to this test's event loop
 
 
 @pytest.fixture

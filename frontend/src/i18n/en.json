@@ -471,5 +471,62 @@
     "exposed_rebar": "Exposed rebar",
     "collapse": "Collapse",
     "debris": "Debris"
+  },
+  "analysis": {
+    "drop": "Drop a thermal image or video here, or choose a file",
+    "choose": "Choose file",
+    "formats": "JPEG, PNG, MP4, WebM or MOV · images up to 20 MB, videos up to 300 MB",
+    "zoneOptional": "Zone (optional — used for environmental risk)",
+    "noZone": "No zone",
+    "upload": "Upload & analyse",
+    "uploading": "Uploading… {{pct}}%",
+    "queued": "Queued",
+    "running": "Analysing… {{pct}}%",
+    "done": "Done",
+    "failed": "Analysis failed",
+    "uploads": "Thermal analyses",
+    "noUploads": "No thermal uploads yet.",
+    "people": "{{count}} people",
+    "people_one": "{{count}} person",
+    "noIncident": "No active incident. Uploads open once the commander starts live monitoring.",
+    "viewer": "Detections",
+    "noPeople": "No people detected in this media. This does not guarantee that nobody is present.",
+    "frame": "Frame at {{t}} s",
+    "source": {
+      "web_upload": "Web upload",
+      "mobile_sync": "Mobile"
+    },
+    "original": "Original file"
+  },
+  "victims": {
+    "rank": "#",
+    "posture": "Posture",
+    "confidence": "Confidence",
+    "zone": "Zone",
+    "source": "Source",
+    "band": "Priority",
+    "lowConfidence": "low confidence",
+    "rescued": "Mark rescued",
+    "falsePositive": "Not a person",
+    "restore": "Restore",
+    "status": {
+      "detected": "Detected",
+      "rescued": "Rescued",
+      "false_positive": "Not a person"
+    },
+    "none": "No people detected yet.",
+    "disclaimer": "Decision support only — a missing detection does not mean nobody is present."
+  },
+  "posture": {
+    "standing": "Standing",
+    "sitting": "Sitting",
+    "lying": "Lying",
+    "bending": "Bending"
+  },
+  "band": {
+    "critical": "Critical",
+    "high": "High",
+    "medium": "Medium",
+    "low": "Low"
   }
 }

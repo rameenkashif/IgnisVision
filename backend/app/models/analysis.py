@@ -27,6 +27,9 @@ class MediaAsset(UUIDPk, Timestamps, Base):
     incident_id: Mapped[uuid.UUID | None] = mapped_column(
         ForeignKey("incidents.id", ondelete="CASCADE"), index=True
     )
+    zone_id: Mapped[uuid.UUID | None] = mapped_column(
+        ForeignKey("zones.id", ondelete="SET NULL"), index=True
+    )  # thermal uploads tagged to a zone (environmental risk for RPI)
     kind: Mapped[str] = mapped_column(str_enum(*MEDIA_KINDS, name="media_kind"), index=True)
     storage_key: Mapped[str] = mapped_column(String(400), unique=True)
     mime: Mapped[str] = mapped_column(String(100))

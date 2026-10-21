@@ -82,7 +82,7 @@ export async function activeIncident(
   ).json();
   await ctx.post(`/api/v1/incidents/${inc.id}/activate`, { headers });
   await ctx.dispose();
-  return inc as { id: string; code: string };
+  return inc as { id: string; code: string; zones: { id: string; code: string }[] };
 }
 
 /** Record speechSynthesis output (headless Chromium has no voices) as window.__spoken. */

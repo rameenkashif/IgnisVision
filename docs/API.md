@@ -1,6 +1,6 @@
 # API guide
 
-Full, always-current reference: **`/api/docs`** (OpenAPI / Swagger UI). This page covers the cross-cutting rules and the contracts that OpenAPI can't express well. The mobile-sync contract is added in Phase 5.
+Full, always-current reference: **`/api/docs`** (OpenAPI / Swagger UI). This page covers the cross-cutting rules and the contracts that OpenAPI can't express well. The mobile-sync contract is at the end.
 
 ## Conventions
 
@@ -70,7 +70,8 @@ Allowed: incident commanders, admins; field responders for an `active` incident 
 {"type": "incident.deleted", "incident_id": "…"}
 {"type": "zone.updated", "zone_id": "…", "status": "unsafe", "analysable": true, "risk_score": 0.75, "confidence": 0.8, "assessment_id": "…", "frame_url": "/api/v1/media/…?exp=…&sig=…", "overlay_url": "…", "at": "…"}
 {"type": "capture.session", "session": {"id": "…", "zone_id": "…", "zone_code": "F1-Z2", "user_id": "…", "state": "started|ended", "frames_received": 0, "frames_analysed": 0}}
-// From Phase 5: victim.upserted, job.progress
+{"type": "victim.upserted", "victim": { /* GET /incidents/{id}/victims item */ }}
+{"type": "job.progress", "job_id": "…", "media_id": "…", "status": "running", "progress": 0.4}
 ```
 
 ### `/ws/station`
@@ -105,3 +106,55 @@ Allowed: incident commanders and field responders, for any zone of an `active` i
 5. `{"type": "stop"}` ends the session cleanly. A dropped connection ends it too and raises a `camera_lost` info alert.
 
 Close codes: `4401` auth, `4403` zone not capturable (role, inactive incident), `4400` malformed start.
+
+## Thermal uploads
+
+- `POST /incidents/{id}/thermal-uploads` (multipart: `file`, optional `zone_id`) → `202 {media_id, job_id}`. JPEG/PNG ≤ 20 MB, MP4/WebM/MOV ≤ 300 MB.
+- `GET /jobs/{job_id}` → `{status: queued|running|done|failed, progress, model_name, model_version, error}`.
+- `GET /media/{media_id}/detections` → per-detection `bbox` (normalised xyxy), `keypoints`, `posture`, `low_confidence`, `rpi_score`, `rpi_band`, `frame_index`, `timestamp_ms`, `frame_url`.
+- `GET /media/{media_id}/frames` → the 2 fps samples a video was analysed on (signed `url` each).
+- `GET /incidents/{id}/victims` → ranked people (RPI desc; rescued / not-a-person last). `PATCH /victims/{id}` `{status: detected|rescued|false_positive}` (commander).
+- `GET /incidents/{id}/thermal-uploads` → upload history with job state, counts and signed URLs (commander/admin).
+
+## Mobile sync — `POST /api/v1/sync/incidents`
+
+For the Flutter app (roles: field responder, incident commander). **Idempotent**: post the same payload any number of times; each incident is created once.
+
+```jsonc
+{
+  "device_id": "android-7f3c…",
+  "app_version": "1.0.0",
+  "incidents": [{
+    "client_uuid": "c0b4e1a2-…",            // dedupe key, generated on the phone
+    "started_at": "2026-10-20T09:55:00Z",
+    "ended_at": "2026-10-20T10:20:00Z",      // omit while still ongoing → incident stays active
+    "label": "Anarkali basement",
+    "linked_incident_id": null,              // or a web incident id to attach the detections to it
+    "detections": [{
+      "client_detection_uuid": "c0b4e1a2-…-0001",
+      "captured_at": "2026-10-20T10:00:00Z",
+      "mode": "live",                        // live | still
+      "track_id": 3,                         // same id = same person
+      "bbox": [0.2, 0.3, 0.4, 0.9],          // normalised x1,y1,x2,y2
+      "keypoints": [[0.31, 0.35, 0.92], …],  // optional, 17 × [x, y, conf]
+      "posture": "lying",                    // standing | sitting | lying | bending
+      "posture_confidence": 0.81,
+      "low_confidence": false,
+      "detection_confidence": 0.88,
+      "env_risk": 0.0,                       // optional 0–1
+      "rpi_score": 0.86, "rpi_band": "critical",   // phone's values, kept for comparison
+      "frame_ref": "frame_0012.jpg"          // optional: name of a multipart file part
+    }]
+  }]
+}
+```
+
+- Content type `application/json`, **or** `multipart/form-data` with a `payload` part (the JSON above) plus image parts whose **filename** equals `frame_ref`.
+- Response `200`:
+
+  ```json
+  {"results": [{"client_uuid": "c0b4e1a2-…", "status": "created", "incident_id": "…", "error": null}]}
+  ```
+
+  `status` is `created`, `duplicate` (already received; mark as sent) or `error` (e.g. `incident_not_found` for a bad `linked_incident_id`; other items still succeed).
+- The server **recomputes RPI** with its current settings; the phone's values are stored in the detection's `meta` (`mobile_rpi`, `mobile_band`).

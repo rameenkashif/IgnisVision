@@ -14,6 +14,8 @@ import type { AlertOut, IncidentDetail, ZoneOut } from '../../api/types';
 import { AlertFeed } from '../../components/AlertFeed';
 import { Donut, EvacBar } from '../../components/Charts';
 import { KpiStrip } from '../../components/KpiStrip';
+import { VictimList } from '../../components/VictimList';
+import { useUpdateVictim, useVictims } from '../../api/thermal';
 import { ConfirmDialog } from '../../components/Modal';
 import { PageHeader } from '../../components/PageHeader';
 import { ZoneGrid, ZoneLegend } from '../../components/ZoneGrid';
@@ -28,6 +30,7 @@ import { useUi } from '../../stores/ui';
 import { useIncidentStream, useStationStream } from '../../ws/hooks';
 import { DispatchModal } from './DispatchModal';
 import { RgbPanel } from './RgbPanel';
+import { ThermalPanel } from './ThermalPanel';
 import { ZoneDrawer } from './ZoneDrawer';
 
 /** Speak newly arriving critical alerts on the commander dashboard (HANDOFF §8.4). */
@@ -237,6 +240,8 @@ function LiveView({
   const alerts = useAlerts(incident.id);
   const ack = useAckAlert(incident.id);
   const close = useCloseIncident();
+  const victims = useVictims(incident.id);
+  const updateVictim = useUpdateVictim(incident.id);
   const setKeepAlive = useUi((s) => s.setKeepAlive);
   const [zoneId, setZoneId] = useState<string | null>(null);
   const [confirmClose, setConfirmClose] = useState(false);
@@ -290,14 +295,7 @@ function LiveView({
       <KpiStrip incident={incident} />
 
       <div className="live-grid">
-        <div className="panel">
-          <div className="panel-head">
-            <h2>{t('live.thermal')}</h2>
-          </div>
-          <div className="panel-body">
-            <div className="feed-placeholder">{t('live.noThermal')}</div>
-          </div>
-        </div>
+        <ThermalPanel incidentId={incident.id} />
         <RgbPanel zones={incident.zones} />
         <div className="panel">
           <div className="panel-head">
@@ -332,7 +330,13 @@ function LiveView({
             <span className="meta">{incident.kpis.victims_detected}</span>
           </div>
           <div className="panel-body">
-            <p className="muted">{t('live.noHumans')}</p>
+            <VictimList
+              victims={victims.data ?? []}
+              onStatus={
+                canAct ? (v, status) => updateVictim.mutate({ id: v.id, status }) : undefined
+              }
+              onSelect={(v) => v.zone_id && setZoneId(v.zone_id)}
+            />
           </div>
         </div>
         <div className="panel">

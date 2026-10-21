@@ -1,6 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { keys, upsertAlert } from '../api/incidents';
+import { thermalKeys } from '../api/thermal';
 import type { AlertOut, IncidentDetail } from '../api/types';
 import { useUi } from '../stores/ui';
 import { LiveSocket, type SocketState } from './socket';
@@ -21,6 +22,7 @@ export function useIncidentStream(incidentId: string | undefined): Date | null {
             // (Re)connected: refetch everything so nothing missed while offline is lost.
             void qc.invalidateQueries({ queryKey: keys.incident(incidentId) });
             void qc.invalidateQueries({ queryKey: keys.alerts(incidentId) });
+            void qc.invalidateQueries({ queryKey: thermalKeys.victims(incidentId) });
             break;
           case 'incident.updated':
             qc.setQueryData(keys.incident(incidentId), msg.incident as IncidentDetail);
@@ -34,6 +36,13 @@ export function useIncidentStream(incidentId: string | undefined): Date | null {
             break;
           case 'zone.updated':
             break; // the incident.updated that follows carries the new aggregate
+          case 'victim.upserted':
+            void qc.invalidateQueries({ queryKey: thermalKeys.victims(incidentId) });
+            break;
+          case 'job.progress':
+            void qc.invalidateQueries({ queryKey: thermalKeys.uploads(incidentId) });
+            void qc.invalidateQueries({ queryKey: thermalKeys.job(String(msg.job_id)) });
+            break;
           case 'incident.deleted':
             void qc.invalidateQueries({ queryKey: ['incidents'] });
             break;

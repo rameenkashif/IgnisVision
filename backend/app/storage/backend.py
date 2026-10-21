@@ -1,12 +1,14 @@
 """File storage behind an interface (HANDOFF §2): local disk now, S3-compatible later."""
 
+import hashlib
 import os
 from pathlib import Path
-from typing import Protocol
+from typing import BinaryIO, Protocol
 
 
 class StorageBackend(Protocol):
     def save(self, key: str, data: bytes) -> None: ...
+    def save_stream(self, key: str, src: BinaryIO, max_bytes: int) -> tuple[int, str]: ...
     def path(self, key: str) -> Path: ...
     def delete(self, key: str) -> None: ...
     def usage_bytes(self) -> int: ...
@@ -28,6 +30,26 @@ class LocalStorage:
         tmp = p.with_suffix(p.suffix + ".tmp")
         tmp.write_bytes(data)
         tmp.replace(p)
+
+    def save_stream(self, key: str, src: BinaryIO, max_bytes: int) -> tuple[int, str]:
+        """Copy in chunks (large videos never sit in memory). Returns (size, sha256).
+        Raises ValueError("too_large") past max_bytes, leaving nothing behind."""
+        p = self._resolve(key)
+        p.parent.mkdir(parents=True, exist_ok=True)
+        tmp = p.with_suffix(p.suffix + ".tmp")
+        digest, size = hashlib.sha256(), 0
+        try:
+            with tmp.open("wb") as out:
+                while chunk := src.read(1 << 20):
+                    size += len(chunk)
+                    if size > max_bytes:
+                        raise ValueError("too_large")
+                    digest.update(chunk)
+                    out.write(chunk)
+            tmp.replace(p)
+        finally:
+            tmp.unlink(missing_ok=True)
+        return size, digest.hexdigest()
 
     def path(self, key: str) -> Path:
         return self._resolve(key)

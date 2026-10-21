@@ -117,7 +117,7 @@ textarea {
   font-family: var(--font-body);
   width: 100%;
 }
-label.field-label {
+.field-label {
   font-size: 10.5px;
   color: var(--text-low);
   font-family: var(--font-mono);

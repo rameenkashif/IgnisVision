@@ -34,6 +34,22 @@ MATRIX = [
     ("GET", "/api/v1/assignments/mine", None, ALL),
     ("GET", "/api/v1/responders", None, COMMANDER),
     ("GET", "/api/v1/capture/targets", None, {"incident_commander", "field_responder"}),
+    (
+        "POST",
+        f"/api/v1/incidents/{X}/thermal-uploads",
+        None,
+        {"incident_commander", "field_responder"},
+    ),
+    ("GET", f"/api/v1/incidents/{X}/thermal-uploads", None, INCIDENT_READERS),
+    ("GET", f"/api/v1/jobs/{X}", None, {"incident_commander", "field_responder", "admin"}),
+    ("GET", f"/api/v1/incidents/{X}/victims", None, INCIDENT_READERS),
+    ("PATCH", f"/api/v1/victims/{X}", {"status": "rescued"}, COMMANDER),
+    (
+        "POST",
+        "/api/v1/sync/incidents",
+        {"device_id": "d", "incidents": []},
+        {"incident_commander", "field_responder"},
+    ),
     ("GET", f"/api/v1/incidents/{X}/alerts", None, INCIDENT_READERS),
     ("POST", f"/api/v1/alerts/{X}/ack", None, COMMANDER),
     ("GET", "/api/v1/users", None, ADMIN),
@@ -88,6 +104,10 @@ def test_matrix_covers_every_route():
         "/api/v1/auth/mobile/login",
         "/api/v1/auth/mobile/refresh-bundle",
         "/api/v1/media/{media_id}",  # signed-URL or bearer; tested in test_capture.py
+        "/api/v1/media/{media_id}/thumbnail",  # signed-URL or bearer; test_thermal.py
+        "/api/v1/media/{media_id}/detections",  # per-incident access; test_thermal.py
+        "/api/v1/media/{media_id}/frames",  # per-incident access; test_thermal.py
+        "/api/v1/media/{media_id}/frames/{frame_index}",  # signed-URL or bearer
     }
     import re
 
