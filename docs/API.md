@@ -116,6 +116,13 @@ Close codes: `4401` auth, `4403` zone not capturable (role, inactive incident), 
 - `GET /incidents/{id}/victims` → ranked people (RPI desc; rescued / not-a-person last). `PATCH /victims/{id}` `{status: detected|rescued|false_positive}` (commander).
 - `GET /incidents/{id}/thermal-uploads` → upload history with job state, counts and signed URLs (commander/admin).
 
+## Reports
+
+- `GET /incidents/{id}/report` (commander/admin) → `{incident_id, generated_at, generated_by, narrative_en, narrative_ur, narrative_source: template|llm, stats, frames[]}`. Compiled at close (or on first request for older incidents). `409 incident_not_closed` while the incident is open.
+- `POST /incidents/{id}/report/regenerate` (commander) → recompiled report; cached PDFs are discarded.
+- `GET /incidents/{id}/report.pdf?lang=en|ur` (commander/admin) → `application/pdf` attachment `{code}-report-{lang}.pdf` (A4, bundled fonts, Urdu RTL). Cached per language until regenerated.
+- `GET /incidents?status=closed&q=&from=&to=` → incident list for the reports page (`q` matches code, address or city; `from`/`to` filter `opened_at`).
+
 ## Mobile sync — `POST /api/v1/sync/incidents`
 
 For the Flutter app (roles: field responder, incident commander). **Idempotent**: post the same payload any number of times; each incident is created once.

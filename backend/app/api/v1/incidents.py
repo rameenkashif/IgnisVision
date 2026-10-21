@@ -20,6 +20,7 @@ from app.schemas.incidents import (
 from app.schemas.users import Confirm
 from app.services import audit
 from app.services import incidents as svc
+from app.services import reports as reports_svc
 
 router = APIRouter(prefix="/incidents", tags=["incidents"])
 
@@ -130,8 +131,10 @@ async def close_incident(
     )
     for a in rows.scalars():
         a.unassigned_at = t
-    # Report compilation is attached here in Phase 6.
+    await db.flush()
+    report = await reports_svc.compile_and_store(db, inc, commander.id)  # SRS §4.7 REQ-4
     await db.commit()
+    reports_svc.schedule_enrichment(report.id)  # optional LLM narrative, in the background
     await svc.publish_incident(db, inc)
     return await svc.load_detail(db, inc)
 

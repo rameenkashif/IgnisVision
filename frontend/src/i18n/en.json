@@ -528,5 +528,92 @@
     "high": "High",
     "medium": "Medium",
     "low": "Low"
+  },
+  "reports": {
+    "filters": {
+      "status": "Status",
+      "all": "All",
+      "search": "Search code or address",
+      "from": "From",
+      "to": "To",
+      "apply": "Apply"
+    },
+    "cols": {
+      "code": "Incident",
+      "address": "Address",
+      "status": "Status",
+      "opened": "Opened",
+      "closed": "Closed",
+      "source": "Source"
+    },
+    "none": "No incidents match these filters.",
+    "open": "Open report",
+    "live": "Open live view",
+    "pdfEn": "PDF (English)",
+    "pdfUr": "PDF (اردو)",
+    "downloading": "Preparing PDF…",
+    "regenerate": "Regenerate",
+    "regenerated": "Report regenerated.",
+    "delete": "Delete incident",
+    "deleteTitle": "Delete incident {{code}}?",
+    "deleteBody": "The incident and its report are removed from all lists. The deletion is recorded in the audit log.",
+    "deleted": "Incident {{code}} deleted.",
+    "generated": "Generated {{time}}",
+    "narrativeAi": "Narrative drafted with AI from the recorded data.",
+    "notClosed": "The report is available once the incident is closed.",
+    "summary": "Summary",
+    "figures": "Key figures",
+    "zones": "Zone status",
+    "history": "Zone risk history",
+    "victims": "People detected",
+    "team": "Team assignments",
+    "alerts": "Alerts",
+    "timeline": "Timeline",
+    "frames": "Representative frames",
+    "models": "Model versions",
+    "zone": "Zone",
+    "label": "Label",
+    "final": "Final status",
+    "finalAt": "Last analysis",
+    "peak": "Peak status",
+    "analyses": "Analyses",
+    "responder": "Responder",
+    "device": "Device",
+    "from": "From",
+    "until": "Until",
+    "time": "Time",
+    "severity": {
+      "crit": "Critical",
+      "warn": "Warning",
+      "info": "Info"
+    },
+    "message": "Message",
+    "rank": "#",
+    "fig": {
+      "zones": "Zones",
+      "responders": "Responders",
+      "people": "People detected",
+      "rescued": "Rescued",
+      "crit": "Critical alerts",
+      "peak": "Highest zone risk",
+      "duration": "Duration"
+    },
+    "truncated": "{{n}} further events not shown.",
+    "none2": "None recorded.",
+    "event": {
+      "opened": "Incident opened",
+      "assigned": "{{responder}} assigned to {{zone}}",
+      "activated": "Live operations started",
+      "zone_change": "Zone {{zone}}: {{from}} → {{to}}",
+      "victim": "{{band}}-priority person ({{posture}}) in {{zone}}",
+      "capture": "Zone capture started for {{zone}} by {{responder}}",
+      "thermal_upload": "Thermal media analysed ({{source}}, {{zone}})",
+      "closed": "Incident closed by {{by}}",
+      "alert": "{{message}}"
+    },
+    "sourceIncident": {
+      "web": "Web",
+      "mobile_sync": "Mobile"
+    }
   }
 }

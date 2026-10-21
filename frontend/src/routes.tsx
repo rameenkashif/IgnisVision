@@ -12,6 +12,8 @@ import { Splash } from './features/onboarding/Splash';
 import { LivePage } from './features/live/LivePage';
 import { SettingsPage } from './features/settings/SettingsPage';
 import { TeamPage } from './features/team/TeamPage';
+import { ReportDetail } from './features/reports/ReportDetail';
+import { ReportsPage } from './features/reports/ReportsPage';
 import { AppShell, type RouteHandle } from './features/shell/AppShell';
 import {
   NotFound,
@@ -66,7 +68,8 @@ export const routes: RouteObject[] = [
       { path: '/live', ...guarded('live', <LivePage />) },
       { path: '/capture', ...guarded('capture', <CapturePage />, { camera: true }) },
       { path: '/analysis', ...guarded('analysis', <AnalysisPage />) },
-      { path: '/reports', ...guarded('reports', <ComingSoon page="reports" />) },
+      { path: '/reports', ...guarded('reports', <ReportsPage />) },
+      { path: '/reports/:incidentId', ...guarded('reports', <ReportDetail />) },
       { path: '/team', ...guarded('team', <TeamPage />) },
       { path: '/trainer', ...guarded('trainer', <ComingSoon page="trainer" />) },
       {

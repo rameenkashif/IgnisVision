@@ -26,8 +26,12 @@ class Settings(BaseSettings):
     refresh_cookie_name: str = "iv_refresh"
     refresh_cookie_path: str = "/api/v1/auth"
 
+    report_timezone: str = "Asia/Karachi"  # times in PDF reports (labelled with the zone)
+
     ml_backend: Literal["mock", "real"] = "mock"
     llm_provider: Literal["template", "anthropic"] = "template"
+    llm_model: str = "claude-opus-5-5"
+    llm_api_key: str = ""  # never logged
     tts_provider: Literal["browser"] = "browser"
 
     @model_validator(mode="after")

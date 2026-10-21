@@ -1,7 +1,8 @@
 """Idempotent seed: `python -m app.db.seed [--reset-passwords]`.
 
-Creates (only if missing): one station, one demo user per role, default system settings.
-Later phases extend this with placeholder training scenarios and a closed demo incident.
+Creates (only if missing): one station, one demo user per role, default system settings, and
+one closed demo incident with zones, analyses, team history, victims, alerts and its report.
+Later phases add placeholder training scenarios.
 
 Demo password: $SEED_PASSWORD if set, otherwise a random one printed once. Existing users are
 left untouched unless --reset-passwords is given.
@@ -15,6 +16,7 @@ import sys
 from sqlalchemy import func, select
 
 from app.core.security import hash_password, password_policy_violation
+from app.db.demo import seed_demo_incident
 from app.db.engine import SessionLocal, engine
 from app.models import Station, User
 from app.services.settings import ensure_defaults
@@ -69,6 +71,8 @@ async def seed(reset_passwords: bool = False) -> dict:
                 reset.append(username)
 
         settings_added = await ensure_defaults(db)
+        await db.flush()
+        demo = await seed_demo_incident(db, station)
         await db.commit()
     await engine.dispose()
     return {
@@ -76,6 +80,7 @@ async def seed(reset_passwords: bool = False) -> dict:
         "created": created,
         "reset": reset,
         "settings_added": settings_added,
+        "demo_incident": demo,
     }
 
 
@@ -87,6 +92,7 @@ def main() -> None:
 
     print(f"Station ready: {STATION['name']}")
     print(f"System settings added: {result['settings_added']}")
+    print(f"Demo incident: {result['demo_incident']}")
     if result["created"] or result["reset"]:
         print("Demo accounts:", ", ".join(result["created"] + result["reset"]))
         print(f"Demo password (all accounts): {result['password']}")
