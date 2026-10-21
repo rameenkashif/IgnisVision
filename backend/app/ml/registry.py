@@ -80,6 +80,20 @@ def set_models(models: Models | None) -> None:
     _models = models
 
 
+def reference_models() -> Models:
+    """Models for trainer reference outputs (HANDOFF §9.6). Real backends use the loaded
+    models as-is. With mocks, damage follows what the image shows (painted_damage_level)
+    rather than the live-capture storyline, so references are deterministic."""
+    models = get_models()
+    if models.backend != "mock":
+        return models
+    from app.ml.mock.models import MockDamageSegmenter, painted_damage_level
+
+    return Models(
+        "mock", models.pose, models.segmenter, MockDamageSegmenter(level_fn=painted_damage_level)
+    )
+
+
 def capture_started() -> None:
     """Hook for the capture stream: lets mock storylines start fresh for each session.
     Real models ignore it."""

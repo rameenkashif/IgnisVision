@@ -28,3 +28,4 @@ extend-immutable-calls = ["fastapi.Query", "fastapi.Depends", "fastapi.Body", "f
 "app/reports/labels.py" = ["E501"]
 "app/reports/pdf.py" = ["E501"]
 "app/db/demo.py" = ["E501"]
+"app/db/placeholders.py" = ["E501"]

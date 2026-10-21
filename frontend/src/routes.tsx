@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { createBrowserRouter, type RouteObject } from 'react-router-dom';
+import { createBrowserRouter, Navigate, type RouteObject } from 'react-router-dom';
 import { ComingSoon } from './components/ComingSoon';
 import { AnalysisPage } from './features/analysis/AnalysisPage';
 import { CapturePage } from './features/capture/CapturePage';
@@ -12,6 +12,12 @@ import { Splash } from './features/onboarding/Splash';
 import { LivePage } from './features/live/LivePage';
 import { SettingsPage } from './features/settings/SettingsPage';
 import { TeamPage } from './features/team/TeamPage';
+import { AttemptPage } from './features/trainer/AttemptPage';
+import { AttemptResult } from './features/trainer/AttemptResult';
+import { TrainerPage } from './features/trainer/TrainerPage';
+import { TrainerResults } from './features/trainer/TrainerResults';
+import { AdminScenarios } from './features/admin/AdminScenarios';
+import { ScenarioEditor } from './features/admin/ScenarioEditor';
 import { ReportDetail } from './features/reports/ReportDetail';
 import { ReportsPage } from './features/reports/ReportsPage';
 import { AppShell, type RouteHandle } from './features/shell/AppShell';
@@ -71,11 +77,21 @@ export const routes: RouteObject[] = [
       { path: '/reports', ...guarded('reports', <ReportsPage />) },
       { path: '/reports/:incidentId', ...guarded('reports', <ReportDetail />) },
       { path: '/team', ...guarded('team', <TeamPage />) },
-      { path: '/trainer', ...guarded('trainer', <ComingSoon page="trainer" />) },
+      { path: '/trainer', ...guarded('trainer', <TrainerPage />) },
       {
         path: '/trainer/results',
-        ...guarded('trainerResults', <ComingSoon page="trainerResults" />, { help: 'trainer' }),
+        ...guarded('trainerResults', <TrainerResults />, { help: 'trainer' }),
       },
+      // Results: the owner (any trainer role) or staff/commanders/admins; the API decides.
+      {
+        path: '/trainer/attempts/:attemptId',
+        element: <AttemptResult />,
+        handle: { help: 'trainer' },
+      },
+      { path: '/trainer/:scenarioId', ...guarded('trainer', <AttemptPage />) },
+      { path: '/admin', element: <Navigate to="/admin/scenarios" replace /> },
+      { path: '/admin/scenarios', ...guarded('admin', <AdminScenarios />) },
+      { path: '/admin/scenarios/:scenarioId', ...guarded('admin', <ScenarioEditor />) },
       { path: '/admin/*', ...guarded('admin', <ComingSoon page="admin" />) },
       { path: '/settings', ...guarded('settings', <SettingsPage />) },
       { path: '/help', element: <HelpIndex />, handle: { help: 'getting-started' } },

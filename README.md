@@ -21,7 +21,7 @@ docker compose exec backend python -m app.db.seed          # prints the demo pas
 # or choose it: docker compose exec -e SEED_PASSWORD=YourPass123 backend python -m app.db.seed
 ```
 
-Demo accounts (one per role): `admin`, `commander1`, `responder1`, `trainee1`, `trainer1`.
+Demo accounts (one per role): `admin`, `commander1`, `responder1`, `trainee1`, `trainer1`. The seed also adds a closed demo incident with its report and three PLACEHOLDER training scenarios.
 
 Open **https://localhost**. For a demo storyline (safe → caution → unsafe while capturing) set `MOCK_SCENARIO=escalating` in `.env`. Health: `https://localhost/api/v1/health`, readiness (checks DB): `/api/v1/health/ready`, API docs: `/api/docs`.
 
@@ -37,9 +37,9 @@ docker compose cp caddy:/data/caddy/pki/authorities/local/root.crt ./caddy-root.
 
 `getUserMedia` needs HTTPS. Set `SITE_ADDRESS` to this machine's LAN IP (e.g. `192.168.1.20`) and `CORS_ORIGINS=["https://192.168.1.20"]` in `.env`, run `docker compose up -d`, then install `caddy-root.crt` (above) on the phone (iOS: AirDrop it → Settings → Profile → install, then Settings → General → About → Certificate Trust Settings; Android: Settings → Security → Install certificate → CA). Alternatively use [mkcert](https://github.com/FiloSottile/mkcert) (`mkcert 192.168.1.20`, mount the files into the caddy container, and replace `tls internal` with `tls /certs/cert.pem /certs/key.pem`).
 
-### AI-drafted report narratives (optional)
+### AI-drafted text (optional)
 
-Reports always get a template narrative in English and Urdu. To have Claude rewrite it from the recorded facts, set `LLM_PROVIDER=anthropic` and `LLM_API_KEY=…` in `.env` (never commit it), restart the backend, and turn on `llm.features.report_narrative` (admin: `PATCH /api/v1/admin/settings`; the admin screen arrives in Phase 8). If the API is unreachable the template narrative is kept.
+Reports always get a template narrative in English and Urdu. To have Claude rewrite it from the recorded facts, set `LLM_PROVIDER=anthropic` and `LLM_API_KEY=…` in `.env` (never commit it), restart the backend, and turn on `llm.features.report_narrative` (admin: `PATCH /api/v1/admin/settings`; the admin screen arrives in Phase 8). Trainer feedback works the same way with `llm.features.trainer_feedback`. If the API is unreachable the template text is kept, and scores never depend on the LLM.
 
 ## Development
 
@@ -92,4 +92,4 @@ docker compose exec -T db pg_restore -U ignis -d ignis --clean --if-exists < bac
 
 ## Status
 
-Phase 0 (scaffold, Docker, HTTPS, CI) Phase 1 (database schema, auth, RBAC, user admin, audit, settings) Phase 2 (frontend shell: splash, sign-in, language + RTL, onboarding, role-based navigation, indicators, help skeleton, settings) Phase 3 (incidents, zones, teams, alerts, live dashboard, WebSocket channels) Phase 4 (ML seam with mock models, zone risk fusion, phone zone capture, spoken alerts) Phase 5 (thermal image/video uploads, job queue, tracking, Rescue Priority Index, ranked victims, mobile sync) and Phase 6 (incident reports, EN/UR PDF export, optional AI-drafted narrative) complete. Model integration: [`docs/MODEL_INTEGRATION.md`](docs/MODEL_INTEGRATION.md). See `HANDOFF.md` §13 for the phase plan.
+Phase 0 (scaffold, Docker, HTTPS, CI) Phase 1 (database schema, auth, RBAC, user admin, audit, settings) Phase 2 (frontend shell: splash, sign-in, language + RTL, onboarding, role-based navigation, indicators, help skeleton, settings) Phase 3 (incidents, zones, teams, alerts, live dashboard, WebSocket channels) Phase 4 (ML seam with mock models, zone risk fusion, phone zone capture, spoken alerts) Phase 5 (thermal image/video uploads, job queue, tracking, Rescue Priority Index, ranked victims, mobile sync) Phase 6 (incident reports, EN/UR PDF export, optional AI-drafted narrative) and Phase 7 (simulation trainer: placeholder scenarios, labelling tool, reference outputs through the model seam, grading, results and progress views, optional AI feedback) complete. Model integration: [`docs/MODEL_INTEGRATION.md`](docs/MODEL_INTEGRATION.md). See `HANDOFF.md` §13 for the phase plan.

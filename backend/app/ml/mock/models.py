@@ -1,3 +1,5 @@
+from collections.abc import Callable
+
 import numpy as np
 
 from app.ml.contracts import (
@@ -51,8 +53,13 @@ class MockDamageSegmenter:
     name = "mock-yolo-seg"
     version = VERSION
 
-    def __init__(self, clock: ScenarioClock | None = None):
+    def __init__(
+        self,
+        clock: ScenarioClock | None = None,
+        level_fn: Callable[[np.ndarray], int] | None = None,
+    ):
         self.clock = clock or ScenarioClock()
+        self.level_fn = level_fn  # set for trainer references: damage level read from the image
 
     def load(self) -> None:
         pass
@@ -61,7 +68,7 @@ class MockDamageSegmenter:
         h, w = image_rgb.shape[:2]
         if _is_obscured(image_rgb):
             return []
-        level = self.clock.level()
+        level = self.level_fn(image_rgb) if self.level_fn else self.clock.level()
         rng = np.random.default_rng(image_seed(image_rgb) ^ level)
         # Kept on the wall band (left of the mock door at x ≥ 0.55, above the floor at y ≥ 0.68).
         x, y = rng.uniform(0.08, 0.25), rng.uniform(0.3, 0.38)
@@ -78,6 +85,15 @@ class MockDamageSegmenter:
             _rect_instance("debris", 0.81, h, w, 0.0, 0.62, 1.0, 1.0),
             _rect_instance("collapse", 0.77, h, w, 0.5, 0.3, 0.9, 0.75),
         ]
+
+
+def painted_damage_level(img: np.ndarray) -> int:
+    """Damage level from the share of very dark pixels (cracks, spalling, debris painted in dark
+    tones). Lets the trainer's mock reference output follow what an image shows instead of the
+    live-capture storyline clock; real models never use this."""
+    luma = img[..., :3] @ np.array([0.299, 0.587, 0.114]) if img.ndim == 3 else img
+    dark = float((luma < 50).mean())
+    return 0 if dark < 0.008 else 1 if dark < 0.05 else 2 if dark < 0.18 else 3
 
 
 class MockThermalPose:

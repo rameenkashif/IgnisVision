@@ -123,6 +123,18 @@ Close codes: `4401` auth, `4403` zone not capturable (role, inactive incident), 
 - `GET /incidents/{id}/report.pdf?lang=en|ur` (commander/admin) → `application/pdf` attachment `{code}-report-{lang}.pdf` (A4, bundled fonts, Urdu RTL). Cached per language until regenerated.
 - `GET /incidents?status=closed&q=&from=&to=` → incident list for the reports page (`q` matches code, address or city; `from`/`to` filter `opened_at`).
 
+## Simulation trainer
+
+Ground-truth format: HANDOFF §9.6, plus optional `frame_s` (seconds; the labelled frame of a video). Coordinates are normalised 0–1.
+
+- `GET /training/scenarios` (commander, responder, training staff, trainee) → active scenarios with at least one ready item, with your `attempts` and `best_score`.
+- `GET /training/scenarios/{id}` → items **without** labels: `{id, type: zone|posture, media_kind, media_url, frame_s, regions: [{id, polygon}], people: [{id, bbox}]}`.
+- `POST /training/scenarios/{id}/attempts` → `201` attempt with the items. `409 scenario_not_ready` if nothing is ready.
+- `POST /training/attempts/{id}/submit` `{answers: {item_id: {regions: {r1: "unsafe"}, people: {p1: "lying"}}}}` → graded attempt: `score_pct`, `correct_targets`, `total_targets`, `model_agreement_pct`, and per item `ground_truth`, `reference_output`, `answer`, `score`, `targets: [{id, answer, truth, model, credit, correct, agrees_with_model}]`. Owner only; `409 attempt_already_submitted` the second time.
+- `GET /training/attempts?user_id=&scenario_id=` → own attempts; training staff, commanders and admins may list anyone's. `GET /training/attempts/{id}` → the same result view (`llm_feedback`, `llm_feedback_pending` when AI feedback is on).
+
+Admin (`/admin/scenarios`): `GET`, `POST {title_en, title_ur, description_en, description_ur, difficulty 1–5, kind: zone|posture|mixed, is_active}`, `GET/PATCH /{id}`, `DELETE /{id}` `{confirm: true}` (removes attempts too), `POST /{id}/items` (multipart `file` JPEG/PNG ≤ 20 MB or MP4/WebM/MOV ≤ 300 MB, optional `ground_truth` JSON), `PATCH /{id}/items/{item_id}` `{ground_truth?, order?}` (recomputes the reference), `DELETE /{id}/items/{item_id}`, `POST /{id}/recompute-reference` → `{computed, skipped, failed, model_version}`.
+
 ## Mobile sync — `POST /api/v1/sync/incidents`
 
 For the Flutter app (roles: field responder, incident commander). **Idempotent**: post the same payload any number of times; each incident is created once.

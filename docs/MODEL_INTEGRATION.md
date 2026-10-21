@@ -78,4 +78,7 @@ On CPU, SegFormer-B2 at 512×512 plus YOLO-seg typically fit in well under a sec
 
 - Bump `self.version` (automatic if it includes the weights hash).
 - Re-run the acceptance test.
-- Recompute the trainer's stored reference outputs: **Admin → Scenarios → Recompute reference**, or `POST /api/v1/admin/scenarios/{id}/recompute-reference` (Phase 7). Items without a reference output are hidden from trainees.
+- Recompute the trainer's stored reference outputs, all at once:
+  `docker compose exec backend python -m app.db.recompute_references`
+  (exits non-zero if any item failed), or per scenario: **Administration → Training scenarios → *scenario* → Recompute reference outputs** (`POST /api/v1/admin/scenarios/{id}/recompute-reference`). Saving an item's labels also recomputes that item.
+  How references are made: zone items crop each labelled region's bounding box and run segmentation + damage + zone fusion on it (same thresholds as live capture); posture items run the pose detector on the labelled frame and match detections to labelled people by IoU ≥ 0.3 (unmatched = "not detected"). Videos use the frame at `ground_truth.frame_s`. Items without a reference output are hidden from trainees. With `ML_BACKEND=mock`, damage in references follows the very dark pixels painted in the image (`painted_damage_level`) instead of the live storyline clock; real models never use that.

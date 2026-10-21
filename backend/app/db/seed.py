@@ -1,7 +1,8 @@
 """Idempotent seed: `python -m app.db.seed [--reset-passwords]`.
 
 Creates (only if missing): one station, one demo user per role, default system settings, and
-one closed demo incident with zones, analyses, team history, victims, alerts and its report.
+one closed demo incident with zones, analyses, team history, victims, alerts and its report,
+and three PLACEHOLDER training scenarios (DECISIONS Q2).
 Later phases add placeholder training scenarios.
 
 Demo password: $SEED_PASSWORD if set, otherwise a random one printed once. Existing users are
@@ -18,6 +19,7 @@ from sqlalchemy import func, select
 from app.core.security import hash_password, password_policy_violation
 from app.db.demo import seed_demo_incident
 from app.db.engine import SessionLocal, engine
+from app.db.placeholders import seed_placeholder_scenarios
 from app.models import Station, User
 from app.services.settings import ensure_defaults
 from app.services.users_util import temporary_password
@@ -73,6 +75,8 @@ async def seed(reset_passwords: bool = False) -> dict:
         settings_added = await ensure_defaults(db)
         await db.flush()
         demo = await seed_demo_incident(db, station)
+        admin = (await db.execute(select(User).where(User.username == "admin"))).scalar_one()
+        scenarios = await seed_placeholder_scenarios(db, admin.id)
         await db.commit()
     await engine.dispose()
     return {
@@ -81,6 +85,7 @@ async def seed(reset_passwords: bool = False) -> dict:
         "reset": reset,
         "settings_added": settings_added,
         "demo_incident": demo,
+        "scenarios": scenarios,
     }
 
 
@@ -93,6 +98,7 @@ def main() -> None:
     print(f"Station ready: {STATION['name']}")
     print(f"System settings added: {result['settings_added']}")
     print(f"Demo incident: {result['demo_incident']}")
+    print(f"Placeholder training scenarios added: {len(result['scenarios'])}")
     if result["created"] or result["reset"]:
         print("Demo accounts:", ", ".join(result["created"] + result["reset"]))
         print(f"Demo password (all accounts): {result['password']}")

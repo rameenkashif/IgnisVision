@@ -65,6 +65,24 @@ class VideoSampler:
         self.cap.release()
 
 
+def read_video_frame(path: str, t_s: float) -> np.ndarray:
+    """RGB frame at t_s seconds (the frame a trainer item was labelled on)."""
+    cap = cv2.VideoCapture(path)
+    try:
+        if not cap.isOpened():
+            raise ValueError("unreadable_video")
+        cap.set(cv2.CAP_PROP_POS_MSEC, max(0.0, t_s) * 1000.0)
+        ok, bgr = cap.read()
+        if not ok:  # past the end: fall back to the first frame
+            cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
+            ok, bgr = cap.read()
+        if not ok:
+            raise ValueError("unreadable_video")
+        return _fit(cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB))
+    finally:
+        cap.release()
+
+
 def frame_jpeg(rgb: np.ndarray, width: int = 960) -> bytes:
     img = Image.fromarray(rgb)
     if img.width > width:

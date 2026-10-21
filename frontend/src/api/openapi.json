@@ -1,6 +1,340 @@
 {
   "components": {
     "schemas": {
+      "AdminItem": {
+        "properties": {
+          "duration_s": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Duration S"
+          },
+          "ground_truth": {
+            "title": "Ground Truth",
+            "type": "object"
+          },
+          "height": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Height"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "media_id": {
+            "format": "uuid",
+            "title": "Media Id",
+            "type": "string"
+          },
+          "media_kind": {
+            "enum": [
+              "image",
+              "video"
+            ],
+            "title": "Media Kind",
+            "type": "string"
+          },
+          "media_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Media Url"
+          },
+          "order": {
+            "title": "Order",
+            "type": "integer"
+          },
+          "reference_model_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reference Model Version"
+          },
+          "reference_output": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reference Output"
+          },
+          "usable": {
+            "title": "Usable",
+            "type": "boolean"
+          },
+          "width": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Width"
+          }
+        },
+        "required": [
+          "id",
+          "order",
+          "media_id",
+          "media_kind",
+          "media_url",
+          "width",
+          "height",
+          "duration_s",
+          "ground_truth",
+          "reference_output",
+          "reference_model_version",
+          "usable"
+        ],
+        "title": "AdminItem",
+        "type": "object"
+      },
+      "AdminScenario": {
+        "properties": {
+          "attempts": {
+            "default": 0,
+            "title": "Attempts",
+            "type": "integer"
+          },
+          "best_score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Best Score"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "description_en": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description En"
+          },
+          "description_ur": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description Ur"
+          },
+          "difficulty": {
+            "title": "Difficulty",
+            "type": "integer"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "is_active": {
+            "title": "Is Active",
+            "type": "boolean"
+          },
+          "is_placeholder": {
+            "title": "Is Placeholder",
+            "type": "boolean"
+          },
+          "item_count": {
+            "title": "Item Count",
+            "type": "integer"
+          },
+          "kind": {
+            "enum": [
+              "zone",
+              "posture",
+              "mixed"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "title_en": {
+            "title": "Title En",
+            "type": "string"
+          },
+          "title_ur": {
+            "title": "Title Ur",
+            "type": "string"
+          },
+          "usable_count": {
+            "title": "Usable Count",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "title_en",
+          "title_ur",
+          "description_en",
+          "description_ur",
+          "difficulty",
+          "kind",
+          "is_placeholder",
+          "item_count",
+          "is_active",
+          "usable_count",
+          "created_at"
+        ],
+        "title": "AdminScenario",
+        "type": "object"
+      },
+      "AdminScenarioDetail": {
+        "properties": {
+          "attempts": {
+            "default": 0,
+            "title": "Attempts",
+            "type": "integer"
+          },
+          "best_score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Best Score"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "description_en": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description En"
+          },
+          "description_ur": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description Ur"
+          },
+          "difficulty": {
+            "title": "Difficulty",
+            "type": "integer"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "is_active": {
+            "title": "Is Active",
+            "type": "boolean"
+          },
+          "is_placeholder": {
+            "title": "Is Placeholder",
+            "type": "boolean"
+          },
+          "item_count": {
+            "title": "Item Count",
+            "type": "integer"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/AdminItem"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "kind": {
+            "enum": [
+              "zone",
+              "posture",
+              "mixed"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "title_en": {
+            "title": "Title En",
+            "type": "string"
+          },
+          "title_ur": {
+            "title": "Title Ur",
+            "type": "string"
+          },
+          "usable_count": {
+            "title": "Usable Count",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "title_en",
+          "title_ur",
+          "description_en",
+          "description_ur",
+          "difficulty",
+          "kind",
+          "is_placeholder",
+          "item_count",
+          "is_active",
+          "usable_count",
+          "created_at",
+          "items"
+        ],
+        "title": "AdminScenarioDetail",
+        "type": "object"
+      },
       "AlertList": {
         "properties": {
           "items": {
@@ -110,6 +444,38 @@
           "created_at"
         ],
         "title": "AlertOut",
+        "type": "object"
+      },
+      "Answer": {
+        "properties": {
+          "people": {
+            "additionalProperties": {
+              "enum": [
+                "standing",
+                "sitting",
+                "lying",
+                "bending"
+              ],
+              "type": "string"
+            },
+            "title": "People",
+            "type": "object"
+          },
+          "regions": {
+            "additionalProperties": {
+              "enum": [
+                "safe",
+                "caution",
+                "unsafe",
+                "blocked"
+              ],
+              "type": "string"
+            },
+            "title": "Regions",
+            "type": "object"
+          }
+        },
+        "title": "Answer",
         "type": "object"
       },
       "AssessmentOut": {
@@ -340,6 +706,237 @@
         "title": "AssignmentOut",
         "type": "object"
       },
+      "AttemptOut": {
+        "properties": {
+          "correct_targets": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Correct Targets"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ItemResult"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "llm_feedback": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Llm Feedback"
+          },
+          "llm_feedback_pending": {
+            "title": "Llm Feedback Pending",
+            "type": "boolean"
+          },
+          "model_agreement_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Agreement Pct"
+          },
+          "scenario": {
+            "$ref": "#/components/schemas/ScenarioSummary"
+          },
+          "scenario_id": {
+            "format": "uuid",
+            "title": "Scenario Id",
+            "type": "string"
+          },
+          "scenario_title_en": {
+            "title": "Scenario Title En",
+            "type": "string"
+          },
+          "scenario_title_ur": {
+            "title": "Scenario Title Ur",
+            "type": "string"
+          },
+          "score_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Score Pct"
+          },
+          "started_at": {
+            "format": "date-time",
+            "title": "Started At",
+            "type": "string"
+          },
+          "submitted_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Submitted At"
+          },
+          "total_targets": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Targets"
+          },
+          "user_id": {
+            "format": "uuid",
+            "title": "User Id",
+            "type": "string"
+          },
+          "user_name": {
+            "title": "User Name",
+            "type": "string"
+          },
+          "username": {
+            "title": "Username",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "scenario_id",
+          "scenario_title_en",
+          "scenario_title_ur",
+          "user_id",
+          "user_name",
+          "username",
+          "started_at",
+          "submitted_at",
+          "score_pct",
+          "model_agreement_pct",
+          "scenario",
+          "items",
+          "llm_feedback",
+          "llm_feedback_pending",
+          "correct_targets",
+          "total_targets"
+        ],
+        "title": "AttemptOut",
+        "type": "object"
+      },
+      "AttemptSummary": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "model_agreement_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Agreement Pct"
+          },
+          "scenario_id": {
+            "format": "uuid",
+            "title": "Scenario Id",
+            "type": "string"
+          },
+          "scenario_title_en": {
+            "title": "Scenario Title En",
+            "type": "string"
+          },
+          "scenario_title_ur": {
+            "title": "Scenario Title Ur",
+            "type": "string"
+          },
+          "score_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Score Pct"
+          },
+          "started_at": {
+            "format": "date-time",
+            "title": "Started At",
+            "type": "string"
+          },
+          "submitted_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Submitted At"
+          },
+          "user_id": {
+            "format": "uuid",
+            "title": "User Id",
+            "type": "string"
+          },
+          "user_name": {
+            "title": "User Name",
+            "type": "string"
+          },
+          "username": {
+            "title": "Username",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "scenario_id",
+          "scenario_title_en",
+          "scenario_title_ur",
+          "user_id",
+          "user_name",
+          "username",
+          "started_at",
+          "submitted_at",
+          "score_pct",
+          "model_agreement_pct"
+        ],
+        "title": "AttemptSummary",
+        "type": "object"
+      },
       "AuditList": {
         "properties": {
           "items": {
@@ -448,6 +1045,33 @@
           "created_at"
         ],
         "title": "AuditOut",
+        "type": "object"
+      },
+      "Body_add_item_api_v1_admin_scenarios__scenario_id__items_post": {
+        "properties": {
+          "file": {
+            "description": "Image (JPEG/PNG) or video (MP4/WebM/MOV)",
+            "format": "binary",
+            "title": "File",
+            "type": "string"
+          },
+          "ground_truth": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "JSON, HANDOFF §9.6 format",
+            "title": "Ground Truth"
+          }
+        },
+        "required": [
+          "file"
+        ],
+        "title": "Body_add_item_api_v1_admin_scenarios__scenario_id__items_post",
         "type": "object"
       },
       "Body_upload_thermal_api_v1_incidents__incident_id__thermal_uploads_post": {
@@ -794,6 +1418,157 @@
           "label"
         ],
         "title": "FloorOut",
+        "type": "object"
+      },
+      "GTPerson": {
+        "properties": {
+          "bbox": {
+            "maxItems": 4,
+            "minItems": 4,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Bbox",
+            "type": "array"
+          },
+          "id": {
+            "maxLength": 40,
+            "minLength": 1,
+            "title": "Id",
+            "type": "string"
+          },
+          "posture": {
+            "enum": [
+              "standing",
+              "sitting",
+              "lying",
+              "bending"
+            ],
+            "title": "Posture",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "bbox",
+          "posture"
+        ],
+        "title": "GTPerson",
+        "type": "object"
+      },
+      "GTRegion": {
+        "properties": {
+          "id": {
+            "maxLength": 40,
+            "minLength": 1,
+            "title": "Id",
+            "type": "string"
+          },
+          "polygon": {
+            "items": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "type": "array"
+            },
+            "maxItems": 64,
+            "minItems": 3,
+            "title": "Polygon",
+            "type": "array"
+          },
+          "status": {
+            "enum": [
+              "safe",
+              "caution",
+              "unsafe",
+              "blocked"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "polygon",
+          "status"
+        ],
+        "title": "GTRegion",
+        "type": "object"
+      },
+      "GroundTruth": {
+        "description": "HANDOFF §9.6 ground-truth format; `frame_s` picks the labelled frame of a video.",
+        "properties": {
+          "explanation_en": {
+            "default": "",
+            "maxLength": 4000,
+            "title": "Explanation En",
+            "type": "string"
+          },
+          "explanation_ur": {
+            "default": "",
+            "maxLength": 4000,
+            "title": "Explanation Ur",
+            "type": "string"
+          },
+          "frame_s": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Frame S"
+          },
+          "people": {
+            "items": {
+              "$ref": "#/components/schemas/GTPerson"
+            },
+            "maxItems": 64,
+            "title": "People",
+            "type": "array"
+          },
+          "regions": {
+            "items": {
+              "$ref": "#/components/schemas/GTRegion"
+            },
+            "maxItems": 64,
+            "title": "Regions",
+            "type": "array"
+          },
+          "type": {
+            "enum": [
+              "zone",
+              "posture"
+            ],
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "title": "GroundTruth",
         "type": "object"
       },
       "HTTPValidationError": {
@@ -1334,6 +2109,299 @@
         "title": "IncidentUpdate",
         "type": "object"
       },
+      "ItemPatch": {
+        "properties": {
+          "ground_truth": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/GroundTruth"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "order": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Order"
+          }
+        },
+        "title": "ItemPatch",
+        "type": "object"
+      },
+      "ItemPublic": {
+        "properties": {
+          "frame_s": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Frame S"
+          },
+          "height": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Height"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "media_kind": {
+            "enum": [
+              "image",
+              "video"
+            ],
+            "title": "Media Kind",
+            "type": "string"
+          },
+          "media_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Media Url"
+          },
+          "order": {
+            "title": "Order",
+            "type": "integer"
+          },
+          "people": {
+            "items": {
+              "$ref": "#/components/schemas/PublicPerson"
+            },
+            "title": "People",
+            "type": "array"
+          },
+          "regions": {
+            "items": {
+              "$ref": "#/components/schemas/PublicRegion"
+            },
+            "title": "Regions",
+            "type": "array"
+          },
+          "type": {
+            "enum": [
+              "zone",
+              "posture"
+            ],
+            "title": "Type",
+            "type": "string"
+          },
+          "width": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Width"
+          }
+        },
+        "required": [
+          "id",
+          "order",
+          "type",
+          "media_kind",
+          "media_url",
+          "width",
+          "height",
+          "frame_s",
+          "regions",
+          "people"
+        ],
+        "title": "ItemPublic",
+        "type": "object"
+      },
+      "ItemResult": {
+        "description": "Result fields stay empty until the attempt is submitted.",
+        "properties": {
+          "answer": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Answer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "frame_s": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Frame S"
+          },
+          "ground_truth": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ground Truth"
+          },
+          "height": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Height"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "media_kind": {
+            "enum": [
+              "image",
+              "video"
+            ],
+            "title": "Media Kind",
+            "type": "string"
+          },
+          "media_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Media Url"
+          },
+          "order": {
+            "title": "Order",
+            "type": "integer"
+          },
+          "people": {
+            "items": {
+              "$ref": "#/components/schemas/PublicPerson"
+            },
+            "title": "People",
+            "type": "array"
+          },
+          "reference_model_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reference Model Version"
+          },
+          "reference_output": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reference Output"
+          },
+          "regions": {
+            "items": {
+              "$ref": "#/components/schemas/PublicRegion"
+            },
+            "title": "Regions",
+            "type": "array"
+          },
+          "score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Score"
+          },
+          "targets": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/TargetResult"
+            },
+            "title": "Targets",
+            "type": "array"
+          },
+          "type": {
+            "enum": [
+              "zone",
+              "posture"
+            ],
+            "title": "Type",
+            "type": "string"
+          },
+          "width": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Width"
+          }
+        },
+        "required": [
+          "id",
+          "order",
+          "type",
+          "media_kind",
+          "media_url",
+          "width",
+          "height",
+          "frame_s",
+          "regions",
+          "people"
+        ],
+        "title": "ItemResult",
+        "type": "object"
+      },
       "JobOut": {
         "properties": {
           "error": {
@@ -1838,6 +2906,99 @@
         "title": "PasswordReset",
         "type": "object"
       },
+      "PublicPerson": {
+        "properties": {
+          "bbox": {
+            "maxItems": 4,
+            "minItems": 4,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Bbox",
+            "type": "array"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "bbox"
+        ],
+        "title": "PublicPerson",
+        "type": "object"
+      },
+      "PublicRegion": {
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "polygon": {
+            "items": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "type": "array"
+            },
+            "title": "Polygon",
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "polygon"
+        ],
+        "title": "PublicRegion",
+        "type": "object"
+      },
+      "RecomputeOut": {
+        "properties": {
+          "computed": {
+            "title": "Computed",
+            "type": "integer"
+          },
+          "failed": {
+            "title": "Failed",
+            "type": "integer"
+          },
+          "model_version": {
+            "title": "Model Version",
+            "type": "string"
+          },
+          "skipped": {
+            "title": "Skipped",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "computed",
+          "skipped",
+          "failed",
+          "model_version"
+        ],
+        "title": "RecomputeOut",
+        "type": "object"
+      },
       "RefreshIn": {
         "properties": {
           "refresh_token": {
@@ -2081,6 +3242,356 @@
         "title": "SampleFrame",
         "type": "object"
       },
+      "ScenarioDetail": {
+        "properties": {
+          "attempts": {
+            "default": 0,
+            "title": "Attempts",
+            "type": "integer"
+          },
+          "best_score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Best Score"
+          },
+          "description_en": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description En"
+          },
+          "description_ur": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description Ur"
+          },
+          "difficulty": {
+            "title": "Difficulty",
+            "type": "integer"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "is_placeholder": {
+            "title": "Is Placeholder",
+            "type": "boolean"
+          },
+          "item_count": {
+            "title": "Item Count",
+            "type": "integer"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ItemPublic"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "kind": {
+            "enum": [
+              "zone",
+              "posture",
+              "mixed"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "title_en": {
+            "title": "Title En",
+            "type": "string"
+          },
+          "title_ur": {
+            "title": "Title Ur",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title_en",
+          "title_ur",
+          "description_en",
+          "description_ur",
+          "difficulty",
+          "kind",
+          "is_placeholder",
+          "item_count",
+          "items"
+        ],
+        "title": "ScenarioDetail",
+        "type": "object"
+      },
+      "ScenarioIn": {
+        "properties": {
+          "description_en": {
+            "anyOf": [
+              {
+                "maxLength": 4000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description En"
+          },
+          "description_ur": {
+            "anyOf": [
+              {
+                "maxLength": 4000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description Ur"
+          },
+          "difficulty": {
+            "default": 1,
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Difficulty",
+            "type": "integer"
+          },
+          "is_active": {
+            "default": true,
+            "title": "Is Active",
+            "type": "boolean"
+          },
+          "kind": {
+            "enum": [
+              "zone",
+              "posture",
+              "mixed"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "title_en": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Title En",
+            "type": "string"
+          },
+          "title_ur": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Title Ur",
+            "type": "string"
+          }
+        },
+        "required": [
+          "title_en",
+          "title_ur",
+          "kind"
+        ],
+        "title": "ScenarioIn",
+        "type": "object"
+      },
+      "ScenarioPatch": {
+        "properties": {
+          "description_en": {
+            "anyOf": [
+              {
+                "maxLength": 4000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description En"
+          },
+          "description_ur": {
+            "anyOf": [
+              {
+                "maxLength": 4000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description Ur"
+          },
+          "difficulty": {
+            "anyOf": [
+              {
+                "maximum": 5.0,
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Difficulty"
+          },
+          "is_active": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Active"
+          },
+          "kind": {
+            "anyOf": [
+              {
+                "enum": [
+                  "zone",
+                  "posture",
+                  "mixed"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Kind"
+          },
+          "title_en": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title En"
+          },
+          "title_ur": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title Ur"
+          }
+        },
+        "title": "ScenarioPatch",
+        "type": "object"
+      },
+      "ScenarioSummary": {
+        "properties": {
+          "attempts": {
+            "default": 0,
+            "title": "Attempts",
+            "type": "integer"
+          },
+          "best_score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Best Score"
+          },
+          "description_en": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description En"
+          },
+          "description_ur": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description Ur"
+          },
+          "difficulty": {
+            "title": "Difficulty",
+            "type": "integer"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "is_placeholder": {
+            "title": "Is Placeholder",
+            "type": "boolean"
+          },
+          "item_count": {
+            "title": "Item Count",
+            "type": "integer"
+          },
+          "kind": {
+            "enum": [
+              "zone",
+              "posture",
+              "mixed"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "title_en": {
+            "title": "Title En",
+            "type": "string"
+          },
+          "title_ur": {
+            "title": "Title Ur",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title_en",
+          "title_ur",
+          "description_en",
+          "description_ur",
+          "difficulty",
+          "kind",
+          "is_placeholder",
+          "item_count"
+        ],
+        "title": "ScenarioSummary",
+        "type": "object"
+      },
       "StationRef": {
         "properties": {
           "id": {
@@ -2098,6 +3609,25 @@
           "name"
         ],
         "title": "StationRef",
+        "type": "object"
+      },
+      "SubmitIn": {
+        "properties": {
+          "answers": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Answer"
+            },
+            "propertyNames": {
+              "format": "uuid"
+            },
+            "title": "Answers",
+            "type": "object"
+          }
+        },
+        "required": [
+          "answers"
+        ],
+        "title": "SubmitIn",
         "type": "object"
       },
       "SyncResponse": {
@@ -2160,6 +3690,70 @@
           "status"
         ],
         "title": "SyncResult",
+        "type": "object"
+      },
+      "TargetResult": {
+        "properties": {
+          "agrees_with_model": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Agrees With Model"
+          },
+          "answer": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Answer"
+          },
+          "correct": {
+            "title": "Correct",
+            "type": "boolean"
+          },
+          "credit": {
+            "title": "Credit",
+            "type": "number"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model"
+          },
+          "truth": {
+            "title": "Truth",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "answer",
+          "truth",
+          "model",
+          "credit",
+          "correct",
+          "agrees_with_model"
+        ],
+        "title": "TargetResult",
         "type": "object"
       },
       "TargetZone": {
@@ -3409,6 +5003,414 @@
         "summary": "Audit Logs",
         "tags": [
           "admin"
+        ]
+      }
+    },
+    "/api/v1/admin/scenarios": {
+      "get": {
+        "operationId": "list_scenarios_api_v1_admin_scenarios_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/AdminScenario"
+                  },
+                  "title": "Response List Scenarios Api V1 Admin Scenarios Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "List Scenarios",
+        "tags": [
+          "training admin"
+        ]
+      },
+      "post": {
+        "operationId": "create_scenario_api_v1_admin_scenarios_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScenarioIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminScenarioDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Create Scenario",
+        "tags": [
+          "training admin"
+        ]
+      }
+    },
+    "/api/v1/admin/scenarios/{scenario_id}": {
+      "delete": {
+        "description": "Deletes the scenario, its items and every attempt at it (confirmation + audit).",
+        "operationId": "delete_scenario_api_v1_admin_scenarios__scenario_id__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "scenario_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Scenario Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Confirm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Delete Scenario",
+        "tags": [
+          "training admin"
+        ]
+      },
+      "get": {
+        "operationId": "get_scenario_api_v1_admin_scenarios__scenario_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "scenario_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Scenario Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminScenarioDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Scenario",
+        "tags": [
+          "training admin"
+        ]
+      },
+      "patch": {
+        "operationId": "update_scenario_api_v1_admin_scenarios__scenario_id__patch",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "scenario_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Scenario Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScenarioPatch"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminScenarioDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Update Scenario",
+        "tags": [
+          "training admin"
+        ]
+      }
+    },
+    "/api/v1/admin/scenarios/{scenario_id}/items": {
+      "post": {
+        "operationId": "add_item_api_v1_admin_scenarios__scenario_id__items_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "scenario_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Scenario Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_add_item_api_v1_admin_scenarios__scenario_id__items_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminItem"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Add Item",
+        "tags": [
+          "training admin"
+        ]
+      }
+    },
+    "/api/v1/admin/scenarios/{scenario_id}/items/{item_id}": {
+      "delete": {
+        "operationId": "delete_item_api_v1_admin_scenarios__scenario_id__items__item_id__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "scenario_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Scenario Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "item_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Item Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Delete Item",
+        "tags": [
+          "training admin"
+        ]
+      },
+      "patch": {
+        "description": "Saving new ground truth recomputes that item's reference output straight away.",
+        "operationId": "update_item_api_v1_admin_scenarios__scenario_id__items__item_id__patch",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "scenario_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Scenario Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "item_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Item Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ItemPatch"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminItem"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Update Item",
+        "tags": [
+          "training admin"
+        ]
+      }
+    },
+    "/api/v1/admin/scenarios/{scenario_id}/recompute-reference": {
+      "post": {
+        "description": "Runs the ML seam over every item (e.g. after a model update, MODEL_INTEGRATION.md).",
+        "operationId": "recompute_reference_api_v1_admin_scenarios__scenario_id__recompute_reference_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "scenario_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Scenario Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecomputeOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Recompute Reference",
+        "tags": [
+          "training admin"
         ]
       }
     },
@@ -5348,6 +7350,295 @@
         "summary": "Sync Incidents",
         "tags": [
           "mobile sync"
+        ]
+      }
+    },
+    "/api/v1/training/attempts": {
+      "get": {
+        "description": "Own attempts; commanders, training staff and admins may see everyone's (HANDOFF §6).",
+        "operationId": "list_attempts_api_v1_training_attempts_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "user_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "User Id"
+            }
+          },
+          {
+            "in": "query",
+            "name": "scenario_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Scenario Id"
+            }
+          },
+          {
+            "in": "query",
+            "name": "submitted_only",
+            "required": false,
+            "schema": {
+              "default": true,
+              "title": "Submitted Only",
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/AttemptSummary"
+                  },
+                  "title": "Response List Attempts Api V1 Training Attempts Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "List Attempts",
+        "tags": [
+          "training"
+        ]
+      }
+    },
+    "/api/v1/training/attempts/{attempt_id}": {
+      "get": {
+        "operationId": "get_attempt_api_v1_training_attempts__attempt_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "attempt_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Attempt Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttemptOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Attempt",
+        "tags": [
+          "training"
+        ]
+      }
+    },
+    "/api/v1/training/attempts/{attempt_id}/submit": {
+      "post": {
+        "operationId": "submit_attempt_api_v1_training_attempts__attempt_id__submit_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "attempt_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Attempt Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubmitIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttemptOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Submit Attempt",
+        "tags": [
+          "training"
+        ]
+      }
+    },
+    "/api/v1/training/scenarios": {
+      "get": {
+        "operationId": "list_scenarios_api_v1_training_scenarios_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ScenarioSummary"
+                  },
+                  "title": "Response List Scenarios Api V1 Training Scenarios Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "List Scenarios",
+        "tags": [
+          "training"
+        ]
+      }
+    },
+    "/api/v1/training/scenarios/{scenario_id}": {
+      "get": {
+        "operationId": "get_scenario_api_v1_training_scenarios__scenario_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "scenario_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Scenario Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScenarioDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Scenario",
+        "tags": [
+          "training"
+        ]
+      }
+    },
+    "/api/v1/training/scenarios/{scenario_id}/attempts": {
+      "post": {
+        "operationId": "start_attempt_api_v1_training_scenarios__scenario_id__attempts_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "scenario_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Scenario Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttemptOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Start Attempt",
+        "tags": [
+          "training"
         ]
       }
     },

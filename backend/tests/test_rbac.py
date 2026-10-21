@@ -10,6 +10,7 @@ ALL = set(ROLES)
 ADMIN = {"admin"}
 INCIDENT_READERS = {"admin", "incident_commander"}
 COMMANDER = {"incident_commander"}
+ATTEMPTERS = {"incident_commander", "field_responder", "training_staff", "trainee"}
 X = str(uuid.uuid4())
 
 # (method, path, json body, roles allowed)
@@ -61,6 +62,21 @@ MATRIX = [
     ("PATCH", f"/api/v1/users/{X}", {"full_name": "Z"}, ADMIN),
     ("POST", f"/api/v1/users/{X}/deactivate", {"confirm": True}, ADMIN),
     ("POST", f"/api/v1/users/{X}/reset-password", {"confirm": True}, ADMIN),
+    ("GET", "/api/v1/training/scenarios", None, ATTEMPTERS),
+    ("GET", f"/api/v1/training/scenarios/{X}", None, ATTEMPTERS),
+    ("POST", f"/api/v1/training/scenarios/{X}/attempts", None, ATTEMPTERS),
+    ("POST", f"/api/v1/training/attempts/{X}/submit", {"answers": {}}, ATTEMPTERS),
+    ("GET", "/api/v1/training/attempts", None, ALL),
+    ("GET", f"/api/v1/training/attempts/{X}", None, ALL),
+    ("GET", "/api/v1/admin/scenarios", None, ADMIN),
+    ("POST", "/api/v1/admin/scenarios", {"title_en": "t", "title_ur": "t", "kind": "zone"}, ADMIN),
+    ("GET", f"/api/v1/admin/scenarios/{X}", None, ADMIN),
+    ("PATCH", f"/api/v1/admin/scenarios/{X}", {"is_active": False}, ADMIN),
+    ("DELETE", f"/api/v1/admin/scenarios/{X}", {"confirm": True}, ADMIN),
+    ("POST", f"/api/v1/admin/scenarios/{X}/items", None, ADMIN),
+    ("PATCH", f"/api/v1/admin/scenarios/{X}/items/{X}", {"order": 1}, ADMIN),
+    ("DELETE", f"/api/v1/admin/scenarios/{X}/items/{X}", None, ADMIN),
+    ("POST", f"/api/v1/admin/scenarios/{X}/recompute-reference", None, ADMIN),
     ("GET", "/api/v1/admin/settings", None, ADMIN),
     ("PATCH", "/api/v1/admin/settings", {"capture_fps": 1}, ADMIN),
     ("GET", "/api/v1/admin/audit-logs", None, ADMIN),

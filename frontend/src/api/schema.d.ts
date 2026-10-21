@@ -21,6 +21,104 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/scenarios": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Scenarios */
+        get: operations["list_scenarios_api_v1_admin_scenarios_get"];
+        put?: never;
+        /** Create Scenario */
+        post: operations["create_scenario_api_v1_admin_scenarios_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/scenarios/{scenario_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Scenario */
+        get: operations["get_scenario_api_v1_admin_scenarios__scenario_id__get"];
+        put?: never;
+        post?: never;
+        /**
+         * Delete Scenario
+         * @description Deletes the scenario, its items and every attempt at it (confirmation + audit).
+         */
+        delete: operations["delete_scenario_api_v1_admin_scenarios__scenario_id__delete"];
+        options?: never;
+        head?: never;
+        /** Update Scenario */
+        patch: operations["update_scenario_api_v1_admin_scenarios__scenario_id__patch"];
+        trace?: never;
+    };
+    "/api/v1/admin/scenarios/{scenario_id}/items": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Add Item */
+        post: operations["add_item_api_v1_admin_scenarios__scenario_id__items_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/scenarios/{scenario_id}/items/{item_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Delete Item */
+        delete: operations["delete_item_api_v1_admin_scenarios__scenario_id__items__item_id__delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Update Item
+         * @description Saving new ground truth recomputes that item's reference output straight away.
+         */
+        patch: operations["update_item_api_v1_admin_scenarios__scenario_id__items__item_id__patch"];
+        trace?: never;
+    };
+    "/api/v1/admin/scenarios/{scenario_id}/recompute-reference": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Recompute Reference
+         * @description Runs the ML seam over every item (e.g. after a model update, MODEL_INTEGRATION.md).
+         */
+        post: operations["recompute_reference_api_v1_admin_scenarios__scenario_id__recompute_reference_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/admin/settings": {
         parameters: {
             query?: never;
@@ -697,6 +795,111 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/training/attempts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Attempts
+         * @description Own attempts; commanders, training staff and admins may see everyone's (HANDOFF §6).
+         */
+        get: operations["list_attempts_api_v1_training_attempts_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/training/attempts/{attempt_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Attempt */
+        get: operations["get_attempt_api_v1_training_attempts__attempt_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/training/attempts/{attempt_id}/submit": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Submit Attempt */
+        post: operations["submit_attempt_api_v1_training_attempts__attempt_id__submit_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/training/scenarios": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Scenarios */
+        get: operations["list_scenarios_api_v1_training_scenarios_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/training/scenarios/{scenario_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Scenario */
+        get: operations["get_scenario_api_v1_training_scenarios__scenario_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/training/scenarios/{scenario_id}/attempts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Start Attempt */
+        post: operations["start_attempt_api_v1_training_scenarios__scenario_id__attempts_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/users": {
         parameters: {
             query?: never;
@@ -828,6 +1031,130 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** AdminItem */
+        AdminItem: {
+            /** Duration S */
+            duration_s: number | null;
+            /** Ground Truth */
+            ground_truth: Record<string, never>;
+            /** Height */
+            height: number | null;
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Media Id
+             * Format: uuid
+             */
+            media_id: string;
+            /**
+             * Media Kind
+             * @enum {string}
+             */
+            media_kind: "image" | "video";
+            /** Media Url */
+            media_url: string | null;
+            /** Order */
+            order: number;
+            /** Reference Model Version */
+            reference_model_version: string | null;
+            /** Reference Output */
+            reference_output: Record<string, never> | null;
+            /** Usable */
+            usable: boolean;
+            /** Width */
+            width: number | null;
+        };
+        /** AdminScenario */
+        AdminScenario: {
+            /**
+             * Attempts
+             * @default 0
+             */
+            attempts: number;
+            /** Best Score */
+            best_score?: number | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /** Description En */
+            description_en: string | null;
+            /** Description Ur */
+            description_ur: string | null;
+            /** Difficulty */
+            difficulty: number;
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Is Active */
+            is_active: boolean;
+            /** Is Placeholder */
+            is_placeholder: boolean;
+            /** Item Count */
+            item_count: number;
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "zone" | "posture" | "mixed";
+            /** Title En */
+            title_en: string;
+            /** Title Ur */
+            title_ur: string;
+            /** Usable Count */
+            usable_count: number;
+        };
+        /** AdminScenarioDetail */
+        AdminScenarioDetail: {
+            /**
+             * Attempts
+             * @default 0
+             */
+            attempts: number;
+            /** Best Score */
+            best_score?: number | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /** Description En */
+            description_en: string | null;
+            /** Description Ur */
+            description_ur: string | null;
+            /** Difficulty */
+            difficulty: number;
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Is Active */
+            is_active: boolean;
+            /** Is Placeholder */
+            is_placeholder: boolean;
+            /** Item Count */
+            item_count: number;
+            /** Items */
+            items: components["schemas"]["AdminItem"][];
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "zone" | "posture" | "mixed";
+            /** Title En */
+            title_en: string;
+            /** Title Ur */
+            title_ur: string;
+            /** Usable Count */
+            usable_count: number;
+        };
         /** AlertList */
         AlertList: {
             /** Items */
@@ -869,6 +1196,17 @@ export interface components {
             type: string;
             /** Zone Id */
             zone_id: string | null;
+        };
+        /** Answer */
+        Answer: {
+            /** People */
+            people?: {
+                [key: string]: "standing" | "sitting" | "lying" | "bending";
+            };
+            /** Regions */
+            regions?: {
+                [key: string]: "safe" | "caution" | "unsafe" | "blocked";
+            };
         };
         /** AssessmentOut */
         AssessmentOut: {
@@ -954,6 +1292,91 @@ export interface components {
             /** Zone Id */
             zone_id: string | null;
         };
+        /** AttemptOut */
+        AttemptOut: {
+            /** Correct Targets */
+            correct_targets: number | null;
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Items */
+            items: components["schemas"]["ItemResult"][];
+            /** Llm Feedback */
+            llm_feedback: string | null;
+            /** Llm Feedback Pending */
+            llm_feedback_pending: boolean;
+            /** Model Agreement Pct */
+            model_agreement_pct: number | null;
+            scenario: components["schemas"]["ScenarioSummary"];
+            /**
+             * Scenario Id
+             * Format: uuid
+             */
+            scenario_id: string;
+            /** Scenario Title En */
+            scenario_title_en: string;
+            /** Scenario Title Ur */
+            scenario_title_ur: string;
+            /** Score Pct */
+            score_pct: number | null;
+            /**
+             * Started At
+             * Format: date-time
+             */
+            started_at: string;
+            /** Submitted At */
+            submitted_at: string | null;
+            /** Total Targets */
+            total_targets: number | null;
+            /**
+             * User Id
+             * Format: uuid
+             */
+            user_id: string;
+            /** User Name */
+            user_name: string;
+            /** Username */
+            username: string;
+        };
+        /** AttemptSummary */
+        AttemptSummary: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Model Agreement Pct */
+            model_agreement_pct: number | null;
+            /**
+             * Scenario Id
+             * Format: uuid
+             */
+            scenario_id: string;
+            /** Scenario Title En */
+            scenario_title_en: string;
+            /** Scenario Title Ur */
+            scenario_title_ur: string;
+            /** Score Pct */
+            score_pct: number | null;
+            /**
+             * Started At
+             * Format: date-time
+             */
+            started_at: string;
+            /** Submitted At */
+            submitted_at: string | null;
+            /**
+             * User Id
+             * Format: uuid
+             */
+            user_id: string;
+            /** User Name */
+            user_name: string;
+            /** Username */
+            username: string;
+        };
         /** AuditList */
         AuditList: {
             /** Items */
@@ -987,6 +1410,20 @@ export interface components {
             id: string;
             /** Ip */
             ip: unknown | null;
+        };
+        /** Body_add_item_api_v1_admin_scenarios__scenario_id__items_post */
+        Body_add_item_api_v1_admin_scenarios__scenario_id__items_post: {
+            /**
+             * File
+             * Format: binary
+             * @description Image (JPEG/PNG) or video (MP4/WebM/MOV)
+             */
+            file: string;
+            /**
+             * Ground Truth
+             * @description JSON, HANDOFF §9.6 format
+             */
+            ground_truth?: string | null;
         };
         /** Body_upload_thermal_api_v1_incidents__incident_id__thermal_uploads_post */
         Body_upload_thermal_api_v1_incidents__incident_id__thermal_uploads_post: {
@@ -1115,6 +1552,65 @@ export interface components {
             label: string;
             /** Number */
             number: number;
+        };
+        /** GTPerson */
+        GTPerson: {
+            /** Bbox */
+            bbox: [
+                number,
+                number,
+                number,
+                number
+            ];
+            /** Id */
+            id: string;
+            /**
+             * Posture
+             * @enum {string}
+             */
+            posture: "standing" | "sitting" | "lying" | "bending";
+        };
+        /** GTRegion */
+        GTRegion: {
+            /** Id */
+            id: string;
+            /** Polygon */
+            polygon: [
+                number,
+                number
+            ][];
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "safe" | "caution" | "unsafe" | "blocked";
+        };
+        /**
+         * GroundTruth
+         * @description HANDOFF §9.6 ground-truth format; `frame_s` picks the labelled frame of a video.
+         */
+        GroundTruth: {
+            /**
+             * Explanation En
+             * @default
+             */
+            explanation_en: string;
+            /**
+             * Explanation Ur
+             * @default
+             */
+            explanation_ur: string;
+            /** Frame S */
+            frame_s?: number | null;
+            /** People */
+            people?: components["schemas"]["GTPerson"][];
+            /** Regions */
+            regions?: components["schemas"]["GTRegion"][];
+            /**
+             * Type
+             * @enum {string}
+             */
+            type: "zone" | "posture";
         };
         /** HTTPValidationError */
         HTTPValidationError: {
@@ -1282,6 +1778,93 @@ export interface components {
             structure_type?: ("commercial" | "residential" | "industrial" | "other") | null;
             /** Summary Text */
             summary_text?: string | null;
+        };
+        /** ItemPatch */
+        ItemPatch: {
+            ground_truth?: components["schemas"]["GroundTruth"] | null;
+            /** Order */
+            order?: number | null;
+        };
+        /** ItemPublic */
+        ItemPublic: {
+            /** Frame S */
+            frame_s: number | null;
+            /** Height */
+            height: number | null;
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Media Kind
+             * @enum {string}
+             */
+            media_kind: "image" | "video";
+            /** Media Url */
+            media_url: string | null;
+            /** Order */
+            order: number;
+            /** People */
+            people: components["schemas"]["PublicPerson"][];
+            /** Regions */
+            regions: components["schemas"]["PublicRegion"][];
+            /**
+             * Type
+             * @enum {string}
+             */
+            type: "zone" | "posture";
+            /** Width */
+            width: number | null;
+        };
+        /**
+         * ItemResult
+         * @description Result fields stay empty until the attempt is submitted.
+         */
+        ItemResult: {
+            answer?: components["schemas"]["Answer"] | null;
+            /** Frame S */
+            frame_s: number | null;
+            /** Ground Truth */
+            ground_truth?: Record<string, never> | null;
+            /** Height */
+            height: number | null;
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Media Kind
+             * @enum {string}
+             */
+            media_kind: "image" | "video";
+            /** Media Url */
+            media_url: string | null;
+            /** Order */
+            order: number;
+            /** People */
+            people: components["schemas"]["PublicPerson"][];
+            /** Reference Model Version */
+            reference_model_version?: string | null;
+            /** Reference Output */
+            reference_output?: Record<string, never> | null;
+            /** Regions */
+            regions: components["schemas"]["PublicRegion"][];
+            /** Score */
+            score?: number | null;
+            /**
+             * Targets
+             * @default []
+             */
+            targets: components["schemas"]["TargetResult"][];
+            /**
+             * Type
+             * @enum {string}
+             */
+            type: "zone" | "posture";
+            /** Width */
+            width: number | null;
         };
         /** JobOut */
         JobOut: {
@@ -1456,6 +2039,39 @@ export interface components {
             /** Temporary Password */
             temporary_password: string;
         };
+        /** PublicPerson */
+        PublicPerson: {
+            /** Bbox */
+            bbox: [
+                number,
+                number,
+                number,
+                number
+            ];
+            /** Id */
+            id: string;
+        };
+        /** PublicRegion */
+        PublicRegion: {
+            /** Id */
+            id: string;
+            /** Polygon */
+            polygon: [
+                number,
+                number
+            ][];
+        };
+        /** RecomputeOut */
+        RecomputeOut: {
+            /** Computed */
+            computed: number;
+            /** Failed */
+            failed: number;
+            /** Model Version */
+            model_version: string;
+            /** Skipped */
+            skipped: number;
+        };
         /** RefreshIn */
         RefreshIn: {
             /** Refresh Token */
@@ -1533,6 +2149,119 @@ export interface components {
             /** Url */
             url: string;
         };
+        /** ScenarioDetail */
+        ScenarioDetail: {
+            /**
+             * Attempts
+             * @default 0
+             */
+            attempts: number;
+            /** Best Score */
+            best_score?: number | null;
+            /** Description En */
+            description_en: string | null;
+            /** Description Ur */
+            description_ur: string | null;
+            /** Difficulty */
+            difficulty: number;
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Is Placeholder */
+            is_placeholder: boolean;
+            /** Item Count */
+            item_count: number;
+            /** Items */
+            items: components["schemas"]["ItemPublic"][];
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "zone" | "posture" | "mixed";
+            /** Title En */
+            title_en: string;
+            /** Title Ur */
+            title_ur: string;
+        };
+        /** ScenarioIn */
+        ScenarioIn: {
+            /** Description En */
+            description_en?: string | null;
+            /** Description Ur */
+            description_ur?: string | null;
+            /**
+             * Difficulty
+             * @default 1
+             */
+            difficulty: number;
+            /**
+             * Is Active
+             * @default true
+             */
+            is_active: boolean;
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "zone" | "posture" | "mixed";
+            /** Title En */
+            title_en: string;
+            /** Title Ur */
+            title_ur: string;
+        };
+        /** ScenarioPatch */
+        ScenarioPatch: {
+            /** Description En */
+            description_en?: string | null;
+            /** Description Ur */
+            description_ur?: string | null;
+            /** Difficulty */
+            difficulty?: number | null;
+            /** Is Active */
+            is_active?: boolean | null;
+            /** Kind */
+            kind?: ("zone" | "posture" | "mixed") | null;
+            /** Title En */
+            title_en?: string | null;
+            /** Title Ur */
+            title_ur?: string | null;
+        };
+        /** ScenarioSummary */
+        ScenarioSummary: {
+            /**
+             * Attempts
+             * @default 0
+             */
+            attempts: number;
+            /** Best Score */
+            best_score?: number | null;
+            /** Description En */
+            description_en: string | null;
+            /** Description Ur */
+            description_ur: string | null;
+            /** Difficulty */
+            difficulty: number;
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Is Placeholder */
+            is_placeholder: boolean;
+            /** Item Count */
+            item_count: number;
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "zone" | "posture" | "mixed";
+            /** Title En */
+            title_en: string;
+            /** Title Ur */
+            title_ur: string;
+        };
         /** StationRef */
         StationRef: {
             /**
@@ -1542,6 +2271,13 @@ export interface components {
             id: string;
             /** Name */
             name: string;
+        };
+        /** SubmitIn */
+        SubmitIn: {
+            /** Answers */
+            answers: {
+                [key: string]: components["schemas"]["Answer"];
+            };
         };
         /** SyncResponse */
         SyncResponse: {
@@ -1561,6 +2297,23 @@ export interface components {
              * @enum {string}
              */
             status: "created" | "duplicate" | "error";
+        };
+        /** TargetResult */
+        TargetResult: {
+            /** Agrees With Model */
+            agrees_with_model: boolean | null;
+            /** Answer */
+            answer: string | null;
+            /** Correct */
+            correct: boolean;
+            /** Credit */
+            credit: number;
+            /** Id */
+            id: string;
+            /** Model */
+            model: string | null;
+            /** Truth */
+            truth: string;
         };
         /** TargetZone */
         TargetZone: {
@@ -1964,6 +2717,290 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["AuditList"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_scenarios_api_v1_admin_scenarios_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminScenario"][];
+                };
+            };
+        };
+    };
+    create_scenario_api_v1_admin_scenarios_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ScenarioIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminScenarioDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_scenario_api_v1_admin_scenarios__scenario_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                scenario_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminScenarioDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_scenario_api_v1_admin_scenarios__scenario_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                scenario_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Confirm"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_scenario_api_v1_admin_scenarios__scenario_id__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                scenario_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ScenarioPatch"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminScenarioDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    add_item_api_v1_admin_scenarios__scenario_id__items_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                scenario_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["Body_add_item_api_v1_admin_scenarios__scenario_id__items_post"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminItem"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_item_api_v1_admin_scenarios__scenario_id__items__item_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                scenario_id: string;
+                item_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_item_api_v1_admin_scenarios__scenario_id__items__item_id__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                scenario_id: string;
+                item_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ItemPatch"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminItem"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    recompute_reference_api_v1_admin_scenarios__scenario_id__recompute_reference_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                scenario_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RecomputeOut"];
                 };
             };
             /** @description Validation Error */
@@ -3231,6 +4268,187 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["SyncResponse"];
+                };
+            };
+        };
+    };
+    list_attempts_api_v1_training_attempts_get: {
+        parameters: {
+            query?: {
+                user_id?: string | null;
+                scenario_id?: string | null;
+                submitted_only?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AttemptSummary"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_attempt_api_v1_training_attempts__attempt_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                attempt_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AttemptOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    submit_attempt_api_v1_training_attempts__attempt_id__submit_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                attempt_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SubmitIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AttemptOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_scenarios_api_v1_training_scenarios_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ScenarioSummary"][];
+                };
+            };
+        };
+    };
+    get_scenario_api_v1_training_scenarios__scenario_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                scenario_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ScenarioDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    start_attempt_api_v1_training_scenarios__scenario_id__attempts_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                scenario_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AttemptOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };

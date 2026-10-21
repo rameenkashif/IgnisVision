@@ -7,6 +7,7 @@ import './styles/shell.css';
 import './styles/onboard.css';
 import './styles/live.css';
 import './styles/reports.css';
+import './styles/trainer.css';
 import App from './App';
 
 createRoot(document.getElementById('root')!).render(
