@@ -96,8 +96,8 @@ html[lang='ur'] body {
   font-weight: 600;
 }
 .btn.danger {
-  background: var(--unsafe);
-  border-color: var(--unsafe);
+  background: var(--danger-btn);
+  border-color: var(--danger-btn);
   color: #fff;
   font-weight: 600;
 }
@@ -211,7 +211,7 @@ textarea {
   background: currentColor;
 }
 .chip.ok {
-  color: var(--safe);
+  color: var(--safe-text);
   border-color: var(--safe-dim);
   background: var(--safe-dim);
 }

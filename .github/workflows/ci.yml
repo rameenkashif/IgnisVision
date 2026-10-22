@@ -90,6 +90,7 @@ jobs:
         env:
           CI: "true"
           E2E_PASSWORD: Ci-demo-1234
+          E2E_DOCKER_RESTART: "1"
         run: |
           npm ci
           npx playwright install --with-deps chromium

@@ -56,11 +56,11 @@ ML_BACKEND=real THERMAL_POSE_WEIGHTS=... SEGFORMER_WEIGHTS=... DAMAGE_SEG_WEIGHT
 
 It loads whatever the registry selects and checks types, shapes, value ranges, class names, and that a version is reported. Put a few real frames (JPEG/PNG: thermal and RGB building interiors) in `backend/tests/ml/samples/` to include them. **This test passing is the definition of "integrated".**
 
-Then run the full suite (`pytest -q`) and the end-to-end demo (`docs/DEMO.md`, from Phase 9). Fusion, RPI, tracking, alerts and the UI need no changes.
+Then run the full suite (`pytest -q`) and the end-to-end demo (`docs/DEMO.md`). Fusion, RPI, tracking, alerts and the UI need no changes.
 
 ## 5. Tuning after integration
 
-The decision rules are application code with thresholds in **Admin → Settings** (stored in `system_settings`). They must be tuned on real footage with Rescue 1122:
+The decision rules are application code with thresholds in **Administration → System settings** (stored in `system_settings`, every change audited). They must be tuned on real footage with Rescue 1122:
 
 - `zone_fusion`: minimum visible structure / confidence for "analysable", floor/door coverage and frame coverage for *blocked*, collapse confidence and crack/spalling area for *unsafe*, damage confidence for *caution*. Logic: `backend/app/services/zone_fusion.py` (HANDOFF §8.2). Tests: `tests/test_zone_fusion.py`.
 - `rpi.*`: weights, posture scores and priority bands (Phase 5, HANDOFF §8.1).
@@ -70,7 +70,15 @@ The decision rules are application code with thresholds in **Admin → Settings*
 | Path | Target | How to measure |
 |---|---|---|
 | Uploaded thermal image → result | ≤ 5 s after upload | `analysis_jobs.finished_at - started_at`, and the Phase 5 job timing log |
-| Zone frame → map update | ≤ 6 s | `latency_ms` in every `zone_result` message (capture screen shows it), and `backend/loadtest/` (Phase 9) |
+| Zone frame → map update | ≤ 6 s | `latency_ms` in every `zone_result` message (capture screen shows it), and `backend/loadtest/run.py` |
+
+Model inference alone, on the target machine:
+
+```bash
+docker compose exec backend python -m app.ml.benchmark --images /app/tests/ml/samples --runs 20
+```
+
+It loads the configured models, warms them up and reports mean and p95 per model and for the zone-frame path (segmentation and damage in parallel, then fusion), marked PASS/FAIL against the targets. End to end under load (10 users, 5 capture sessions): `backend/loadtest/run.py` (see `docs/DEPLOYMENT.md` §8).
 
 On CPU, SegFormer-B2 at 512×512 plus YOLO-seg typically fit in well under a second per frame on a modern laptop; the pipeline runs both models in parallel and keeps only the latest frame per capture session, so slow inference lowers the effective frame rate instead of building a backlog. If needed, reduce `capture_fps` in settings or set `ML_DEVICE=cuda`.
 

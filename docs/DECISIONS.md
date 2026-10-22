@@ -154,3 +154,17 @@ Every assumption made while building from `HANDOFF.md`. **Owner-confirmed** rows
 | Audit viewer | Filters by action, type and date; actor names joined server-side; per-entry before/after table with changed fields highlighted. | SRS §5.5.3. |
 | Help | One Markdown page per screen in `frontend/src/help/{en,ur}/`, bundled at build time and rendered by a small built-in renderer (headings, lists, bold, code, links; raw HTML is never interpreted). A unit test checks every topic exists in both languages with the same sections. The `?` button deep-links to the screen's topic; the index is searchable in the current language. Button names in the help text match the UI labels. | HANDOFF §11, SRS §2.6.3. |
 | Help assistant | Optional (`llm.features.help_assistant`): the page text is sent with the question; the model answers only from it, never makes operational calls, 10 questions/minute/user. Off → the box is hidden. | HANDOFF §10.3. |
+
+## Phase 9: hardening
+
+| Area | Decision | Why |
+|---|---|---|
+| Load test | `backend/loadtest/run.py` (httpx + websockets, no extra dependencies) runs 10 users and 5 capture sessions at once, then thermal uploads, and checks every target; exit code 0 = pass. On a 4-core dev machine: pages p95 ≤ 0.13 s, sign-in p50 0.37 s / p95 2.4 s (all 10 at the same instant), frame → map p95 0.32 s, thermal image → results 0.12 s. | HANDOFF §12. |
+| Password hashing off the event loop | Argon2 hashing/verification now runs in worker threads. Before, every sign-in stalled all other requests for a few hundred ms (other endpoints' worst case dropped from 1.2 s to 0.5 s under the load test). | Found by the load test. |
+| Data retention | Implemented (it was a setting without a job): hourly, closed or deleted incidents older than `retention_days` are removed with their media files (files deleted after the database commit), open incidents never; each run is audited. Off by default (Q14). CLI with `--dry-run`. | The setting promised it; SRS data handling. |
+| Accessibility | axe WCAG 2 A/AA scan on every route for every role, both languages, in CI. Fixes: `--text-low` lifted from #5b646c to #848e96 (≥ 4.5:1 on every surface), a `--safe-text` green (#45c98a) for text while zone fills keep the prototype green, and a darker destructive-button red (#c23a24) for white text. Zone colours themselves are unchanged. | SRS usability; colour never the only cue. |
+| Bilingual screen pass | Same test checks `dir`, no horizontal overflow at 360 and 1280 px, and no untranslated keys, and saves a screenshot of every screen. | HANDOFF §12 "Urdu RTL on every route". |
+| Restart resilience | E2E test restarts the backend container during a capture: the phone reconnects and keeps streaming, the dashboard reconnects, nobody is signed out. Runs in CI (`E2E_DOCKER_RESTART=1`). | SRS §5.2.2. |
+| Demo | `docs/DEMO.md` plus `e2e/demo.spec.ts` follow HANDOFF §14 with newly created accounts (forced password change included). | Definition of done. |
+| Model benchmark | `python -m app.ml.benchmark` reports per-model and zone-frame latency against the targets on the target hardware. | MODEL_INTEGRATION §6. |
+| Deployment | `docs/DEPLOYMENT.md`: install, `.env` reference, HTTPS options, encryption at rest via encrypted disk/volume, backups and restore, retention, monitoring, upgrades, single-instance limit. | HANDOFF §12, §13. |

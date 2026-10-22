@@ -56,7 +56,7 @@
   border-radius: 12px;
 }
 .status-chip.st-safe {
-  color: var(--safe);
+  color: var(--safe-text);
   border-color: var(--safe);
 }
 .status-chip.st-caution {
@@ -155,7 +155,7 @@
   font-weight: 600;
 }
 .zone-cell.st-safe .zstatus {
-  color: var(--safe);
+  color: var(--safe-text);
 }
 .zone-cell.st-caution .zstatus {
   color: var(--caution);
@@ -320,7 +320,7 @@
   white-space: nowrap;
 }
 .kpi .val.safe {
-  color: var(--safe);
+  color: var(--safe-text);
 }
 .kpi .val.caution {
   color: var(--caution);
@@ -496,7 +496,7 @@
   font-weight: 600;
 }
 .evac-bar.ok .t {
-  color: var(--safe);
+  color: var(--safe-text);
 }
 .evac-bar.warn .t {
   color: var(--unsafe);

@@ -2,6 +2,7 @@
 
 import hashlib
 import os
+import shutil
 from pathlib import Path
 from typing import BinaryIO, Protocol
 
@@ -11,6 +12,7 @@ class StorageBackend(Protocol):
     def save_stream(self, key: str, src: BinaryIO, max_bytes: int) -> tuple[int, str]: ...
     def path(self, key: str) -> Path: ...
     def delete(self, key: str) -> None: ...
+    def delete_tree(self, key: str) -> None: ...
     def usage_bytes(self) -> int: ...
 
 
@@ -56,6 +58,12 @@ class LocalStorage:
 
     def delete(self, key: str) -> None:
         self._resolve(key).unlink(missing_ok=True)
+
+    def delete_tree(self, key: str) -> None:
+        """Remove a directory of derived files (e.g. a video's analysed frames)."""
+        p = self._resolve(key)
+        if p.is_dir():
+            shutil.rmtree(p, ignore_errors=True)
 
     def usage_bytes(self) -> int:
         return sum(f.stat().st_size for f in self.root.rglob("*") if f.is_file())

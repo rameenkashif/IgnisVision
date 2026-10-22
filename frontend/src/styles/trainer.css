@@ -33,7 +33,7 @@
   text-align: start;
 }
 .ok-text {
-  color: var(--safe);
+  color: var(--safe-text);
 }
 .part-text {
   color: var(--caution);
@@ -134,7 +134,7 @@
 }
 .step.done {
   border-color: var(--safe);
-  color: var(--safe);
+  color: var(--safe-text);
 }
 .step.current {
   background: var(--thermal);

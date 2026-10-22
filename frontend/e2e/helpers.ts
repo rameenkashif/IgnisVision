@@ -2,14 +2,28 @@ import { expect, type Page } from '@playwright/test';
 
 export const PASSWORD = process.env.E2E_PASSWORD ?? 'Demo-pass-1234';
 
-/** Sign in and get through first-run steps (language choice, onboarding) if they appear. */
-export async function signIn(page: Page, username: string, lang: 'en' | 'ur' = 'en') {
+/** Sign in and get through first-run steps (forced password change, language choice,
+ * onboarding) if they appear. */
+export async function signIn(
+  page: Page,
+  username: string,
+  lang: 'en' | 'ur' = 'en',
+  opts: { password?: string; newPassword?: string } = {},
+) {
   await page.addInitScript(() => sessionStorage.setItem('iv.splashSeen', '1'));
   await page.goto('/signin');
   await page.locator('#username').fill(username);
-  await page.locator('#password').fill(PASSWORD);
+  await page.locator('#password').fill(opts.password ?? PASSWORD);
   await page.locator('form button[type=submit]').click();
   await page.waitForURL((u) => !u.pathname.startsWith('/signin'));
+  if (page.url().includes('/change-password')) {
+    const next = opts.newPassword ?? PASSWORD;
+    await page.locator('#current').fill(opts.password ?? PASSWORD);
+    await page.locator('#new').fill(next);
+    await page.locator('#confirm').fill(next);
+    await page.locator('form button[type=submit]').click();
+    await page.waitForURL((u) => !u.pathname.startsWith('/change-password'));
+  }
   if (page.url().includes('/language')) {
     await page.locator(`.lang-choice[lang=${lang}]`).click();
   }

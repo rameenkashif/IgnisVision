@@ -819,7 +819,7 @@
         "rpi": "RPI = weighted posture, detection confidence and zone risk. Bands map the score to Critical / High / Medium / Low.",
         "fusion": "Shares and confidences (0–1) that turn segmentation and damage detections into Safe / Caution / Unsafe / Blocked.",
         "timing": "How long a zone status stays current, alert windows, the capture rate and the evacuation threshold.",
-        "data": "Incidents and media older than this are deleted automatically. Keep forever = never delete.",
+        "data": "Closed or deleted incidents older than this are removed every hour, with their media and reports. Open incidents are never removed. Keep forever = never remove.",
         "ai": "Need LLM_PROVIDER and LLM_API_KEY in the server's .env. Alerts, zone status and RPI never use AI.",
         "trainer": "Optional half credit when a zone answer is one step away from the correct one (e.g. caution vs unsafe)."
       },
@@ -977,7 +977,8 @@
         "user_create": "User created",
         "user_deactivate": "User deactivated",
         "user_reset_password": "Password reset",
-        "user_update": "User updated"
+        "user_update": "User updated",
+        "retention_purge": "Old incidents removed (retention)"
       }
     }
   }

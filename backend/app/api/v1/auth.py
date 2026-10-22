@@ -1,3 +1,4 @@
+import asyncio
 from datetime import UTC, datetime
 from typing import Annotated
 
@@ -73,14 +74,14 @@ async def _authenticate(db: DB, username: str, password: str) -> User:
         await db.execute(select(User).where(func.lower(User.username) == username.lower()))
     ).scalar_one_or_none()
     if user is None:
-        verify_password(_DUMMY_HASH, password)
+        await asyncio.to_thread(verify_password, _DUMMY_HASH, password)
         raise AppError(401, "invalid_credentials")
-    if not verify_password(user.password_hash, password):
+    if not await asyncio.to_thread(verify_password, user.password_hash, password):
         raise AppError(401, "invalid_credentials")
     if not user.is_active:
         raise AppError(403, "account_deactivated")
     if needs_rehash(user.password_hash):
-        user.password_hash = hash_password(password)
+        user.password_hash = await asyncio.to_thread(hash_password, password)
     user.last_login_at = datetime.now(UTC)
     return user
 
@@ -199,13 +200,13 @@ async def update_me(body: MeUpdate, user: PendingUser, db: DB) -> User:
 
 @router.post("/change-password", status_code=204)
 async def change_password(body: ChangePasswordIn, request: Request, user: PendingUser, db: DB):
-    if not verify_password(user.password_hash, body.current_password):
+    if not await asyncio.to_thread(verify_password, user.password_hash, body.current_password):
         raise AppError(400, "current_password_incorrect")
     if (code := password_policy_violation(body.new_password)) is not None:
         raise AppError(422, code)
     if body.new_password == body.current_password:
         raise AppError(422, "password_unchanged")
-    user.password_hash = hash_password(body.new_password)
+    user.password_hash = await asyncio.to_thread(hash_password, body.new_password)
     user.must_change_password = False
     await sessions.revoke_all_for_user(db, user.id, except_family=request.state.session_id)
     await db.commit()

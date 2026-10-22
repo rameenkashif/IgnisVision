@@ -3,6 +3,7 @@
 AI fire-incident response for **Rescue 1122**: incident command dashboard, live zone-risk analysis from phone cameras, thermal upload analysis with Rescue Priority Index, simulation trainer, and reports — in English and Urdu.
 
 - **Brief:** [`HANDOFF.md`](HANDOFF.md) · **Decisions:** [`docs/DECISIONS.md`](docs/DECISIONS.md)
+- **Run it:** [`docs/DEMO.md`](docs/DEMO.md) (10-step demo) · **Deploy it:** [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) · **API:** [`docs/API.md`](docs/API.md) (and `/api/docs`) · **Real models:** [`docs/MODEL_INTEGRATION.md`](docs/MODEL_INTEGRATION.md)
 - **Requirements:** `docs/reference/Ignis-Vision-SRS-2.0.docx` (`pandoc -t plain` to read) · **Visual reference:** `docs/reference/ignis_vision_dashboard.html`
 
 Stack: React 18 + TS + Vite · FastAPI (Python 3.11) · PostgreSQL 16 · Caddy · Docker Compose.
@@ -67,7 +68,7 @@ New migration after changing models:
 cd backend && DATABASE_URL=… alembic revision --autogenerate -m "describe change" && alembic upgrade head
 ```
 
-End-to-end tests (Playwright) run against the Docker stack:
+End-to-end tests (Playwright) run against the Docker stack with `MOCK_SCENARIO=escalating` in `.env`. They include the §14 demo, a screen pass over every route for every role in English and Urdu at 360 px and 1280 px (direction, overflow, untranslated text, axe WCAG 2 AA scan; screenshots in `test-results/screens/`) and, with `E2E_DOCKER_RESTART=1`, a backend-restart test:
 
 ```bash
 docker compose exec -e SEED_PASSWORD=Demo-pass-1234 backend python -m app.db.seed --reset-passwords
@@ -92,4 +93,4 @@ docker compose exec -T db pg_restore -U ignis -d ignis --clean --if-exists < bac
 
 ## Status
 
-Phase 0 (scaffold, Docker, HTTPS, CI) Phase 1 (database schema, auth, RBAC, user admin, audit, settings) Phase 2 (frontend shell: splash, sign-in, language + RTL, onboarding, role-based navigation, indicators, help skeleton, settings) Phase 3 (incidents, zones, teams, alerts, live dashboard, WebSocket channels) Phase 4 (ML seam with mock models, zone risk fusion, phone zone capture, spoken alerts) Phase 5 (thermal image/video uploads, job queue, tracking, Rescue Priority Index, ranked victims, mobile sync) Phase 6 (incident reports, EN/UR PDF export, optional AI-drafted narrative) Phase 7 (simulation trainer: placeholder scenarios, labelling tool, reference outputs through the model seam, grading, results and progress views, optional AI feedback) and Phase 8 (administration: users, validated settings editor, system status, audit viewer; bilingual help pages for every screen with an optional AI help assistant) complete. Model integration: [`docs/MODEL_INTEGRATION.md`](docs/MODEL_INTEGRATION.md). See `HANDOFF.md` §13 for the phase plan.
+Phase 0 (scaffold, Docker, HTTPS, CI) Phase 1 (database schema, auth, RBAC, user admin, audit, settings) Phase 2 (frontend shell: splash, sign-in, language + RTL, onboarding, role-based navigation, indicators, help skeleton, settings) Phase 3 (incidents, zones, teams, alerts, live dashboard, WebSocket channels) Phase 4 (ML seam with mock models, zone risk fusion, phone zone capture, spoken alerts) Phase 5 (thermal image/video uploads, job queue, tracking, Rescue Priority Index, ranked victims, mobile sync) Phase 6 (incident reports, EN/UR PDF export, optional AI-drafted narrative) Phase 7 (simulation trainer: placeholder scenarios, labelling tool, reference outputs through the model seam, grading, results and progress views, optional AI feedback) Phase 8 (administration: users, validated settings editor, system status, audit viewer; bilingual help pages for every screen with an optional AI help assistant) and Phase 9 (hardening: load test, data retention, restart resilience, accessibility and bilingual screen pass on every route, end-to-end demo) complete. **What remains is plugging in the real models** (`docs/MODEL_INTEGRATION.md`). Model integration: [`docs/MODEL_INTEGRATION.md`](docs/MODEL_INTEGRATION.md). See `HANDOFF.md` §13 for the phase plan.

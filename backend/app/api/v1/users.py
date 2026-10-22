@@ -1,3 +1,4 @@
+import asyncio
 import uuid
 from typing import Annotated
 
@@ -93,7 +94,7 @@ async def create_user(body: UserCreate, request: Request, admin: Admin, db: DB) 
         role=body.role,
         preferred_language=body.preferred_language,
         station_id=body.station_id or admin.station_id,
-        password_hash=hash_password(password),
+        password_hash=await asyncio.to_thread(hash_password, password),
         must_change_password=True,
     )
     db.add(user)
@@ -194,7 +195,7 @@ async def reset_password(
     password = body.new_password or temporary_password()
     if (code := password_policy_violation(password)) is not None:
         raise AppError(422, code)
-    user.password_hash = hash_password(password)
+    user.password_hash = await asyncio.to_thread(hash_password, password)
     user.must_change_password = True
     await sessions.revoke_all_for_user(db, user.id)
     await audit.record(

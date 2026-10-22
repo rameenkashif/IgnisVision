@@ -1,3 +1,4 @@
+import asyncio
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
@@ -8,6 +9,7 @@ from app.core.config import get_settings
 from app.core.errors import install_error_handlers
 from app.jobs.queue import get_queue
 from app.ml.registry import load_models
+from app.services import retention
 from app.ws.capture import router as capture_router
 from app.ws.routes import router as ws_router
 
@@ -16,7 +18,9 @@ from app.ws.routes import router as ws_router
 async def lifespan(_: FastAPI):
     load_models()  # refuses to start if ML_BACKEND=real fails (HANDOFF §9.2)
     await get_queue().resume_pending()  # jobs interrupted by a restart run again
+    retention_task = asyncio.create_task(retention.run_forever())
     yield
+    retention_task.cancel()
     await get_queue().shutdown()
 
 

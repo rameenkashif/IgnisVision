@@ -108,7 +108,7 @@
   padding: 2px 8px;
   border-radius: 10px;
   background: var(--safe-dim);
-  color: var(--safe);
+  color: var(--safe-text);
   font-weight: 600;
 }
 .status-dot.warn {
@@ -226,4 +226,8 @@
   .help-layout {
     grid-template-columns: 1fr;
   }
+}
+
+.banner .muted {
+  color: inherit;
 }

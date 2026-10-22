@@ -237,7 +237,7 @@ export function CapturePage() {
         >
           {capturing ? t('capture.stop') : t('capture.start')}
         </button>
-        <div className="capture-meta">
+        <div className="capture-meta" data-testid="capture-meta" data-state={state}>
           {state === 'connecting' && t('capture.connecting')}
           {state === 'reconnecting' && t('capture.reconnecting')}
           {state === 'streaming' && t('capture.streaming', { fps })}
