@@ -21,6 +21,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/audit-logs/facets": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Audit Facets
+         * @description Distinct actions and entity types, for the audit viewer's filters.
+         */
+        get: operations["audit_facets_api_v1_admin_audit_logs_facets_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/admin/scenarios": {
         parameters: {
             query?: never;
@@ -135,6 +155,23 @@ export interface paths {
         head?: never;
         /** Update Settings */
         patch: operations["update_settings_api_v1_admin_settings_patch"];
+        trace?: never;
+    };
+    "/api/v1/admin/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** System Status */
+        get: operations["system_status_api_v1_admin_status_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
     "/api/v1/alerts/{alert_id}/ack": {
@@ -390,6 +427,23 @@ export interface paths {
         get: operations["ready_api_v1_health_ready_get"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/help/ask": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Ask */
+        post: operations["ask_api_v1_help_ask_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1208,6 +1262,29 @@ export interface components {
                 [key: string]: "safe" | "caution" | "unsafe" | "blocked";
             };
         };
+        /** AskIn */
+        AskIn: {
+            /**
+             * Context
+             * @description Help page text shown to the user
+             */
+            context: string;
+            /**
+             * Lang
+             * @default en
+             * @enum {string}
+             */
+            lang: "en" | "ur";
+            /** Question */
+            question: string;
+            /** Topic */
+            topic?: string | null;
+        };
+        /** AskOut */
+        AskOut: {
+            /** Answer */
+            answer: string;
+        };
         /** AssessmentOut */
         AssessmentOut: {
             /** Analysable */
@@ -1377,6 +1454,13 @@ export interface components {
             /** Username */
             username: string;
         };
+        /** AuditFacets */
+        AuditFacets: {
+            /** Actions */
+            actions: string[];
+            /** Entity Types */
+            entity_types: string[];
+        };
         /** AuditList */
         AuditList: {
             /** Items */
@@ -1388,8 +1472,12 @@ export interface components {
         AuditOut: {
             /** Action */
             action: string;
+            /** Actor Name */
+            actor_name?: string | null;
             /** Actor User Id */
             actor_user_id: string | null;
+            /** Actor Username */
+            actor_username?: string | null;
             /** After */
             after: Record<string, never> | null;
             /** Before */
@@ -2701,6 +2789,8 @@ export interface operations {
                 entity_id?: string | null;
                 actor_user_id?: string | null;
                 action?: string | null;
+                from?: string | null;
+                to?: string | null;
                 limit?: number;
                 offset?: number;
             };
@@ -2726,6 +2816,26 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    audit_facets_api_v1_admin_audit_logs_facets_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AuditFacets"];
                 };
             };
         };
@@ -3063,6 +3173,26 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    system_status_api_v1_admin_status_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
                 };
             };
         };
@@ -3459,6 +3589,39 @@ export interface operations {
                 };
                 content: {
                     "application/json": Record<string, never>;
+                };
+            };
+        };
+    };
+    ask_api_v1_help_ask_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AskIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AskOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };

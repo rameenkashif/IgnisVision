@@ -39,7 +39,7 @@ docker compose cp caddy:/data/caddy/pki/authorities/local/root.crt ./caddy-root.
 
 ### AI-drafted text (optional)
 
-Reports always get a template narrative in English and Urdu. To have Claude rewrite it from the recorded facts, set `LLM_PROVIDER=anthropic` and `LLM_API_KEY=…` in `.env` (never commit it), restart the backend, and turn on `llm.features.report_narrative` (admin: `PATCH /api/v1/admin/settings`; the admin screen arrives in Phase 8). Trainer feedback works the same way with `llm.features.trainer_feedback`. If the API is unreachable the template text is kept, and scores never depend on the LLM.
+Reports always get a template narrative in English and Urdu. To have Claude rewrite it from the recorded facts, set `LLM_PROVIDER=anthropic` and `LLM_API_KEY=…` in `.env` (never commit it), restart the backend, and turn on **AI report summary** under **Administration → System settings → AI features**. Trainer feedback and the help assistant are switched on the same way. If the API is unreachable the template text is kept, and scores never depend on the LLM.
 
 ## Development
 
@@ -84,7 +84,7 @@ API conventions and auth flows: [`docs/API.md`](docs/API.md).
 
 ## Backups
 
-The `backup` service writes a `pg_dump` to `./backups/` daily and keeps 7 days. Restore:
+The `backup` service writes a `pg_dump` to `./backups/` daily and keeps 7 days (`BACKUP_RETENTION_DAYS`). **Administration → System status** shows the last backup and warns when it is older than 36 hours. Restore:
 
 ```bash
 docker compose exec -T db pg_restore -U ignis -d ignis --clean --if-exists < backups/ignis-<timestamp>.dump
@@ -92,4 +92,4 @@ docker compose exec -T db pg_restore -U ignis -d ignis --clean --if-exists < bac
 
 ## Status
 
-Phase 0 (scaffold, Docker, HTTPS, CI) Phase 1 (database schema, auth, RBAC, user admin, audit, settings) Phase 2 (frontend shell: splash, sign-in, language + RTL, onboarding, role-based navigation, indicators, help skeleton, settings) Phase 3 (incidents, zones, teams, alerts, live dashboard, WebSocket channels) Phase 4 (ML seam with mock models, zone risk fusion, phone zone capture, spoken alerts) Phase 5 (thermal image/video uploads, job queue, tracking, Rescue Priority Index, ranked victims, mobile sync) Phase 6 (incident reports, EN/UR PDF export, optional AI-drafted narrative) and Phase 7 (simulation trainer: placeholder scenarios, labelling tool, reference outputs through the model seam, grading, results and progress views, optional AI feedback) complete. Model integration: [`docs/MODEL_INTEGRATION.md`](docs/MODEL_INTEGRATION.md). See `HANDOFF.md` §13 for the phase plan.
+Phase 0 (scaffold, Docker, HTTPS, CI) Phase 1 (database schema, auth, RBAC, user admin, audit, settings) Phase 2 (frontend shell: splash, sign-in, language + RTL, onboarding, role-based navigation, indicators, help skeleton, settings) Phase 3 (incidents, zones, teams, alerts, live dashboard, WebSocket channels) Phase 4 (ML seam with mock models, zone risk fusion, phone zone capture, spoken alerts) Phase 5 (thermal image/video uploads, job queue, tracking, Rescue Priority Index, ranked victims, mobile sync) Phase 6 (incident reports, EN/UR PDF export, optional AI-drafted narrative) Phase 7 (simulation trainer: placeholder scenarios, labelling tool, reference outputs through the model seam, grading, results and progress views, optional AI feedback) and Phase 8 (administration: users, validated settings editor, system status, audit viewer; bilingual help pages for every screen with an optional AI help assistant) complete. Model integration: [`docs/MODEL_INTEGRATION.md`](docs/MODEL_INTEGRATION.md). See `HANDOFF.md` §13 for the phase plan.

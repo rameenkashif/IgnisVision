@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react';
 import { createBrowserRouter, Navigate, type RouteObject } from 'react-router-dom';
-import { ComingSoon } from './components/ComingSoon';
 import { AnalysisPage } from './features/analysis/AnalysisPage';
 import { CapturePage } from './features/capture/CapturePage';
 import { HelpIndex, HelpTopic } from './features/help/Help';
@@ -16,7 +15,11 @@ import { AttemptPage } from './features/trainer/AttemptPage';
 import { AttemptResult } from './features/trainer/AttemptResult';
 import { TrainerPage } from './features/trainer/TrainerPage';
 import { TrainerResults } from './features/trainer/TrainerResults';
+import { AdminAudit } from './features/admin/AdminAudit';
 import { AdminScenarios } from './features/admin/AdminScenarios';
+import { AdminSettings } from './features/admin/AdminSettings';
+import { AdminStatus } from './features/admin/AdminStatus';
+import { AdminUsers } from './features/admin/AdminUsers';
 import { ScenarioEditor } from './features/admin/ScenarioEditor';
 import { ReportDetail } from './features/reports/ReportDetail';
 import { ReportsPage } from './features/reports/ReportsPage';
@@ -89,10 +92,14 @@ export const routes: RouteObject[] = [
         handle: { help: 'trainer' },
       },
       { path: '/trainer/:scenarioId', ...guarded('trainer', <AttemptPage />) },
-      { path: '/admin', element: <Navigate to="/admin/scenarios" replace /> },
+      { path: '/admin', element: <Navigate to="/admin/users" replace /> },
+      { path: '/admin/users', ...guarded('admin', <AdminUsers />) },
+      { path: '/admin/settings', ...guarded('admin', <AdminSettings />) },
+      { path: '/admin/status', ...guarded('admin', <AdminStatus />) },
+      { path: '/admin/audit', ...guarded('admin', <AdminAudit />) },
       { path: '/admin/scenarios', ...guarded('admin', <AdminScenarios />) },
       { path: '/admin/scenarios/:scenarioId', ...guarded('admin', <ScenarioEditor />) },
-      { path: '/admin/*', ...guarded('admin', <ComingSoon page="admin" />) },
+      { path: '/admin/*', element: <Navigate to="/admin/users" replace /> },
       { path: '/settings', ...guarded('settings', <SettingsPage />) },
       { path: '/help', element: <HelpIndex />, handle: { help: 'getting-started' } },
       { path: '/help/:topic', element: <HelpTopic />, handle: { help: 'getting-started' } },

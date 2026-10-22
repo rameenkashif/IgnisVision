@@ -48,7 +48,10 @@ test('phone capture drives the commander map; rapid change is alerted and spoken
   await expect(cell).not.toHaveAttribute('data-status', 'unclassified', { timeout: 6_000 });
   const firstUpdateMs = Date.now() - t0;
   await expect(phone.getByTestId('capture-reasons').locator('li')).not.toHaveCount(0);
-  await expect(cmd.getByTestId('rgb-panel').locator('img').first()).toBeVisible();
+  // The frame image loads after the status event; allow for a cold backend on the first run.
+  await expect(cmd.getByTestId('rgb-panel').locator('img').first()).toBeVisible({
+    timeout: 15_000,
+  });
 
   // Escalating storyline: safe → caution → unsafe within ~20 s → critical rapid-change alert.
   await expect(cell).toHaveAttribute('data-status', 'unsafe', { timeout: 40_000 });

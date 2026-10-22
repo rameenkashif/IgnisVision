@@ -135,6 +135,17 @@ Ground-truth format: HANDOFF §9.6, plus optional `frame_s` (seconds; the labell
 
 Admin (`/admin/scenarios`): `GET`, `POST {title_en, title_ur, description_en, description_ur, difficulty 1–5, kind: zone|posture|mixed, is_active}`, `GET/PATCH /{id}`, `DELETE /{id}` `{confirm: true}` (removes attempts too), `POST /{id}/items` (multipart `file` JPEG/PNG ≤ 20 MB or MP4/WebM/MOV ≤ 300 MB, optional `ground_truth` JSON), `PATCH /{id}/items/{item_id}` `{ground_truth?, order?}` (recomputes the reference), `DELETE /{id}/items/{item_id}`, `POST /{id}/recompute-reference` → `{computed, skipped, failed, model_version}`.
 
+## Administration (admin only)
+
+- **Users** (`/users`): `GET ?role=&is_active=&q=&limit=&offset=` (includes `last_login_at`), `POST {username, full_name, role, preferred_language, password?}` → `{user, temporary_password}` (shown once when no password is given), `PATCH /{id} {full_name?, role?, preferred_language?, is_active?}` (role change or deactivation revokes sessions; `409 cannot_modify_self` for your own role/state), `POST /{id}/deactivate {confirm: true}`, `POST /{id}/reset-password {confirm: true, new_password?}` → `{temporary_password}`.
+- **Settings**: `GET /settings` (any user: public keys), `GET /admin/settings`, `PATCH /admin/settings {key: value, …}` → all values; invalid → `422 invalid_setting {key, detail}`. Keys and bounds: `backend/app/services/settings.py`.
+- **Status**: `GET /admin/status` → `{status: ok|warn, warnings[], app, database, ml, jobs, storage, backups, llm, users, live}`. Warnings: `ml_fallback`, `jobs_failed` (24 h), `disk_low` (< 10 % free), `backups_not_visible`, `backup_stale` (> 36 h), `llm_key_missing`. Backups are read from `BACKUP_DIR` (compose mounts `./backups` read-only).
+- **Audit log**: `GET /admin/audit-logs?action=&entity_type=&entity_id=&actor_user_id=&from=&to=&limit=&offset=` → `{items: [{action, entity_type, entity_id, before, after, ip, created_at, actor_username, actor_name}], total}`; `GET /admin/audit-logs/facets` → `{actions, entity_types}`.
+
+## Help assistant (optional)
+
+`POST /help/ask {question, topic?, context, lang}` (any signed-in user) → `{answer}`. `context` is the help page text the user is reading; the model is told to answer only from it and never to make operational calls. `409 help_assistant_off` unless `llm.features.help_assistant` is on and an LLM is configured; `503 help_assistant_unavailable` on provider errors; `429 too_many_requests` above 10 questions per minute per user.
+
 ## Mobile sync — `POST /api/v1/sync/incidents`
 
 For the Flutter app (roles: field responder, incident commander). **Idempotent**: post the same payload any number of times; each incident is created once.

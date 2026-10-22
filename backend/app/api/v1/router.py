@@ -6,10 +6,12 @@ from app.api.v1 import (
     auth,
     capture,
     health,
+    help,
     incidents,
     media,
     reports,
     settings,
+    status,
     sync,
     teams,
     thermal,
@@ -21,7 +23,7 @@ from app.api.v1 import (
 
 api_router = APIRouter(prefix="/api/v1")
 for module in (
-    health, auth, users, incidents, zones, teams, alerts, capture, thermal, media, sync,
-    reports, training, training_admin, settings, admin,
+    health, auth, help, users, incidents, zones, teams, alerts, capture, thermal, media, sync,
+    reports, training, training_admin, settings, admin, status,
 ):  # fmt: skip
     api_router.include_router(module.router)

@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 const TABS = ['users', 'scenarios', 'settings', 'status', 'audit'] as const;
 
-/** Administration sections (HANDOFF §11). Scenarios arrive in Phase 7, the rest in Phase 8. */
+/** Administration sections (HANDOFF §11). */
 export function AdminTabs() {
   const { t } = useTranslation();
   return (

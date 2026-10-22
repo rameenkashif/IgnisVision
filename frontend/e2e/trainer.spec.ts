@@ -104,6 +104,7 @@ test('trainee API: incidents are forbidden', async ({ request }) => {
 test('admin labels a new scenario in the browser', async ({ page }) => {
   await signIn(page, 'admin');
   await page.locator('[data-nav=admin]').click();
+  await page.getByRole('link', { name: 'Training scenarios' }).click();
   await expect(page).toHaveURL(/\/admin\/scenarios$/);
   await expect(page.getByTestId('admin-scenarios')).toContainText('PLACEHOLDER');
   await page.getByTestId('new-scenario').click();

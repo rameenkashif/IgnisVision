@@ -18,9 +18,7 @@
     "saved": "Saved",
     "on": "On",
     "off": "Off",
-    "signOut": "Sign out",
-    "comingSoonTitle": "This module is being built",
-    "comingSoonBody": "It arrives in an upcoming build. Navigation, sign-in and language settings already work."
+    "signOut": "Sign out"
   },
   "splash": {
     "skip": "Skip"
@@ -250,6 +248,16 @@
         "title": "Settings",
         "body": "Choose your language, turn spoken alerts and alert sounds on or off, change your password and replay the getting-started tour."
       }
+    },
+    "search": "Search help",
+    "noMatch": "No help page matches.",
+    "more": "Other topics",
+    "ask": {
+      "title": "Ask about this page",
+      "placeholder": "e.g. How do I reassign a responder?",
+      "send": "Ask",
+      "thinking": "Thinking…",
+      "note": "AI answers use only this help text and may be wrong. They never decide operational questions."
     }
   },
   "errors": {
@@ -280,7 +288,17 @@
     "invalid_ground_truth": "The labels could not be saved: check every region and box.",
     "unsupported_media_type": "Unsupported file type.",
     "file_too_large": "The file is too large.",
-    "unreadable_media": "The file could not be read."
+    "unreadable_media": "The file could not be read.",
+    "cannot_modify_self": "You cannot change your own role or deactivate yourself.",
+    "username_taken": "That username is already taken.",
+    "user_not_found": "User not found.",
+    "station_not_found": "Station not found.",
+    "invalid_setting": "A setting value is not valid.",
+    "no_changes": "Nothing to save.",
+    "help_assistant_off": "The help assistant is not enabled.",
+    "help_assistant_unavailable": "The help assistant is unavailable right now. Try again later.",
+    "too_many_requests": "Too many requests. Wait a minute and try again.",
+    "confirmation_required": "Please confirm this action."
   },
   "status": {
     "unclassified": "Unclassified",
@@ -753,6 +771,214 @@
       "deleteItem": "Delete item",
       "deleteItemTitle": "Delete this item?",
       "deleteItemBody": "Past attempts keep their scores, but the item disappears from the scenario."
+    },
+    "users": {
+      "new": "New user",
+      "edit": "Edit {{name}}",
+      "editShort": "Edit",
+      "username": "Username",
+      "usernameHint": "Letters, numbers, dot, dash or underscore; at least 3 characters. Cannot be changed later.",
+      "fullName": "Full name",
+      "role": "Role",
+      "language": "Language",
+      "selfRole": "You cannot change your own role.",
+      "tempPasswordNote": "A temporary password is created and shown once. The person must change it at first sign-in.",
+      "search": "Search name or username",
+      "state": "Status",
+      "active": "Active",
+      "inactive": "Deactivated",
+      "lastLogin": "Last sign-in",
+      "actions": "Actions",
+      "mustChange": "must change password",
+      "reset": "Reset password",
+      "deactivate": "Deactivate",
+      "reactivate": "Reactivate",
+      "none": "No users match these filters.",
+      "deactivateTitle": "Deactivate {{name}}?",
+      "deactivateBody": "They are signed out everywhere and cannot sign in until reactivated. Their records are kept.",
+      "deactivated": "{{name}} was deactivated.",
+      "reactivated": "{{name}} can sign in again.",
+      "resetTitle": "Reset the password of {{name}}?",
+      "resetBody": "A new temporary password is created and all their sessions end. They must choose a new password at next sign-in.",
+      "tempTitle": "Temporary password",
+      "tempBody": "Give this password to {{username}} in person. It is shown only once.",
+      "copy": "Copy",
+      "done": "Done"
+    },
+    "set": {
+      "tuneNote": "These defaults are starting points. Tune them with Rescue 1122 before operational use; every change is audited.",
+      "sec": {
+        "rpi": "Rescue Priority Index",
+        "fusion": "Zone risk fusion",
+        "timing": "Timing and alerts",
+        "data": "Data retention",
+        "ai": "AI features (optional)",
+        "trainer": "Trainer grading"
+      },
+      "secHint": {
+        "rpi": "RPI = weighted posture, detection confidence and zone risk. Bands map the score to Critical / High / Medium / Low.",
+        "fusion": "Shares and confidences (0–1) that turn segmentation and damage detections into Safe / Caution / Unsafe / Blocked.",
+        "timing": "How long a zone status stays current, alert windows, the capture rate and the evacuation threshold.",
+        "data": "Incidents and media older than this are deleted automatically. Keep forever = never delete.",
+        "ai": "Need LLM_PROVIDER and LLM_API_KEY in the server's .env. Alerts, zone status and RPI never use AI.",
+        "trainer": "Optional half credit when a zone answer is one step away from the correct one (e.g. caution vs unsafe)."
+      },
+      "f": {
+        "rpi": {
+          "weights": {
+            "w_p": "Weight: posture",
+            "w_c": "Weight: detection confidence",
+            "w_r": "Weight: zone risk"
+          },
+          "posture_scores": {
+            "lying": "Posture score: lying",
+            "bending": "Posture score: bending",
+            "sitting": "Posture score: sitting",
+            "standing": "Posture score: standing"
+          },
+          "bands": {
+            "critical": "Critical band from",
+            "high": "High band from",
+            "medium": "Medium band from"
+          },
+          "low_confidence_threshold": "Low-confidence threshold",
+          "low_confidence_factor": "Low-confidence factor"
+        },
+        "zone_fusion": {
+          "min_structure_share": "Minimum visible structure",
+          "min_confidence": "Minimum segmentation confidence",
+          "caution_damage_conf": "Caution: damage confidence",
+          "unsafe_crack_spalling_share": "Unsafe: crack/spalling share",
+          "unsafe_collapse_conf": "Unsafe: collapse confidence",
+          "blocked_floor_door_share": "Blocked: floor/doorway covered",
+          "blocked_frame_share": "Blocked: view covered"
+        },
+        "stale_zone_seconds": "Zone status valid for (seconds)",
+        "rapid_change_window_s": "Rapid-change window (seconds)",
+        "analysis_failed_alert_interval_s": "Repeat 'not analysable' alert after (seconds)",
+        "capture_fps": "Capture frames per second",
+        "evacuation_threshold_pct": "Evacuation threshold (% safe + caution)",
+        "retention_days": "Keep data for (days)",
+        "llm": {
+          "features": {
+            "report_narrative": "AI report summary",
+            "trainer_feedback": "AI trainer feedback",
+            "help_assistant": "AI help assistant"
+          }
+        },
+        "trainer": {
+          "grading": {
+            "partial_credit_adjacent": "Partial credit for adjacent zone status",
+            "adjacent_credit": "Credit for an adjacent answer"
+          }
+        }
+      },
+      "h": {
+        "llm": {
+          "features": {
+            "report_narrative": "Rewrites the report summary from the recorded facts.",
+            "trainer_feedback": "Explains a trainee's mistakes after submitting.",
+            "help_assistant": "Answers questions on help pages, using only the help text."
+          }
+        },
+        "trainer": {
+          "grading": {
+            "partial_credit_adjacent": "Applies to zone answers only, never to postures."
+          }
+        }
+      },
+      "keepForever": "Keep forever",
+      "range": "Allowed: {{min}} – {{max}}",
+      "revert": "Undo changes",
+      "saved": "Saved.",
+      "err": {
+        "number": "Enter a number.",
+        "range": "Must be between {{min}} and {{max}}.",
+        "bands": "Bands must be critical > high > medium.",
+        "weights": "At least one weight must be above 0."
+      }
+    },
+    "status": {
+      "allOk": "All systems normal",
+      "needsAttention": "Needs attention",
+      "checked": "Checked {{time}}",
+      "state": {
+        "ok": "OK",
+        "warn": "Check"
+      },
+      "warn": {
+        "ml_fallback": "models fell back to mocks",
+        "jobs_failed": "analysis jobs failed in the last 24 h",
+        "disk_low": "disk space below 10%",
+        "backups_not_visible": "backups folder not visible to the server",
+        "backup_stale": "last backup older than 36 h",
+        "llm_key_missing": "AI provider set but no API key"
+      },
+      "app": "Application",
+      "version": "Version",
+      "uptime": "Running for",
+      "openIncidents": "Open incidents",
+      "liveConnections": "Live connections",
+      "db": "Database",
+      "latency": "Response time",
+      "size": "Size",
+      "server": "Server",
+      "migration": "Schema version",
+      "ml": "Models",
+      "backend": "Backend",
+      "mock": "Mock models",
+      "real": "Real models",
+      "fallback": "Fallback reason",
+      "jobs": "Analysis jobs",
+      "queue": "Queue",
+      "workers": "{{n}} workers",
+      "job": {
+        "queued": "Queued",
+        "running": "Running",
+        "done": "Done",
+        "failed": "Failed"
+      },
+      "failed24": "Failed (24 h)",
+      "storage": "Storage",
+      "media": "Media files",
+      "diskFree": "Disk free",
+      "backups": "Backups",
+      "lastBackup": "Last backup",
+      "backupFiles": "Backup files",
+      "latestFile": "Latest file",
+      "backupsHidden": "Not visible to the server (mount ./backups into the backend).",
+      "llm": "AI (LLM)",
+      "provider": "Provider",
+      "templates": "Templates only (no AI)",
+      "users": "Users",
+      "sessions": "Active sessions"
+    },
+    "audit": {
+      "action": "Action",
+      "entity": "Type",
+      "actor": "By",
+      "ip": "IP address",
+      "details": "Details",
+      "hide": "Hide",
+      "field": "Field",
+      "before": "Before",
+      "after": "After",
+      "noDetail": "No further detail recorded.",
+      "none": "No entries match these filters.",
+      "system": "System",
+      "actions": {
+        "incident_delete": "Incident deleted",
+        "scenario_create": "Scenario created",
+        "scenario_delete": "Scenario deleted",
+        "scenario_item_add": "Scenario item added",
+        "scenario_item_delete": "Scenario item deleted",
+        "scenario_update": "Scenario updated",
+        "settings_update": "Settings changed",
+        "user_create": "User created",
+        "user_deactivate": "User deactivated",
+        "user_reset_password": "Password reset",
+        "user_update": "User updated"
+      }
     }
   }
 }
