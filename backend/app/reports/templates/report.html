@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="{{ lang }}" dir="{{ dir }}">
+<head>
+<meta charset="utf-8">
+<title>{{ L.title }} {{ s.incident.code }}</title>
+<style>
+  @font-face { font-family: "Noto Sans"; src: url("{{ fonts }}/NotoSans.ttf"); }
+  @font-face { font-family: "Noto Nastaliq Urdu"; src: url("{{ fonts }}/NotoNastaliqUrdu.ttf"); }
+  @page {
+    size: A4; margin: 18mm 16mm 18mm 16mm;
+    @top-left { content: "IGNIS VISION · {{ s.incident.code }}"; font: 8pt "Noto Sans"; color: #888; }
+    @bottom-center { content: "{{ L.page }} " counter(page) " {{ L.of }} " counter(pages); font: 8pt "Noto Sans"; color: #888; }
+  }
+  html { font-family: {% if lang == 'ur' %}"Noto Nastaliq Urdu", {% endif %}"Noto Sans"; font-size: 9.5pt; color: #1b1f23; }
+  body { line-height: {% if lang == 'ur' %}2.0{% else %}1.45{% endif %}; }
+  h1 { font-size: 19pt; margin: 0; }
+  h2 { font-size: 12pt; margin: 16pt 0 6pt; border-bottom: 1.5pt solid #FF6A2B; padding-bottom: 2pt; break-after: avoid; }
+  .org { color: #666; font-size: 9pt; }
+  .head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 8pt; }
+  .mark { display: inline-block; width: 26pt; height: 26pt; line-height: 26pt; text-align: center; color: #fff;
+          background: #E2501E; border-radius: 6pt; font: 700 11pt "Noto Sans"; margin-inline-end: 8pt; vertical-align: middle; }
+  .disclaimer { border: 1pt solid #E8A93B; background: #FFF7E6; padding: 6pt 8pt; border-radius: 4pt; font-size: 8.5pt; margin: 8pt 0; }
+  table { width: 100%; border-collapse: collapse; margin: 4pt 0; }
+  th, td { text-align: start; padding: 3pt 5pt; border-bottom: 0.5pt solid #ddd; vertical-align: top; }
+  th { background: #F3F4F6; font-weight: 600; font-size: 8.5pt; }
+  .kv td:first-child { color: #555; width: 32%; }
+  table.figures { border-collapse: separate; border-spacing: 5pt; margin: 0 -5pt; }
+  table.figures td { border: 0.75pt solid #ddd; border-radius: 4pt; padding: 5pt 8pt; width: 33%; }
+  .figures .n { font-size: 15pt; font-weight: 700; }
+  .figures .l { font-size: 8pt; color: #666; }
+  .chip { display: inline-block; padding: 0 5pt; border-radius: 3pt; color: #fff; font-size: 8pt; }
+  .dot { display: inline-block; width: 7pt; height: 7pt; border-radius: 50%; margin-inline-end: 3pt; }
+  .muted { color: #777; }
+  .ltr { direction: ltr; unicode-bidi: isolate; }
+  .frames { display: flex; flex-wrap: wrap; gap: 8pt; }
+  .frame { width: 48%; break-inside: avoid; }
+  .frame img { width: 100%; border-radius: 3pt; border: 0.5pt solid #ccc; }
+  .frame .cap { font-size: 8pt; color: #555; }
+  .legend span { margin-inline-end: 10pt; font-size: 8pt; }
+  .narrative { text-align: justify; }
+  tr { break-inside: avoid; }
+</style>
+</head>
+<body>
+<div class="head">
+  <div>
+    <span class="mark">IV</span><h1 style="display:inline">{{ L.title }} <span class="ltr">{{ s.incident.code }}</span></h1>
+    <div class="org">{{ L.org }}</div>
+  </div>
+  <div class="org">{{ L.generated }}: <span class="ltr">{{ generated_at }}</span></div>
+</div>
+
+<div class="disclaimer">{{ L.disclaimer }}</div>
+
+<h2>{{ L.summary }}</h2>
+<p class="narrative">{{ s.narrative[lang] }}</p>
+{% if s.narrative.source == 'llm' %}<p class="muted" style="font-size:8pt">{{ L.narrative_llm }}</p>{% endif %}
+
+<h2>{{ L.key_figures }}</h2>
+<table class="figures">
+  <tr>
+    <td><div class="n">{{ s.counts.zones }}</div><div class="l">{{ L.zones }}</div></td>
+    <td><div class="n">{{ s.counts.responders }}</div><div class="l">{{ L.responders }}</div></td>
+    <td><div class="n">{{ s.counts.victims }}</div><div class="l">{{ L.people }}</div></td>
+  </tr>
+  <tr>
+    <td><div class="n">{{ s.counts.rescued }}</div><div class="l">{{ L.rescued }}</div></td>
+    <td><div class="n">{{ s.counts.alerts_by_severity.get('crit', 0) }}</div><div class="l">{{ L.crit_alerts }}</div></td>
+    <td><div class="n" style="color: {{ status_color[s.counts.peak_status] }}">{{ E.status[s.counts.peak_status] }}</div><div class="l">{{ L.peak }}</div></td>
+  </tr>
+</table>
+
+<h2>{{ L.details }}</h2>
+<table class="kv">
+  <tr><td>{{ L.address }}</td><td>{{ s.incident.address or '—' }}{% if s.incident.city %}, {{ s.incident.city }}{% endif %}</td></tr>
+  <tr><td>{{ L.structure }} / {{ L.type }}</td><td>{{ E.structure.get(s.incident.structure_type, s.incident.structure_type) }} · {{ E.incident_type.get(s.incident.incident_type, s.incident.incident_type) }}</td></tr>
+  <tr><td>{{ L.reported_by }}</td><td>{{ s.incident.reported_by or '—' }}</td></tr>
+  <tr><td>{{ L.commander }}</td><td>{{ s.incident.commander or '—' }}</td></tr>
+  <tr><td>{{ L.opened }}</td><td class="ltr">{{ dt(s.incident.opened_at) }}</td></tr>
+  <tr><td>{{ L.activated }}</td><td class="ltr">{{ dt(s.incident.activated_at) }}</td></tr>
+  <tr><td>{{ L.closed }}</td><td><span class="ltr">{{ dt(s.incident.closed_at) }}</span>{% if s.incident.closed_by %} · {{ s.incident.closed_by }}{% endif %}</td></tr>
+  <tr><td>{{ L.duration }}</td><td>{{ duration }}</td></tr>
+  <tr><td>{{ L.source }}</td><td>{{ E.source.get(s.incident.source, s.incident.source) }}</td></tr>
+  {% if s.incident.summary_text %}<tr><td>{{ L.notes }}</td><td>{{ s.incident.summary_text }}</td></tr>{% endif %}
+</table>
+
+<h2>{{ L.zone_status }}</h2>
+{% if s.zones %}
+<table>
+  <tr><th>{{ L.zone }}</th><th>{{ L.label }}</th><th>{{ L.final }}</th><th>{{ L.final_at }}</th><th>{{ L.peak_status }}</th><th>{{ L.assessments }}</th></tr>
+  {% for z in s.zones %}
+  <tr>
+    <td class="ltr">{{ z.code }}</td><td>{{ z.label or '' }}</td>
+    <td><span class="dot" style="background: {{ status_color[z.final_status] }}"></span>{{ E.status[z.final_status] }}</td>
+    <td class="ltr">{{ dt(z.final_at) }}</td>
+    <td><span class="dot" style="background: {{ status_color[z.peak_status] }}"></span>{{ E.status[z.peak_status] }}</td>
+    <td>{{ z.assessments }}</td>
+  </tr>
+  {% endfor %}
+</table>
+<h2>{{ L.history }}</h2>
+<div dir="ltr">{{ history_svg | safe }}</div>
+<div class="legend">{% for k in ['safe','caution','unsafe','blocked','unclassified'] %}<span><span class="dot" style="background: {{ status_color[k] }}"></span>{{ E.status[k] }}</span>{% endfor %}</div>
+{% else %}<p class="muted">{{ L.none }}</p>{% endif %}
+
+<h2>{{ L.victims }}</h2>
+{% if s.victims %}
+<table>
+  <tr><th>{{ L.rank }}</th><th>{{ L.priority }}</th><th>{{ L.posture }}</th><th>{{ L.confidence }}</th><th>{{ L.zone }}</th><th>{{ L.source }}</th><th>{{ L.status }}</th><th>{{ L.first_seen }}</th></tr>
+  {% for v in s.victims %}
+  <tr>
+    <td>{{ v.rank or '–' }}</td>
+    <td><span class="chip" style="background: {{ band_color[v.band] }}">{{ E.band[v.band] }}</span> <span class="ltr muted">{{ '%.2f'|format(v.score) }}</span></td>
+    <td>{{ E.posture[v.posture] }}{% if v.low_confidence %} <span class="muted">({{ L.low_conf }})</span>{% endif %}</td>
+    <td>{{ (v.confidence * 100)|round|int if v.confidence is not none else '—' }}%</td>
+    <td class="ltr">{{ v.zone or '—' }}</td>
+    <td>{{ E.source.get(v.source, v.source) }}</td>
+    <td>{{ E.victim_status[v.status] }}</td>
+    <td class="ltr">{{ dt(v.first_seen_at, False) }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}<p class="muted">{{ L.none }}</p>{% endif %}
+
+<h2>{{ L.team }}</h2>
+{% if s.team %}
+<table>
+  <tr><th>{{ L.responder }}</th><th>{{ L.zone }}</th><th>{{ L.device }}</th><th>{{ L.from }}</th><th>{{ L.until }}</th></tr>
+  {% for a in s.team %}
+  <tr><td>{{ a.responder }}</td><td class="ltr">{{ a.zone or '—' }}</td><td>{{ a.device or '' }}</td><td class="ltr">{{ dt(a.assigned_at, False) }}</td><td class="ltr">{{ dt(a.unassigned_at, False) }}</td></tr>
+  {% endfor %}
+</table>
+{% else %}<p class="muted">{{ L.none }}</p>{% endif %}
+
+<h2>{{ L.alerts }}</h2>
+{% if s.alerts %}
+<table>
+  <tr><th>{{ L.time }}</th><th>{{ L.severity }}</th><th>{{ L.message }}</th></tr>
+  {% for a in s.alerts %}
+  <tr><td class="ltr">{{ dt(a.at, False) }}</td><td>{{ E.severity[a.severity] }}</td><td>{{ alert_text(a.message_key, a.params) }}</td></tr>
+  {% endfor %}
+</table>
+{% else %}<p class="muted">{{ L.none }}</p>{% endif %}
+
+<h2>{{ L.timeline }}</h2>
+<table>
+  {% for e in s.timeline %}
+  <tr><td class="ltr" style="width: 18%">{{ dt(e.at, False) }}</td><td>{{ event_text(e) }}</td></tr>
+  {% endfor %}
+</table>
+{% if s.timeline_truncated %}<p class="muted">{{ L.truncated.format(n=s.timeline_truncated) }}</p>{% endif %}
+
+{% if frames %}
+<h2>{{ L.frames }}</h2>
+<div class="frames">
+  {% for f, path in frames %}
+  <div class="frame">
+    <img src="{{ path }}">
+    <div class="cap"><span class="ltr">{{ f.zone or '—' }}</span> · {% if f.kind == 'rgb' %}{{ E.status[f.status] }}{% else %}{{ E.band[f.band] }} · {{ E.posture[f.posture] }}{% endif %} · <span class="ltr">{{ dt(f.at, False) }}</span></div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<h2>{{ L.models }}</h2>
+{% if s.model_versions %}<p class="ltr muted">{{ s.model_versions | join(' · ') }}</p>{% else %}<p class="muted">{{ L.none }}</p>{% endif %}
+
+<div class="disclaimer">{{ L.disclaimer }}</div>
+</body>
+</html>

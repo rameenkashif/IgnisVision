@@ -1,0 +1,170 @@
+# Decisions log
+
+Every assumption made while building from `HANDOFF.md`. **Owner-confirmed** rows came from Rameen; **Default** rows are the handoff's fallback and can be changed — edit this file (or tell Claude) and the code follows.
+
+## Phase 0 questions (HANDOFF §0)
+
+| # | Topic | Status | Decision |
+|---|---|---|---|
+| Q1 | Repo | **Owner-confirmed** (2026-10-20) | Build in `rameenkashif/IgnisVision` as a monorepo (repo root = `ignis-vision-web/` in the handoff layout). Inputs on `main`; phase work on feature branches. |
+| Q2 | Trainer media + ground truth | Default (awaiting media) | Seed 3 placeholder scenarios with generated images and hand-written ground truth, flagged `is_placeholder` / `PLACEHOLDER`. Format: HANDOFF §9.6. |
+| Q3 | LLM | **Owner-confirmed**: Anthropic Claude | `LLM_PROVIDER=anthropic` support will be built behind `LLMProvider`. Default in `.env.example` stays `template` so the app runs with no key; set `LLM_PROVIDER=anthropic` + `LLM_API_KEY` in `.env` to enable. Model default `claude-opus-5-5` (`LLM_MODEL`; see Phase 6). Features: report narrative, trainer feedback, help assistant — each behind a flag with template fallback. Key is never logged. |
+| Q4 | Web TTS | Default | Browser `speechSynthesis`; on-screen text when no Urdu voice exists. `TTSProvider` interface ready for a cloud provider; `POST /tts` returns 501 while provider is `browser`. |
+| Q5 | Brand assets | Partially received | Splash video received → `docs/reference/brand/Ignis_Vision_Splash.mp4` (will be used by the splash screen in Phase 2). Logo SVG/PNG and favicon not yet received → CSS "IV" mark as in the prototype. |
+| Q6 | RPI weights | Default | `w_p=0.6, w_c=0.25, w_r=0.15`; posture P: lying 1.0, bending 0.6, sitting 0.5, standing 0.2; low-confidence factor 0.9; bands critical ≥0.75, high ≥0.55, medium ≥0.35, else low. Admin-editable. To be tuned with Rescue 1122 (SRS App. B #3). |
+| Q7 | Zone fusion thresholds | Default | HANDOFF §8.2 heuristics (not analysable <15% structure; blocked ≥25% floor/door or >35% frame collapse/debris; unsafe collapse ≥0.5 conf or crack+spalling ≥5% on structural elements; caution any damage ≥0.4; stale after 120 s). Admin-editable; **must be tuned**. |
+| Q8 | Deployment | **Owner-confirmed**: local Docker | Docker Compose + Caddy `tls internal`; `SITE_ADDRESS` set to the LAN IP for phone testing; mkcert alternative in README. |
+| Q9 | Organisation | **Owner-confirmed**: Rescue 1122 | UI says "Rescue 1122". `stations` table seeded with one station; schema is multi-station-ready. |
+| Q10 | Demo accounts | Default | `admin`, `commander1`, `responder1`, `trainee1`, `trainer1`; password printed by the seed script. |
+| Q11 | Live RGB on dashboard | Default | Latest analysed frame per zone as a thumbnail, refreshed on each new result. No continuous video relay. |
+| Q12 | Building layout | Default | Floors × zones grid as in the prototype; `zones.polygon` and `incidents.floor_plan_media_id` kept nullable for a later floor-plan mode. |
+| Q13 | Urdu review | Default | Claude drafts Urdu strings, marked `needs_review` in `docs/i18n-review.md`. |
+| Q14 | Retention | Default | No automatic deletion; retention days is an admin setting, off by default. |
+
+## Other decisions
+
+| Area | Decision | Why |
+|---|---|---|
+| RPI colours | critical + high = red, medium = yellow, low = green, always with the band label; drawn as circles/badges with the separate `--prio-*` palette so they never read as zone fills. | Reconciles SRS's four bands with its red/yellow/green wording (HANDOFF §8.1) and SRS §3.1.2's "victim colours distinct from zone colours". |
+| Mobile offline sign-in | `POST /auth/mobile/login` ships the argon2 hash + params to the device, as SRS UC-08 alt flow 1 specifies. Argon2 parameters are therefore set strong (Phase 1). | Required by SRS; mitigated by parameter strength and 410 on deactivated accounts. |
+| Frontend serving | `frontend` image = Caddy serving static `dist/` on :80; the separate edge `caddy` service terminates TLS and routes `/api/*`, `/ws/*` → backend, everything else → frontend. | Matches HANDOFF §2 compose layout; keeps TLS config in one place. |
+| CSP | Strict CSP for the app (Google Fonts allowed). `/api/docs` gets a scoped CSP allowing jsDelivr + inline script for Swagger UI. | OpenAPI docs must stay reachable (SRS §3.3.8) without weakening the app's policy. |
+| Backups | `backup` service: `pg_dump -Fc` daily into `./backups/`, deletes dumps older than `BACKUP_RETENTION_DAYS` (7), writes `backups/LAST_BACKUP` for `/admin/status`. | SRS §5.2.2. |
+| Python deps | `requirements.txt` (app), `requirements-dev.txt` (tests/lint), `requirements-ml.txt` (torch etc., never installed by default). | HANDOFF §9: nothing outside `app/ml/` imports ML libs. |
+
+## Phase 1: database, auth, RBAC
+
+| Area | Decision | Why |
+|---|---|---|
+| Enums | Stored as `VARCHAR` + `CHECK` constraint (SQLAlchemy `native_enum=False`), not native PG enums. | Adding a value later is a plain migration; no `ALTER TYPE` dance. |
+| Schema | Full HANDOFF §5 schema created in the first migration, so later phases add behaviour, not tables. Additions: `users.onboarding_completed`; `refresh_tokens.family_id`, `last_activity_at`, `replaced_by_id`; `incidents.deleted_at` (soft delete); `thermal_detections.client_detection_uuid`, `meta`, `model_versions`; `sync_batches.app_version`. | Needed by the onboarding flow, idle rule, rotation, audited deletes and mobile dedupe. |
+| Sessions | One sign-in = one refresh-token **family**. Each refresh rotates (old row revoked, `replaced_by_id` set). Replaying a rotated token **revokes the whole family** (theft signal) — except within a 10 s grace window, which returns `409 refresh_race` so two tabs refreshing at once don't log the user out. | Rotation + reuse detection per OWASP; grace handles real multi-tab use. |
+| Idle rule | Activity = login and `POST /auth/heartbeat` (stored on the session). **Refresh does not count as activity**, so a background refresh loop can't keep an idle session alive. Refresh is refused (`401 idle_timeout`) after 30 min idle unless the user is commander or current assignee of an `active` incident. The frontend sends heartbeats on user interaction and continuously on live/capture screens of an active incident. | SRS §5.3.1. |
+| Logout | Authenticated by the refresh token (cookie or body), so it works after the 15-min access token expires. Ends the whole family. | Logging out must always work. |
+| Deactivation | Revokes all sessions immediately. `/auth/refresh` and `/auth/mobile/refresh-bundle` return `410 account_deactivated`, checked before any other token state, so the phone always wipes its offline bundle. | SRS UC-08 AF1. |
+| `must_change_password` | While set, every endpoint except `GET/PATCH /auth/me`, `/auth/change-password`, `/auth/heartbeat` and `/auth/logout` returns `403 password_change_required`. Set on admin-created users and admin resets. | SRS UC-08 AF2. |
+| Argon2 params | argon2id, t=3, m=64 MiB, p=2. Hashes are transparently upgraded on login if params change. | Hash leaves the server in the mobile bundle. |
+| Production guard | Backend refuses to start with `ENVIRONMENT=prod` and a placeholder `JWT_SECRET`. | Prevents shipping the example secret. |
+| Admin self-protection | An admin can't deactivate or demote their own account (`409 cannot_modify_self`). | Avoids locking everyone out. |
+| Confirmations | Destructive admin endpoints take `{"confirm": true}` (deactivate, reset password; later close/delete incident). | SRS §5.2.3: the API enforces it too, not only the UI dialog. |
+| Seed station | "Rescue 1122 — Lahore HQ" (Lahore, Punjab). | Rescue 1122 HQ; rename via DB/admin later. |
+| RBAC tests | `tests/test_rbac.py` holds the role × endpoint matrix, plus a guard test that **fails if any `/api/v1` route has no matrix row**. | Keeps §6 enforced as routers are added. |
+
+## Phase 2: frontend shell
+
+| Area | Decision | Why |
+|---|---|---|
+| Access token | Kept **in memory only** (Zustand); never in localStorage. Page reloads restore the session from the httpOnly refresh cookie via `POST /auth/refresh`. | XSS can't read a token that isn't stored. |
+| Refresh | Single-flight per tab **and** across tabs (Web Locks API, `iv-refresh`), so the rotating cookie is never sent twice; `409 refresh_race` retried once as a fallback. Expired-token requests are replayed after refresh. | Avoids tripping the backend's reuse detection with multiple tabs. |
+| Idle timer | Client signs out after 30 min without pointer/key/touch/wheel input, with a 60-second warning banner, unless the screen has set `keepAlive` (live/capture of an active incident, Phase 3/4) or the last heartbeat said the user is in an active incident. Heartbeat at most once a minute, only after interaction (or always under keepAlive). | Client half of SRS §5.3.1; matches the backend rule. |
+| First run | `onboarding_completed = false` ⇒ sign-in → language choice → role-tailored walkthrough. Returning users get their saved profile language. The tour is replayable from Settings. | SRS §3.1.2. |
+| Language | Switching sets `<html lang dir>`, saves to localStorage and the profile (`PATCH /auth/me`) and never navigates or remounts, so page state is kept. CSS uses logical properties; Urdu disables letter-spacing/uppercase (they break Arabic-script joining), uses taller line height and uses Noto Sans Arabic in place of the monospace face. | SRS §5.4.6.3. |
+| Urdu fonts | Noto Nastaliq Urdu for headings, Noto Sans Arabic for body and small labels; Nastaliq is unreadable at the prototype's 9–11 px label sizes. | HANDOFF §4.1 asked to test which reads better small. |
+| Navigation | `src/lib/nav.ts` mirrors HANDOFF §6. Routes are additionally wrapped in `RequireNav`, which shows "not available for your role" (the backend still returns 403 regardless). Admin sees Live/Reports/Team read-only and no trainer attempts; training staff see all trainee results. | §6 matrix. |
+| Phone layout | ≤ 768 px: sidebar becomes an off-canvas drawer (mirrored in RTL), every control ≥ 48 px, no horizontal scroll at 360 px. | SRS §5.4.6.1. |
+| Splash | Plays `public/splash.mp4` once per browser session (skip button, 8 s cap); skipped entirely with `prefers-reduced-motion`. | Prototype flow without annoying reloads. |
+| Typed client | `backend/scripts/export_openapi.py` → `frontend/src/api/openapi.json` → `openapi-typescript` → `schema.d.ts`, used by `openapi-fetch`. A backend test and a CI step fail if either file drifts. | HANDOFF §3 (typed client from OpenAPI). |
+| Not-yet-built modules | Live, Capture, Analysis, Reports, Team, Trainer, Admin render a translated "being built" placeholder with the correct title, crumbs, help topic and role guard. | Shell is complete; modules arrive in Phases 3–8. |
+
+## Phase 3: incidents, zones, teams, live channel
+
+| Area | Decision | Why |
+|---|---|---|
+| Lifecycle | The dispatch form creates the incident directly as `dispatched` (briefing state). "Teams on site — start live monitoring" → `active`. Close (with `{"confirm": true}`) → `closed`, which also ends all open team assignments (history kept) and therefore the idle-logout exemption. `draft` is kept in the schema but unused by the UI. | Mirrors the prototype's empty → briefing → live flow. |
+| Incident code | `IV-<year>-<NNNN>` from a Postgres sequence (never reused, even after deletes). | Human-readable, collision-free. |
+| Grid | Zone codes `F<floor>-Z<n>`, `grid_row = floor-1`, `grid_col = n-1`; the map shows the top floor first. Labels are optional and editable. | Prototype grid (Q12 default). |
+| Stale rule | Applied when serving: a zone without an analysis, or whose last analysis is older than `stale_zone_seconds`, is returned as `status: "unclassified"` (with `stale: true` and the raw `stored_status`). The frontend only ever colours by `status`. Tested on both sides. | SRS §5.2.3 / §5.5.2: never show safe without a current analysis. |
+| KPIs | Building status = worst current status among classified zones; evacuation % = (safe + caution) / *classified* zones, with the unclassified share shown separately; response units = distinct currently assigned responders; AI confidence = mean confidence of current (non-stale) assessments. | HANDOFF §4.2. |
+| Reassignment | Assigning a responder who already has an open assignment in the incident closes the old row and opens a new one. Unassign is a soft close. | SRS UC-07 AF; full history for the report. |
+| Live channels | `wss://…/ws/incidents/{id}` as specified, plus **`wss://…/ws/station`** (incident created / status change / deleted) so a second dashboard picks up a brand-new incident without polling. Both authenticate with the first message. Server pings every 25 s; the client reconnects with exponential backoff + jitter, refreshes its token on close code 4401, and refetches the aggregate after every reconnect. | HANDOFF §7.2 plus the Phase 3 exit criterion. |
+| WS access | Incident channel: commanders and admins; field responders for any `active` incident or one they're assigned to (needed for zone capture in Phase 4); others `4403`. Station channel: commanders and admins. | HANDOFF §6. |
+| Events | `incident.updated` carries the full aggregate (zones, KPIs, assignments), so clients just replace their cached copy. Also `assignment.changed`, `alert.created`, `alert.acknowledged`, `incident.deleted`. In-process `EventBus` with bounded per-subscriber queues (slow clients drop old events instead of blocking). | Simple and correct at SRS scale (10 users); Redis-backed bus can replace it behind the same interface. |
+| Alerts | Stored as `message_key` + `params`; status words in params are translated at render time, so each viewer reads alerts in their own language. Commanders acknowledge; the newest unacknowledged critical alert turns the top bar red. | HANDOFF §5 / §4.2. |
+| Delete | Admin-only soft delete (`deleted_at`) with confirmation and audit entry; deleted incidents 404 everywhere. | SRS §5.5.3. |
+| Live screen keep-alive | The live view of an `active` incident sets `keepAlive`, so the client heartbeats and never idle-logs-out there. | SRS §5.3.1. |
+| Zone drawer | Opens below the shell header so the language switch, Help and indicators stay reachable. | Found by the e2e test; SRS §3.1.2. |
+
+## Phase 4: ML seam, mocks, zone capture
+
+| Area | Decision | Why |
+|---|---|---|
+| Seam | `app/ml/contracts.py` exactly as HANDOFF §9.1 (plus `ElementSegmentation.mask()` helper). Registry loads models at startup (FastAPI lifespan); `ML_BACKEND=real` failing to load stops the app unless `ML_ALLOW_MOCK_FALLBACK=true`. Inference runs in a bounded thread pool (`ML_WORKERS`). | HANDOFF §9.2, §7.3. |
+| Mock storylines | Deterministic given (image, scenario, clock). `calm` drifts once a minute (mostly safe, sometimes caution) instead of flickering per frame; `escalating` goes safe → caution → unsafe over ~16 s; `collapse` ends blocked. A storyline restarts after 30 s without frames (= a new capture). Low-contrast frames (std < 8, e.g. smoke or a covered lens) are "not analysable". | Stable tests and a believable demo. |
+| Fusion reasons | Stored as `{key, params}` (e.g. `reasons.surface_damage`, `{pct: 7.5}`) and translated in the UI, not English sentences. Exposed rebar with confidence ≥ the collapse threshold also counts as *unsafe* (in addition to the §8.2 rules). | Bilingual UI; exposed rebar implies severe spalling. |
+| Not analysable | The assessment is stored (`analysable=false`), the zone keeps its previous status and timestamp (so it still goes stale on schedule), and an `analysis_failed` info alert is raised at most once per `analysis_failed_alert_interval_s` per zone. | SRS UC-05 EF2; never set to safe. |
+| Alerts from capture | Only on a status *transition*: into unsafe/blocked after being safe/caution within `rapid_change_window_s` → **crit** `zone_rapid_change`; otherwise into unsafe → **warn** `zone_unsafe`, into blocked → **crit** `zone_blocked`. An unclean disconnect → info `camera_lost`. | SRS UC-05 EF1, REQ-6; no alert spam per frame. |
+| Frame storage | The JPEG + overlay PNG are kept at least every 5 s per session and on every status change; other frames are analysed and discarded. Assessments always point at the latest stored frame. | "Footage is recorded on the server" without filling the disk at 1 fps × 5 sessions. |
+| Media URLs | `/api/v1/media/{id}` accepts a bearer token (role-checked) **or** a short-lived HMAC-signed query (`exp`, `sig`, 15 min). Signed URLs are only handed out inside authorised responses/events, because `<img>`/`<video>` can't send headers. | Lets the dashboard show frames without exposing media publicly. |
+| Capture access | Commanders and field responders may capture **any zone of an `active` incident**; own assignments are listed first. Dispatched incidents can't be captured yet. | HANDOFF §6. |
+| Client capture | Rear camera (`facingMode: environment`), ~960 px JPEG q0.7 at the server's `target_fps` (default 1). The client skips a tick while the socket is busy or two frames are unanswered, so there's no backlog on either side. Lost connections auto-start a new session while capture is on. Screen Wake Lock while capturing. Camera failures (insecure context, unsupported, denied, no camera, in use) get specific messages. UI callbacks are isolated so a failing one (e.g. speech) can't stop the frame loop. | HANDOFF §7.3, SRS §2.4.5, §5.2.2. |
+| Spoken alerts | `lib/tts.ts`: template messages (`voice.*` keys), voice picked by language, de-duplicated for 8 s, newest-wins queue. If no Urdu voice exists, the text is shown on screen with a notice. The capture screen speaks its zone's alerts; the commander dashboard speaks new **critical** alerts (if voice alerts are on in Settings). | HANDOFF §8.4, SRS UC-04 EF. |
+| Responder zone map | The capture screen subscribes to the incident channel; responders get pushed aggregates for active incidents but still can't call `GET /incidents/{id}` (commander/admin only). `GET /capture/targets` returns full zone objects for the initial map. | Simplified zone map for responders without opening the dashboard API (§6). |
+
+## Phase 5: thermal uploads, victims, mobile sync
+
+| Area | Decision | Why |
+|---|---|---|
+| RPI without R | When environmental risk is unavailable (no zone, or zone unclassified/stale), RPI = (w_p·P + w_c·C) / (w_p + w_c), i.e. the two remaining weights are renormalised so scores stay on the 0–1 scale and the band thresholds still mean the same thing. `w_r = 0` behaves the same way. | SRS UC-03 AF2, §4.3 REQ-5. |
+| Low-confidence posture | Posture confidence < `rpi.low_confidence_threshold` (new setting, default 0.6) → P × `rpi.low_confidence_factor` (0.9), still ranked, flagged in the UI with ⚠. The mobile app's own `low_confidence` flag is honoured too. | HANDOFF §8.1. |
+| Ranking key | A victim's `latest_rpi_score/band` holds the **highest** RPI observed for that person (the best observation); the posture shown is the most recent one. List order: detected (by RPI) → rescued → not-a-person. | "Highest-RPI observation as the best one" (§8.3); conservative for rescue priority. |
+| Tracking | Greedy IoU matching (≥ 0.3) with a centroid-distance fallback (≤ 0.12 of the frame) for fast motion; confirmed after 2 consecutive samples; tracks survive ≤ 2 missed samples. Still images: every detection is a person. Unconfirmed blips stay as detections but don't become victims. | SRS REQ-7, UC-01 AF3. |
+| Job queue | In-process asyncio queue (2 workers) backed by `analysis_jobs`; queued/running jobs are re-enqueued at startup and restart cleanly (their partial detections/victims are replaced). | HANDOFF §2; survives backend restarts. |
+| Video playback | Uploaded videos are analysed at 2 fps and **each analysed sample is stored as a JPEG** (`<file>.frames/`). The viewer steps through those frames with play/slider, so boxes line up exactly with what the model saw and playback works whatever the original codec (e.g. iPhone HEVC `.mov` or MPEG-4 Part 2 don't play in Chrome). The original file stays downloadable. | Reliable review on every browser. |
+| Upload limits | Images: JPEG/PNG ≤ 20 MB. Videos: MP4/WebM/MOV ≤ 300 MB, streamed to disk in 1 MB chunks (never held in memory), probed before acceptance (unreadable → 422, file removed). | Robustness. |
+| Who may upload | Commanders and field responders, to any non-closed incident they can use (active, or assigned). Responders see their own session's uploads (no access to the incident-wide list, which is commander/admin). | HANDOFF §6. |
+| Critical victims | A person entering the *critical* band raises a **crit** `victim_critical` alert (spoken on the dashboard). | HANDOFF §5 alert types. |
+| Mobile sync | `POST /sync/incidents` (JSON or multipart). Unlinked items create an incident with `source=mobile_sync`, `client_uuid` (dedupe key), status `closed` if `ended_at` is set, otherwise `active`, and no floors/zones. Items with `linked_incident_id` add detections to that web incident; there, duplicates are detected per `client_detection_uuid`. One victim per `(client_uuid, track_id)`; untracked detections are individual people. RPI recomputed server-side; the phone's score/band kept in `meta`. Errors are reported per item; a duplicate returns 200 with `"duplicate"`. Every call is logged in `sync_batches`. | HANDOFF §7.4, SRS §3.4.4. |
+| Dashboard thermal panel | Shows the latest analysed thermal media (web upload or mobile frame) with boxes — the frame containing the highest-priority person for videos. No live thermal video on the web. | SRS; HANDOFF §4.2. |
+
+## Phase 6: reports, PDFs, LLM narrative
+
+| Area | Decision | Why |
+|---|---|---|
+| When reports are made | Closing an incident compiles its report in the same transaction (`reports` row: `stats` JSON + EN/UR narrative). Opening the report of an older closed incident compiles it on demand. `POST …/report/regenerate` (commander) recompiles and drops cached PDFs. Open incidents → `409 incident_not_closed`. | A report always exists for a closed incident; figures are frozen at close. |
+| Contents | Incident details, duration, key figures, final + peak status per zone with transitions, a zone-risk history chart, ranked people, team assignments (incl. reassignments), alerts, a timeline (≤ 250 events, remainder counted), representative frames (latest RGB of the 4 worst zones, thermal frames of the top 3 people) and every model name/version used. | HANDOFF §11, SRS report requirements. |
+| PDF engine | WeasyPrint 63 from an HTML/Jinja2 template. Fonts are **bundled** (Noto Sans, Noto Nastaliq Urdu, OFL) so output doesn't depend on the host; Urdu is rendered RTL in Nastaliq. The image needs Pango/HarfBuzz/fontconfig (`apt` in `backend/Dockerfile`). Rendering runs in a worker thread; each language's PDF is cached as a `report_pdf` media asset until the report is regenerated. | Real text shaping for Urdu (ReportLab can't do Nastaliq joins). |
+| Times | Report tables and narrative use `REPORT_TIMEZONE` (default `Asia/Karachi`) with the zone abbreviation; the web view uses the viewer's browser time. | Printed reports must be unambiguous. |
+| Disclaimer | "Decision support only — a missing detection does not mean nobody is present." at the top and in every page footer of the PDF and on the web view. | SRS safety requirement. |
+| Narrative | A deterministic **template** narrative (EN + UR, pluralised) is always written first. If `LLM_PROVIDER=anthropic`, a key is set and `llm.features.report_narrative` is on, a background task asks the model to rewrite it from the compiled facts only ("use ONLY the facts…"); on any failure (no key, network, rate limit, refusal) the template stays. The UI marks AI-drafted narratives. | Works offline; LLM is an optional improvement, never a dependency. |
+| LLM model | Default `claude-opus-5-5` (replaces the earlier Sonnet default in Q3), called with server-side fallback (`fallbacks="default"`) so a model outage degrades rather than fails. Change with `LLM_MODEL`. The API key is read from `.env` only and never logged. | Best narrative quality; still optional. |
+| Demo report | `python -m app.db.seed` also creates one closed demo incident with history, people, alerts and a compiled report (idempotent). | Reports page isn't empty on a fresh install. |
+| Who sees reports | Commanders and admins. Commanders regenerate; admins delete (with confirmation, audited). Responders have no reports page. | HANDOFF §6. |
+
+## Phase 7: simulation trainer
+
+| Area | Decision | Why |
+|---|---|---|
+| Placeholder scenarios | Until Rescue 1122 sends media (Q2), the seed creates three scenarios flagged `is_placeholder` and titled "(PLACEHOLDER)": generated corridor images split into labelled regions, and thermal-style images with people. Their explanations start with "PLACEHOLDER —" and the trainee sees a banner. Replace them in **Administration → Training scenarios** (or delete them). | HANDOFF §0 Q2 default. |
+| Item types | Each item is a `zone` item (regions → safe/caution/unsafe/blocked) or a `posture` item (people → standing/sitting/lying/bending); a `mixed` scenario simply has both. "Unclassified" is not a trainee answer. Videos are labelled on one frame (`frame_s`); the trainee can play/pause and jump back to that frame. | HANDOFF §9.6 format. |
+| Reference output | Computed through the ML seam when labels are saved, by the recompute endpoint, or by `python -m app.db.recompute_references`, and stored with the model versions. Zone regions: crop → segmentation + damage + fusion (a region the model can't analyse shows "Not analysable"). People: pose detections matched by IoU ≥ 0.3. Items without a reference (or without targets) are hidden. With mocks, damage follows dark pixels in the image so references are deterministic (MODEL_INTEGRATION §7). | Trainer works offline from the models; SRS UC-06 EF. |
+| Grading | Exact match against the ground truth. Optional partial credit for adjacent zone severities (`trainer.grading`: off by default, 0.5) — never for postures. Unanswered targets count as wrong (the UI requires every target before submit). Score = credits ÷ targets. Agreement with the model is a secondary figure over targets where the model gave an answer. | HANDOFF §9.6. |
+| Who | Commanders, responders, training staff and trainees attempt; admins manage scenarios but don't attempt. Own results for everyone; all results for training staff, commanders and admins. Ground truth is never sent before submission. Retrying starts a new attempt; all attempts are kept. | HANDOFF §6. |
+| Feedback | Always: per-target verdicts, the item's explanation (EN/UR) and the model's reasons. Optional AI feedback (`llm.features.trainer_feedback`) in the trainee's language, written in the background from the mistakes, explanations and model reasons only; the page polls until it's ready; failures leave just the template feedback. The score is never decided by the LLM. | HANDOFF §10. |
+| Labelling tool | Admin draws regions as a grid (rows × columns) or click-to-place polygons, people as dragged boxes, picks a label for each, writes explanations, and for videos picks the frame. Saving validates coordinates (0–1, unique ids) and recomputes the reference immediately. Deleting a scenario removes its attempts (confirmation + audit). | HANDOFF §9.6. |
+| Admin area | `/admin` now opens on Training scenarios; the other tabs (users, settings, status, audit) arrive with Phase 8. | Phase order. |
+
+## Phase 8: administration, settings, status, help
+
+| Area | Decision | Why |
+|---|---|---|
+| Admin area | Tabs: Users, Training scenarios, System settings, System status, Audit log; `/admin` opens on Users. Every destructive action has a confirmation dialog; every change is audited server-side. | HANDOFF §11, SRS §4.8. |
+| Users | Temporary passwords are generated server-side and shown once (copy button); the user must change them at first sign-in. Role changes and deactivation revoke all of that user's sessions. Admins cannot change their own role or deactivate themselves. Reactivation = `PATCH is_active: true`. | SRS UC-08. |
+| Settings editor | One form per group (RPI, zone fusion, timing and alerts, data retention, AI features, trainer grading); only changed keys are sent. The browser repeats the backend checks (ranges, `critical > high > medium`, at least one non-zero RPI weight) so mistakes are caught before saving; the server remains the authority. A banner reminds that defaults must be tuned with Rescue 1122. | HANDOFF §13 Phase 8. |
+| Status page | One `GET /admin/status` call, refreshed every 15 s: DB latency/size/schema version, ML backend and versions (and mock fallback), job counts and failures in 24 h, media and disk space, backups (newest file and `LAST_BACKUP` marker read through a read-only `./backups` mount), LLM provider and features, active users by role and sessions, open incidents and live connections. "Check" when: mock fallback, failed jobs, < 10 % disk free, backups not visible or older than 36 h, LLM selected without a key. | SRS §4.8 "system status". |
+| Audit viewer | Filters by action, type and date; actor names joined server-side; per-entry before/after table with changed fields highlighted. | SRS §5.5.3. |
+| Help | One Markdown page per screen in `frontend/src/help/{en,ur}/`, bundled at build time and rendered by a small built-in renderer (headings, lists, bold, code, links; raw HTML is never interpreted). A unit test checks every topic exists in both languages with the same sections. The `?` button deep-links to the screen's topic; the index is searchable in the current language. Button names in the help text match the UI labels. | HANDOFF §11, SRS §2.6.3. |
+| Help assistant | Optional (`llm.features.help_assistant`): the page text is sent with the question; the model answers only from it, never makes operational calls, 10 questions/minute/user. Off → the box is hidden. | HANDOFF §10.3. |
+
+## Phase 9: hardening
+
+| Area | Decision | Why |
+|---|---|---|
+| Load test | `backend/loadtest/run.py` (httpx + websockets, no extra dependencies) runs 10 users and 5 capture sessions at once, then thermal uploads, and checks every target; exit code 0 = pass. On a 4-core dev machine: pages p95 ≤ 0.13 s, sign-in p50 0.37 s / p95 2.4 s (all 10 at the same instant), frame → map p95 0.32 s, thermal image → results 0.12 s. | HANDOFF §12. |
+| Password hashing off the event loop | Argon2 hashing/verification now runs in worker threads. Before, every sign-in stalled all other requests for a few hundred ms (other endpoints' worst case dropped from 1.2 s to 0.5 s under the load test). | Found by the load test. |
+| Data retention | Implemented (it was a setting without a job): hourly, closed or deleted incidents older than `retention_days` are removed with their media files (files deleted after the database commit), open incidents never; each run is audited. Off by default (Q14). CLI with `--dry-run`. | The setting promised it; SRS data handling. |
+| Accessibility | axe WCAG 2 A/AA scan on every route for every role, both languages, in CI. Fixes: `--text-low` lifted from #5b646c to #848e96 (≥ 4.5:1 on every surface), a `--safe-text` green (#45c98a) for text while zone fills keep the prototype green, and a darker destructive-button red (#c23a24) for white text. Zone colours themselves are unchanged. | SRS usability; colour never the only cue. |
+| Bilingual screen pass | Same test checks `dir`, no horizontal overflow at 360 and 1280 px, and no untranslated keys, and saves a screenshot of every screen. | HANDOFF §12 "Urdu RTL on every route". |
+| Restart resilience | E2E test restarts the backend container during a capture: the phone reconnects and keeps streaming, the dashboard reconnects, nobody is signed out. Runs in CI (`E2E_DOCKER_RESTART=1`). | SRS §5.2.2. |
+| Demo | `docs/DEMO.md` plus `e2e/demo.spec.ts` follow HANDOFF §14 with newly created accounts (forced password change included). | Definition of done. |
+| Model benchmark | `python -m app.ml.benchmark` reports per-model and zone-frame latency against the targets on the target hardware. | MODEL_INTEGRATION §6. |
+| Deployment | `docs/DEPLOYMENT.md`: install, `.env` reference, HTTPS options, encryption at rest via encrypted disk/volume, backups and restore, retention, monitoring, upgrades, single-instance limit. | HANDOFF §12, §13. |

@@ -1,0 +1,985 @@
+{
+  "app": {
+    "name": "Ignis Vision",
+    "tagline": "AI fire intelligence system",
+    "org": "Rescue 1122",
+    "orgFull": "Rescue 1122 · Punjab Emergency Service"
+  },
+  "common": {
+    "loading": "Loading…",
+    "retry": "Try again",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "back": "Back",
+    "next": "Next",
+    "skip": "Skip",
+    "finish": "Finish",
+    "save": "Save",
+    "saved": "Saved",
+    "on": "On",
+    "off": "Off",
+    "signOut": "Sign out"
+  },
+  "splash": {
+    "skip": "Skip"
+  },
+  "signin": {
+    "title": "IGNIS VISION",
+    "username": "Username",
+    "password": "Password",
+    "submit": "Sign in",
+    "submitting": "Signing in…",
+    "foot": "Rescue 1122 · Authorised personnel only"
+  },
+  "language": {
+    "title": "Select language",
+    "subtitle": "Display language",
+    "en": "English",
+    "ur": "Urdu",
+    "hint": "You can change this any time from the top bar."
+  },
+  "onboarding": {
+    "title": "Getting started",
+    "steps": {
+      "welcome": {
+        "title": "Welcome to Ignis Vision",
+        "body": "Ignis Vision supports fire response with AI analysis of building zones and thermal imagery. This short tour shows the parts you will use."
+      },
+      "disclaimer": {
+        "title": "Decision support, not a guarantee",
+        "body": "Always apply your training and judgement. A zone shown as safe is only as current as its last analysis, and a missing detection does not guarantee nobody is present."
+      },
+      "live": {
+        "title": "Live monitoring",
+        "body": "Log an emergency, assign responders to zones and watch the zone risk map, alerts and the ranked list of people detected update in real time."
+      },
+      "capture": {
+        "title": "Zone capture",
+        "body": "Point your phone's rear camera at a zone and press Start. The server classifies the zone as safe, caution, unsafe or blocked and speaks critical alerts."
+      },
+      "analysis": {
+        "title": "Thermal and image analysis",
+        "body": "Upload thermal images or videos. People are detected, their posture is classified and they are ranked by the Rescue Priority Index."
+      },
+      "reports": {
+        "title": "Incident records",
+        "body": "Closed incidents keep a full timeline, zone history and victim list, and can be exported as a PDF in English or Urdu."
+      },
+      "trainer": {
+        "title": "Simulation trainer",
+        "body": "Practise classifying zones and postures on real incident media, then compare your answers with the reference answer and the model's output."
+      },
+      "admin": {
+        "title": "Administration",
+        "body": "Manage user accounts and roles, training scenarios and system settings. Every change you make is recorded in the audit log."
+      },
+      "controls": {
+        "title": "Always within reach",
+        "body": "The top bar has the language switch, the connection indicator and the ? button, which opens help for the screen you are on. You can replay this tour from Settings."
+      }
+    }
+  },
+  "changePassword": {
+    "title": "Set a new password",
+    "subtitle": "Your password was set by an administrator. Choose your own to continue.",
+    "current": "Current password",
+    "new": "New password",
+    "confirm": "Confirm new password",
+    "rules": "At least 8 characters, with letters and numbers.",
+    "submit": "Save password",
+    "mismatch": "The two new passwords do not match."
+  },
+  "nav": {
+    "groups": {
+      "operations": "Operations",
+      "training": "Training",
+      "system": "System"
+    },
+    "live": "Live monitoring",
+    "capture": "Zone capture",
+    "analysis": "Thermal & image analysis",
+    "reports": "Incident reports",
+    "team": "Team deployment",
+    "trainer": "Training simulator",
+    "trainerResults": "Trainee results",
+    "admin": "Administration",
+    "settings": "Settings",
+    "help": "Help"
+  },
+  "roles": {
+    "admin": "Administrator",
+    "incident_commander": "Incident Commander",
+    "field_responder": "Field Responder",
+    "trainee": "Trainee",
+    "training_staff": "Training Staff"
+  },
+  "shell": {
+    "openMenu": "Open menu",
+    "collapse": "Collapse sidebar",
+    "expand": "Expand sidebar",
+    "help": "Help for this screen",
+    "online": "Online",
+    "offline": "Offline",
+    "liveLost": "Live link lost",
+    "liveOk": "Live",
+    "cameraOn": "Camera on",
+    "cameraOff": "Camera off",
+    "cameraBlocked": "Camera blocked",
+    "language": "Language",
+    "offlineBanner": "No internet connection. Showing the last information received.",
+    "idleWarning": "You will be signed out in {{seconds}} seconds because of inactivity.",
+    "staySignedIn": "Stay signed in"
+  },
+  "signedOut": {
+    "idle_timeout": "You were signed out after 30 minutes of inactivity.",
+    "account_deactivated": "This account has been deactivated. Contact your administrator.",
+    "session_expired": "Your session has ended. Please sign in again.",
+    "signed_out": "You have signed out."
+  },
+  "pages": {
+    "live": {
+      "crumbs": "Operations / Live monitoring",
+      "title": "Live monitoring",
+      "subtitle": "Active incidents, zone risk map, alerts and detected people."
+    },
+    "capture": {
+      "crumbs": "Operations / Zone capture",
+      "title": "Zone capture",
+      "subtitle": "Stream your phone camera to classify a zone."
+    },
+    "analysis": {
+      "crumbs": "Operations / Thermal & image analysis",
+      "title": "Thermal & image analysis",
+      "subtitle": "Upload thermal images or videos to detect and rank people."
+    },
+    "reports": {
+      "crumbs": "Operations / Incident reports",
+      "title": "Incident reports",
+      "subtitle": "Records, timelines and PDF reports of past incidents."
+    },
+    "team": {
+      "crumbs": "Operations / Team deployment",
+      "title": "Team deployment",
+      "subtitle": "Assign responders to zones."
+    },
+    "trainer": {
+      "crumbs": "Training / Simulation trainer",
+      "title": "Scenario-based training",
+      "subtitle": "Classify zones and postures, then compare with the reference and the model."
+    },
+    "trainerResults": {
+      "crumbs": "Training / Trainee results",
+      "title": "Trainee results",
+      "subtitle": "Attempts and progress for every trainee."
+    },
+    "admin": {
+      "crumbs": "System / Administration",
+      "title": "Administration",
+      "subtitle": "Users, scenarios, system settings, status and audit log."
+    },
+    "settings": {
+      "crumbs": "System / Settings",
+      "title": "Settings",
+      "subtitle": "Your preferences for language, voice and alerts."
+    },
+    "help": {
+      "crumbs": "System / Help",
+      "title": "Help",
+      "subtitle": "How each screen works."
+    }
+  },
+  "forbidden": {
+    "title": "Not available for your role",
+    "body": "Your account does not have access to this screen. Ask your administrator if you need it."
+  },
+  "notFound": {
+    "title": "Page not found",
+    "body": "This address does not exist.",
+    "home": "Go to start page"
+  },
+  "settings": {
+    "language": "Display language",
+    "voice": "Spoken alerts",
+    "voiceHint": "Read critical alerts aloud in your language.",
+    "sound": "Sound on critical alerts",
+    "onboarding": "Getting-started tour",
+    "replay": "Replay tour",
+    "account": "Account",
+    "signedInAs": "Signed in as {{name}} ({{role}})",
+    "changePassword": "Change password"
+  },
+  "help": {
+    "index": "All help topics",
+    "back": "All topics",
+    "topics": {
+      "getting-started": {
+        "title": "Getting started",
+        "body": "Sign in with the username and password from your administrator. Choose English or Urdu; you can switch any time with the language button in the top bar. The ? button on every screen opens help for that screen."
+      },
+      "live": {
+        "title": "Live monitoring",
+        "body": "Shows the active incident: key figures, the zone risk map, real-time alerts and people detected, ranked by priority. Zones without a current analysis are shown as unclassified, never as safe."
+      },
+      "capture": {
+        "title": "Zone capture",
+        "body": "Choose the incident and zone, then press Start. Keep the rear camera pointed at the zone. The result appears as a large status label and critical changes are spoken aloud. The camera needs a secure (HTTPS) connection and permission."
+      },
+      "analysis": {
+        "title": "Thermal & image analysis",
+        "body": "Drop a thermal image or video, tag it to an incident and zone, and wait for the analysis. Each person is shown with a box, posture label, priority band and confidence. Low-confidence postures are flagged."
+      },
+      "reports": {
+        "title": "Incident reports",
+        "body": "Lists past incidents with filters. Open one to see its timeline, zone history, people detected and media, and download the PDF report in English or Urdu."
+      },
+      "team": {
+        "title": "Team deployment",
+        "body": "Assign field responders to zones and reassign them during an incident. The full assignment history is kept."
+      },
+      "trainer": {
+        "title": "Simulation trainer",
+        "body": "Pick a scenario, label each zone region and each person's posture, then submit. You will see your answer next to the reference answer and the model's output, with a score. You can retry any scenario."
+      },
+      "admin": {
+        "title": "Administration",
+        "body": "Create and deactivate accounts, reset passwords, manage training scenarios, tune system settings and review the audit log. Every change is recorded."
+      },
+      "settings": {
+        "title": "Settings",
+        "body": "Choose your language, turn spoken alerts and alert sounds on or off, change your password and replay the getting-started tour."
+      }
+    },
+    "search": "Search help",
+    "noMatch": "No help page matches.",
+    "more": "Other topics",
+    "ask": {
+      "title": "Ask about this page",
+      "placeholder": "e.g. How do I reassign a responder?",
+      "send": "Ask",
+      "thinking": "Thinking…",
+      "note": "AI answers use only this help text and may be wrong. They never decide operational questions."
+    }
+  },
+  "errors": {
+    "invalid_credentials": "Username or password is incorrect.",
+    "account_deactivated": "This account has been deactivated. Contact your administrator.",
+    "not_authenticated": "Please sign in.",
+    "token_expired": "Your session expired. Please sign in again.",
+    "invalid_token": "Your session is no longer valid. Please sign in again.",
+    "session_expired": "Your session has ended. Please sign in again.",
+    "idle_timeout": "You were signed out because of inactivity.",
+    "refresh_reused": "For your security this session was ended. Please sign in again.",
+    "refresh_race": "Please try again.",
+    "forbidden": "You do not have permission for this action.",
+    "password_change_required": "Set a new password to continue.",
+    "password_too_short": "Password must be at least 8 characters.",
+    "password_needs_letters_and_numbers": "Password must contain both letters and numbers.",
+    "password_unchanged": "Choose a password different from the current one.",
+    "current_password_incorrect": "Current password is incorrect.",
+    "validation_failed": "Some fields are missing or invalid.",
+    "not_found": "Not found.",
+    "conflict": "This conflicts with existing data.",
+    "network": "Cannot reach the server. Check your internet connection and try again.",
+    "unknown": "Something went wrong. Please try again.",
+    "scenario_not_found": "This scenario is not available.",
+    "scenario_not_ready": "This scenario has no ready items yet.",
+    "attempt_already_submitted": "This attempt was already submitted.",
+    "attempt_not_found": "This attempt is not available.",
+    "invalid_ground_truth": "The labels could not be saved: check every region and box.",
+    "unsupported_media_type": "Unsupported file type.",
+    "file_too_large": "The file is too large.",
+    "unreadable_media": "The file could not be read.",
+    "cannot_modify_self": "You cannot change your own role or deactivate yourself.",
+    "username_taken": "That username is already taken.",
+    "user_not_found": "User not found.",
+    "station_not_found": "Station not found.",
+    "invalid_setting": "A setting value is not valid.",
+    "no_changes": "Nothing to save.",
+    "help_assistant_off": "The help assistant is not enabled.",
+    "help_assistant_unavailable": "The help assistant is unavailable right now. Try again later.",
+    "too_many_requests": "Too many requests. Wait a minute and try again.",
+    "confirmation_required": "Please confirm this action."
+  },
+  "status": {
+    "unclassified": "Unclassified",
+    "safe": "Safe",
+    "caution": "Caution",
+    "unsafe": "Unsafe",
+    "blocked": "Blocked",
+    "stale": "No current analysis"
+  },
+  "incidentStatus": {
+    "draft": "Draft",
+    "dispatched": "Dispatched",
+    "active": "Active",
+    "closed": "Closed"
+  },
+  "structure": {
+    "commercial": "Commercial",
+    "residential": "Residential",
+    "industrial": "Industrial",
+    "other": "Other"
+  },
+  "incidentType": {
+    "structural": "Structural fire",
+    "chemical": "Chemical fire",
+    "electrical": "Electrical fire",
+    "other": "Other"
+  },
+  "live": {
+    "emptyTitle": "No active emergency",
+    "emptyBody": "The console is idle. When a call comes in and a team is dispatched, log the emergency to start structural mapping and zone assignment.",
+    "emptyBodyReadOnly": "There is no open incident right now.",
+    "logEmergency": "Log new emergency",
+    "briefingTitle": "Teams dispatched — zones assigned, awaiting zone capture",
+    "briefingSub": "{{count}} responders assigned across {{zones}} zones.",
+    "goLive": "Teams on site — start live monitoring",
+    "sectorMap": "Building — sector map",
+    "zoneCount": "{{count}} zones",
+    "assignedNotLive": "Assigned — not yet analysed",
+    "structuralMap": "Structural map",
+    "liveFusion": "Live fusion",
+    "alerts": "Real-time alerts",
+    "noAlerts": "No alerts yet.",
+    "humans": "People detected",
+    "noHumans": "No people detected yet. Upload thermal images or videos to analyse.",
+    "thermal": "Thermal detections",
+    "noThermal": "No thermal analysis yet for this incident.",
+    "rgb": "Latest zone frame",
+    "noRgb": "No zone capture yet. Responders start capture from their phones.",
+    "zoneClassification": "Zone classification",
+    "safetyThreshold": "Building safety threshold",
+    "evacOkTitle": "Building within safe operating threshold",
+    "evacOkSub": "Safe + caution zones at {{pct}}% of analysed zones (threshold {{threshold}}%).",
+    "evacWarnTitle": "Below safe operating threshold — consider evacuation",
+    "evacWarnSub": "Safe + caution zones at {{pct}}% of analysed zones (threshold {{threshold}}%).",
+    "evacUnknownTitle": "Not enough analysed zones",
+    "evacUnknownSub": "No zone has a current analysis yet.",
+    "unclassifiedShare": "{{pct}}% of zones have no current analysis.",
+    "closeIncident": "Close incident",
+    "closeTitle": "Close incident {{code}}?",
+    "closeBody": "Live monitoring ends, all team assignments are released and the incident report is compiled. This cannot be undone.",
+    "closed": "Incident {{code}} closed.",
+    "connectionLost": "Connection lost — showing the last update from {{time}}. Reconnecting…",
+    "selectIncident": "Open incidents",
+    "acknowledge": "Acknowledge",
+    "zoneDrawerTitle": "Zone {{code}}",
+    "zoneLabel": "Zone label",
+    "zoneHistory": "Risk history",
+    "noHistory": "No analyses for this zone yet.",
+    "assignedTo": "Assigned to",
+    "nobodyAssigned": "Nobody assigned",
+    "victimsInZone": "{{count}} people detected",
+    "updatedAt": "Updated {{time}}",
+    "risk": "Risk",
+    "confidence": "Confidence",
+    "floor": "Floor {{n}}",
+    "overlayToggle": "Overlay",
+    "noFrameZone": "No frame for this zone yet.",
+    "zoneCount_one": "{{count}} zone"
+  },
+  "kpi": {
+    "incident": "Active incident",
+    "victims": "People detected",
+    "victimsSub": "This incident",
+    "building": "Building status",
+    "units": "Response units",
+    "unitsSub": "Assigned",
+    "ai": "AI confidence",
+    "aiSub": "Current analyses",
+    "awaiting": "Awaiting analysis"
+  },
+  "dispatch": {
+    "title": "Log new emergency",
+    "s1": "Incident location",
+    "s2": "Structural map — zones",
+    "s3": "Team dispatch — responder, zone, device",
+    "address": "Address",
+    "city": "City",
+    "structureType": "Structure type",
+    "incidentType": "Incident type",
+    "reportedBy": "Reported by",
+    "floors": "Floors",
+    "zonesPerFloor": "Zones per floor",
+    "zoneHint": "Name zones if useful (e.g. Lobby). Codes are fixed: F1-Z1, F1-Z2…",
+    "responder": "Responder",
+    "zone": "Zone",
+    "device": "Device label (optional)",
+    "noZone": "No zone yet",
+    "addResponder": "+ Add responder",
+    "remove": "Remove",
+    "busy": "on {{code}}",
+    "noResponders": "No active field responders. An administrator can add them.",
+    "submit": "Dispatch team & create incident",
+    "submitting": "Dispatching…",
+    "addressRequired": "Enter the incident address."
+  },
+  "team": {
+    "chooseIncident": "Incident",
+    "current": "Current assignments",
+    "history": "Assignment history",
+    "none": "No responders assigned.",
+    "noOpen": "No open incident. Team assignments appear here once an emergency is logged.",
+    "since": "Since",
+    "until": "Until",
+    "reassign": "Move to zone",
+    "unassign": "Release",
+    "assign": "Assign",
+    "add": "Assign a responder",
+    "mine": "My assignment",
+    "mineNone": "You are not assigned to an open incident.",
+    "readOnly": "Read-only view."
+  },
+  "confirm": {
+    "cancel": "Cancel",
+    "confirm": "Confirm"
+  },
+  "alerts": {
+    "zone_unsafe": "Zone {{zone}} is unsafe.",
+    "zone_blocked": "Zone {{zone}} is blocked.",
+    "zone_rapid_change": "Zone {{zone}} changed rapidly from {{from}} to {{to}}.",
+    "victim_critical": "Critical-priority person detected in zone {{zone}}.",
+    "analysis_failed": "Zone {{zone}} could not be analysed (e.g. heavy smoke). Previous status kept.",
+    "camera_lost": "Camera feed lost for zone {{zone}}.",
+    "system": "{{message}}"
+  },
+  "capture": {
+    "noTargets": "No active incident to capture. Zone capture opens once the commander starts live monitoring.",
+    "incident": "Incident",
+    "zone": "Zone",
+    "assignedToYou": "assigned to you",
+    "start": "Start capture",
+    "stop": "Stop capture",
+    "connecting": "Connecting…",
+    "reconnecting": "Connection lost — reconnecting…",
+    "streaming": "Streaming {{fps}} frame/s",
+    "overlay": "Show analysis overlay",
+    "lastUpdate": "Last result {{time}} · {{ms}} ms",
+    "waiting": "Point the rear camera at the zone and press Start.",
+    "notAnalysable": "Could not analyse this frame — previous status kept. Move closer or wait for smoke to clear.",
+    "zoneMap": "Zone map",
+    "result": "Zone status",
+    "reasonsTitle": "Why",
+    "voiceUnavailable": "Spoken alerts are not available on this device in your language — alerts are shown here instead.",
+    "frameError": "A frame was rejected ({{code}}). Capture continues."
+  },
+  "camera": {
+    "insecure": "The camera needs a secure connection. Open the app over https:// (not http:// or a file).",
+    "unsupported": "This browser cannot use the camera. Use a recent Chrome, Edge, Safari or Firefox.",
+    "denied": "Camera permission was denied. Allow camera access for this site in the browser settings, then try again.",
+    "no_camera": "No camera was found on this device.",
+    "in_use": "The camera is being used by another app. Close it and try again.",
+    "unknown": "The camera could not be started. Try again."
+  },
+  "voice": {
+    "zone_unsafe": "Zone {{zone}} is unsafe. Turn back.",
+    "zone_blocked": "Zone {{zone}} is blocked. Find another route.",
+    "zone_rapid_change": "Warning. Zone {{zone}} is now {{to}}. Turn back.",
+    "victim_critical": "Critical victim detected in zone {{zone}}.",
+    "analysis_failed": "Zone {{zone}} cannot be analysed right now.",
+    "camera_lost": "Camera feed lost for zone {{zone}}.",
+    "capture_started": "Capture started for zone {{zone}}.",
+    "camera_error": "Camera not available."
+  },
+  "reasons": {
+    "no_damage": "No structural damage detected.",
+    "damage_present": "{{cls}} detected ({{conf}}% confidence).",
+    "surface_damage": "Cracks/spalling cover {{pct}}% of walls, columns or ceiling.",
+    "collapse_detected": "Possible collapse detected ({{conf}}% confidence).",
+    "exposed_rebar": "Exposed reinforcement visible.",
+    "passage_blocked": "Debris or collapse covers {{pct}}% of the floor/doorway.",
+    "frame_obstructed": "Debris or collapse covers {{pct}}% of the view.",
+    "not_analysable": "Not enough visible structure to analyse ({{structure_pct}}% recognised)."
+  },
+  "damage": {
+    "crack": "Crack",
+    "spalling": "Spalling",
+    "exposed_rebar": "Exposed rebar",
+    "collapse": "Collapse",
+    "debris": "Debris"
+  },
+  "analysis": {
+    "drop": "Drop a thermal image or video here, or choose a file",
+    "choose": "Choose file",
+    "formats": "JPEG, PNG, MP4, WebM or MOV · images up to 20 MB, videos up to 300 MB",
+    "zoneOptional": "Zone (optional — used for environmental risk)",
+    "noZone": "No zone",
+    "upload": "Upload & analyse",
+    "uploading": "Uploading… {{pct}}%",
+    "queued": "Queued",
+    "running": "Analysing… {{pct}}%",
+    "done": "Done",
+    "failed": "Analysis failed",
+    "uploads": "Thermal analyses",
+    "noUploads": "No thermal uploads yet.",
+    "people": "{{count}} people",
+    "people_one": "{{count}} person",
+    "noIncident": "No active incident. Uploads open once the commander starts live monitoring.",
+    "viewer": "Detections",
+    "noPeople": "No people detected in this media. This does not guarantee that nobody is present.",
+    "frame": "Frame at {{t}} s",
+    "source": {
+      "web_upload": "Web upload",
+      "mobile_sync": "Mobile"
+    },
+    "original": "Original file"
+  },
+  "victims": {
+    "rank": "#",
+    "posture": "Posture",
+    "confidence": "Confidence",
+    "zone": "Zone",
+    "source": "Source",
+    "band": "Priority",
+    "lowConfidence": "low confidence",
+    "rescued": "Mark rescued",
+    "falsePositive": "Not a person",
+    "restore": "Restore",
+    "status": {
+      "detected": "Detected",
+      "rescued": "Rescued",
+      "false_positive": "Not a person"
+    },
+    "none": "No people detected yet.",
+    "disclaimer": "Decision support only — a missing detection does not mean nobody is present."
+  },
+  "posture": {
+    "standing": "Standing",
+    "sitting": "Sitting",
+    "lying": "Lying",
+    "bending": "Bending"
+  },
+  "band": {
+    "critical": "Critical",
+    "high": "High",
+    "medium": "Medium",
+    "low": "Low"
+  },
+  "reports": {
+    "filters": {
+      "status": "Status",
+      "all": "All",
+      "search": "Search code or address",
+      "from": "From",
+      "to": "To",
+      "apply": "Apply"
+    },
+    "cols": {
+      "code": "Incident",
+      "address": "Address",
+      "status": "Status",
+      "opened": "Opened",
+      "closed": "Closed",
+      "source": "Source"
+    },
+    "none": "No incidents match these filters.",
+    "open": "Open report",
+    "live": "Open live view",
+    "pdfEn": "PDF (English)",
+    "pdfUr": "PDF (اردو)",
+    "downloading": "Preparing PDF…",
+    "regenerate": "Regenerate",
+    "regenerated": "Report regenerated.",
+    "delete": "Delete incident",
+    "deleteTitle": "Delete incident {{code}}?",
+    "deleteBody": "The incident and its report are removed from all lists. The deletion is recorded in the audit log.",
+    "deleted": "Incident {{code}} deleted.",
+    "generated": "Generated {{time}}",
+    "narrativeAi": "Narrative drafted with AI from the recorded data.",
+    "notClosed": "The report is available once the incident is closed.",
+    "summary": "Summary",
+    "figures": "Key figures",
+    "zones": "Zone status",
+    "history": "Zone risk history",
+    "victims": "People detected",
+    "team": "Team assignments",
+    "alerts": "Alerts",
+    "timeline": "Timeline",
+    "frames": "Representative frames",
+    "models": "Model versions",
+    "zone": "Zone",
+    "label": "Label",
+    "final": "Final status",
+    "finalAt": "Last analysis",
+    "peak": "Peak status",
+    "analyses": "Analyses",
+    "responder": "Responder",
+    "device": "Device",
+    "from": "From",
+    "until": "Until",
+    "time": "Time",
+    "severity": {
+      "crit": "Critical",
+      "warn": "Warning",
+      "info": "Info"
+    },
+    "message": "Message",
+    "rank": "#",
+    "fig": {
+      "zones": "Zones",
+      "responders": "Responders",
+      "people": "People detected",
+      "rescued": "Rescued",
+      "crit": "Critical alerts",
+      "peak": "Highest zone risk",
+      "duration": "Duration"
+    },
+    "truncated": "{{n}} further events not shown.",
+    "none2": "None recorded.",
+    "event": {
+      "opened": "Incident opened",
+      "assigned": "{{responder}} assigned to {{zone}}",
+      "activated": "Live operations started",
+      "zone_change": "Zone {{zone}}: {{from}} → {{to}}",
+      "victim": "{{band}}-priority person ({{posture}}) in {{zone}}",
+      "capture": "Zone capture started for {{zone}} by {{responder}}",
+      "thermal_upload": "Thermal media analysed ({{source}}, {{zone}})",
+      "closed": "Incident closed by {{by}}",
+      "alert": "{{message}}"
+    },
+    "sourceIncident": {
+      "web": "Web",
+      "mobile_sync": "Mobile"
+    }
+  },
+  "trainer": {
+    "noScenarios": "No training scenarios are available yet.",
+    "kind": {
+      "zone": "Zone status",
+      "posture": "Posture",
+      "mixed": "Mixed"
+    },
+    "difficulty": "Difficulty {{n}} of 5",
+    "placeholder": "PLACEHOLDER",
+    "placeholderNote": "This scenario uses placeholder images until Rescue 1122 provides real training media. The answers are illustrative.",
+    "items": "{{count}} items",
+    "items_one": "{{count}} item",
+    "best": "Best {{score}}",
+    "tries": "{{count}} attempts",
+    "tries_one": "{{count}} attempt",
+    "start": "Start",
+    "retry": "Try again",
+    "myAttempts": "My attempts",
+    "noAttempts": "No attempts yet.",
+    "scenario": "Scenario",
+    "submitted": "Submitted",
+    "score": "Score",
+    "agreement": "Agreement with model",
+    "notFound": "This scenario or attempt is not available.",
+    "introHow": "{{count}} items. Label every region's zone status and every person's posture, then submit to see the correct answers and the model's output.",
+    "introHow_one": "{{count}} item. Label every region's zone status and every person's posture, then submit to see the correct answers and the model's output.",
+    "progress": "Item {{n}} of {{total}}",
+    "howZone": "Select each numbered region (on the image or in the list), then pick its status.",
+    "howPosture": "Select each numbered person (on the image or in the list), then pick their posture.",
+    "region": "Region {{n}}",
+    "person": "Person {{n}}",
+    "pick": {
+      "zone": "Zone status",
+      "posture": "Posture"
+    },
+    "submit": "Submit answers",
+    "remaining": "{{count}} targets still need a label.",
+    "remaining_one": "{{count}} target still needs a label.",
+    "play": "Play",
+    "pause": "Pause",
+    "labelledFrame": "Labelled frame ({{t}} s)",
+    "notSubmitted": "This attempt was not submitted.",
+    "itemN": "Item {{n}}",
+    "show": "Show",
+    "view": {
+      "answer": "Your answer",
+      "truth": "Correct answer",
+      "model": "Model"
+    },
+    "target": "Target",
+    "verdict": "Result",
+    "correct": "Correct",
+    "partial": "Partly correct",
+    "wrong": "Incorrect",
+    "noModel": "Not detected",
+    "explanation": "Why",
+    "modelReasons": "What the model saw",
+    "modelVersion": "Reference model",
+    "scoreVsTruth": "Score (against the correct answers)",
+    "correctTargets": "Targets correct",
+    "agreementLong": "Agreement with the model",
+    "aiFeedback": "Instructor feedback (AI)",
+    "aiPending": "Writing feedback…",
+    "aiNote": "Drafted with AI from the explanations and model reasons. The score above is the official result.",
+    "trainee": "Trainee",
+    "trainees": "Trainees",
+    "attemptsCol": "Attempts",
+    "avg": "Average",
+    "bestCol": "Best",
+    "last": "Last attempt",
+    "progressChart": "Progress",
+    "pickTrainee": "Select a trainee to see their progress.",
+    "allAttempts": "All attempts",
+    "open": "Open",
+    "notAnalysable": "Not analysable"
+  },
+  "admin": {
+    "tabs": {
+      "users": "Users",
+      "scenarios": "Training scenarios",
+      "settings": "System settings",
+      "status": "System status",
+      "audit": "Audit log"
+    },
+    "sc": {
+      "new": "New scenario",
+      "titleEn": "Title (English)",
+      "titleUr": "Title (Urdu)",
+      "descEn": "Description (English)",
+      "descUr": "Description (Urdu)",
+      "kind": "Type",
+      "difficulty": "Difficulty (1–5)",
+      "active": "Active",
+      "inactive": "Hidden",
+      "items": "Items",
+      "status": "Visibility",
+      "usableOf": "{{usable}} of {{total}} ready",
+      "addItem": "Add image or video",
+      "itemsHint": "Items without labels or without a reference output are hidden from trainees. Saving labels recomputes the model's reference output.",
+      "recompute": "Recompute reference outputs",
+      "recomputed": "Reference outputs: {{computed}} computed, {{skipped}} without labels, {{failed}} failed.",
+      "delete": "Delete scenario",
+      "deleteTitle": "Delete \"{{title}}\"?",
+      "deleteBody": "The scenario, its media labels and every trainee attempt at it are removed. This is recorded in the audit log."
+    },
+    "lab": {
+      "type": "Item type",
+      "tool": "Tool",
+      "select": "Select",
+      "polygon": "Draw region",
+      "box": "Draw person box",
+      "rows": "Rows",
+      "cols": "Columns",
+      "applyGrid": "Split into grid",
+      "polygonHint": "Click the corners; click the first point or Finish to close. Esc cancels.",
+      "finish": "Finish",
+      "boxHint": "Drag a box around each person.",
+      "useFrame": "Use current video frame",
+      "remove": "Remove",
+      "noTargets": "No targets yet: draw regions or person boxes on the image.",
+      "explainEn": "Explanation shown after submitting (English)",
+      "explainUr": "Explanation (Urdu)",
+      "usable": "Ready: trainees see this item.",
+      "unusable": "Not ready: add labels and save (needs a reference output).",
+      "save": "Save labels",
+      "saving": "Working…",
+      "deleteItem": "Delete item",
+      "deleteItemTitle": "Delete this item?",
+      "deleteItemBody": "Past attempts keep their scores, but the item disappears from the scenario."
+    },
+    "users": {
+      "new": "New user",
+      "edit": "Edit {{name}}",
+      "editShort": "Edit",
+      "username": "Username",
+      "usernameHint": "Letters, numbers, dot, dash or underscore; at least 3 characters. Cannot be changed later.",
+      "fullName": "Full name",
+      "role": "Role",
+      "language": "Language",
+      "selfRole": "You cannot change your own role.",
+      "tempPasswordNote": "A temporary password is created and shown once. The person must change it at first sign-in.",
+      "search": "Search name or username",
+      "state": "Status",
+      "active": "Active",
+      "inactive": "Deactivated",
+      "lastLogin": "Last sign-in",
+      "actions": "Actions",
+      "mustChange": "must change password",
+      "reset": "Reset password",
+      "deactivate": "Deactivate",
+      "reactivate": "Reactivate",
+      "none": "No users match these filters.",
+      "deactivateTitle": "Deactivate {{name}}?",
+      "deactivateBody": "They are signed out everywhere and cannot sign in until reactivated. Their records are kept.",
+      "deactivated": "{{name}} was deactivated.",
+      "reactivated": "{{name}} can sign in again.",
+      "resetTitle": "Reset the password of {{name}}?",
+      "resetBody": "A new temporary password is created and all their sessions end. They must choose a new password at next sign-in.",
+      "tempTitle": "Temporary password",
+      "tempBody": "Give this password to {{username}} in person. It is shown only once.",
+      "copy": "Copy",
+      "done": "Done"
+    },
+    "set": {
+      "tuneNote": "These defaults are starting points. Tune them with Rescue 1122 before operational use; every change is audited.",
+      "sec": {
+        "rpi": "Rescue Priority Index",
+        "fusion": "Zone risk fusion",
+        "timing": "Timing and alerts",
+        "data": "Data retention",
+        "ai": "AI features (optional)",
+        "trainer": "Trainer grading"
+      },
+      "secHint": {
+        "rpi": "RPI = weighted posture, detection confidence and zone risk. Bands map the score to Critical / High / Medium / Low.",
+        "fusion": "Shares and confidences (0–1) that turn segmentation and damage detections into Safe / Caution / Unsafe / Blocked.",
+        "timing": "How long a zone status stays current, alert windows, the capture rate and the evacuation threshold.",
+        "data": "Closed or deleted incidents older than this are removed every hour, with their media and reports. Open incidents are never removed. Keep forever = never remove.",
+        "ai": "Need LLM_PROVIDER and LLM_API_KEY in the server's .env. Alerts, zone status and RPI never use AI.",
+        "trainer": "Optional half credit when a zone answer is one step away from the correct one (e.g. caution vs unsafe)."
+      },
+      "f": {
+        "rpi": {
+          "weights": {
+            "w_p": "Weight: posture",
+            "w_c": "Weight: detection confidence",
+            "w_r": "Weight: zone risk"
+          },
+          "posture_scores": {
+            "lying": "Posture score: lying",
+            "bending": "Posture score: bending",
+            "sitting": "Posture score: sitting",
+            "standing": "Posture score: standing"
+          },
+          "bands": {
+            "critical": "Critical band from",
+            "high": "High band from",
+            "medium": "Medium band from"
+          },
+          "low_confidence_threshold": "Low-confidence threshold",
+          "low_confidence_factor": "Low-confidence factor"
+        },
+        "zone_fusion": {
+          "min_structure_share": "Minimum visible structure",
+          "min_confidence": "Minimum segmentation confidence",
+          "caution_damage_conf": "Caution: damage confidence",
+          "unsafe_crack_spalling_share": "Unsafe: crack/spalling share",
+          "unsafe_collapse_conf": "Unsafe: collapse confidence",
+          "blocked_floor_door_share": "Blocked: floor/doorway covered",
+          "blocked_frame_share": "Blocked: view covered"
+        },
+        "stale_zone_seconds": "Zone status valid for (seconds)",
+        "rapid_change_window_s": "Rapid-change window (seconds)",
+        "analysis_failed_alert_interval_s": "Repeat 'not analysable' alert after (seconds)",
+        "capture_fps": "Capture frames per second",
+        "evacuation_threshold_pct": "Evacuation threshold (% safe + caution)",
+        "retention_days": "Keep data for (days)",
+        "llm": {
+          "features": {
+            "report_narrative": "AI report summary",
+            "trainer_feedback": "AI trainer feedback",
+            "help_assistant": "AI help assistant"
+          }
+        },
+        "trainer": {
+          "grading": {
+            "partial_credit_adjacent": "Partial credit for adjacent zone status",
+            "adjacent_credit": "Credit for an adjacent answer"
+          }
+        }
+      },
+      "h": {
+        "llm": {
+          "features": {
+            "report_narrative": "Rewrites the report summary from the recorded facts.",
+            "trainer_feedback": "Explains a trainee's mistakes after submitting.",
+            "help_assistant": "Answers questions on help pages, using only the help text."
+          }
+        },
+        "trainer": {
+          "grading": {
+            "partial_credit_adjacent": "Applies to zone answers only, never to postures."
+          }
+        }
+      },
+      "keepForever": "Keep forever",
+      "range": "Allowed: {{min}} – {{max}}",
+      "revert": "Undo changes",
+      "saved": "Saved.",
+      "err": {
+        "number": "Enter a number.",
+        "range": "Must be between {{min}} and {{max}}.",
+        "bands": "Bands must be critical > high > medium.",
+        "weights": "At least one weight must be above 0."
+      }
+    },
+    "status": {
+      "allOk": "All systems normal",
+      "needsAttention": "Needs attention",
+      "checked": "Checked {{time}}",
+      "state": {
+        "ok": "OK",
+        "warn": "Check"
+      },
+      "warn": {
+        "ml_fallback": "models fell back to mocks",
+        "jobs_failed": "analysis jobs failed in the last 24 h",
+        "disk_low": "disk space below 10%",
+        "backups_not_visible": "backups folder not visible to the server",
+        "backup_stale": "last backup older than 36 h",
+        "llm_key_missing": "AI provider set but no API key"
+      },
+      "app": "Application",
+      "version": "Version",
+      "uptime": "Running for",
+      "openIncidents": "Open incidents",
+      "liveConnections": "Live connections",
+      "db": "Database",
+      "latency": "Response time",
+      "size": "Size",
+      "server": "Server",
+      "migration": "Schema version",
+      "ml": "Models",
+      "backend": "Backend",
+      "mock": "Mock models",
+      "real": "Real models",
+      "fallback": "Fallback reason",
+      "jobs": "Analysis jobs",
+      "queue": "Queue",
+      "workers": "{{n}} workers",
+      "job": {
+        "queued": "Queued",
+        "running": "Running",
+        "done": "Done",
+        "failed": "Failed"
+      },
+      "failed24": "Failed (24 h)",
+      "storage": "Storage",
+      "media": "Media files",
+      "diskFree": "Disk free",
+      "backups": "Backups",
+      "lastBackup": "Last backup",
+      "backupFiles": "Backup files",
+      "latestFile": "Latest file",
+      "backupsHidden": "Not visible to the server (mount ./backups into the backend).",
+      "llm": "AI (LLM)",
+      "provider": "Provider",
+      "templates": "Templates only (no AI)",
+      "users": "Users",
+      "sessions": "Active sessions"
+    },
+    "audit": {
+      "action": "Action",
+      "entity": "Type",
+      "actor": "By",
+      "ip": "IP address",
+      "details": "Details",
+      "hide": "Hide",
+      "field": "Field",
+      "before": "Before",
+      "after": "After",
+      "noDetail": "No further detail recorded.",
+      "none": "No entries match these filters.",
+      "system": "System",
+      "actions": {
+        "incident_delete": "Incident deleted",
+        "scenario_create": "Scenario created",
+        "scenario_delete": "Scenario deleted",
+        "scenario_item_add": "Scenario item added",
+        "scenario_item_delete": "Scenario item deleted",
+        "scenario_update": "Scenario updated",
+        "settings_update": "Settings changed",
+        "user_create": "User created",
+        "user_deactivate": "User deactivated",
+        "user_reset_password": "Password reset",
+        "user_update": "User updated",
+        "retention_purge": "Old incidents removed (retention)"
+      }
+    }
+  }
+}

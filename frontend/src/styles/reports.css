@@ -1,0 +1,155 @@
+/* ---- reports list + detail (Phase 6) ---- */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+  margin-block-end: 14px;
+}
+.filters label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.filters label.grow {
+  flex: 1 1 220px;
+}
+.filters input,
+.filters select {
+  min-height: 34px;
+}
+.report-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.report-head h2 {
+  font-family: var(--font-mono);
+  margin: 0 0 4px;
+}
+.report-head {
+  margin-block-end: 8px;
+}
+.small {
+  font-size: 11px;
+}
+.report-disclaimer {
+  border-inline-start: 3px solid var(--caution);
+  padding: 8px 12px;
+  background: var(--caution-dim);
+  border-radius: 4px;
+  margin-block: 10px 14px;
+}
+.report-section {
+  margin-block-end: 14px;
+}
+.narrative {
+  line-height: 1.6;
+  margin: 0 0 10px;
+  max-width: 80ch;
+}
+:lang(ur) .narrative {
+  line-height: 2.2;
+}
+.figures {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+}
+.figure {
+  background: var(--bg-2);
+  border: 1px solid var(--line-soft);
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+.figure .v {
+  font-size: 20px;
+  font-weight: 600;
+}
+.figure .k {
+  font-size: 11px;
+  color: var(--text-low);
+}
+.status-pill {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+}
+.history-chart {
+  margin: 0;
+}
+.history-chart svg {
+  width: 100%;
+  height: auto;
+}
+.history-chart .lbl {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  fill: var(--text-low);
+}
+.history-chart .legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 11px;
+  margin-block-start: 6px;
+}
+.history-chart .legend i {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  vertical-align: middle;
+}
+.report-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+}
+.report-list li {
+  display: flex;
+  gap: 10px;
+  padding: 5px 0;
+  border-block-end: 1px solid var(--line-soft);
+}
+.report-list .when {
+  font-family: var(--font-mono);
+  color: var(--text-low);
+  min-width: 52px;
+}
+.report-list .sev {
+  min-width: 64px;
+  font-weight: 600;
+}
+.report-list .sev-crit .sev {
+  color: var(--unsafe);
+}
+.report-list .sev-warn .sev {
+  color: var(--caution);
+}
+.report-frames {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+.report-frames figure {
+  margin: 0;
+}
+.report-frames img {
+  width: 100%;
+  border-radius: 4px;
+  display: block;
+}
+.report-frames figcaption {
+  font-size: 11px;
+  color: var(--text-low);
+  margin-block-start: 4px;
+}
+.report-models {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  margin: 0;
+  padding-inline-start: 18px;
+}

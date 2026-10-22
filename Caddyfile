@@ -1,0 +1,32 @@
+# Edge proxy: HTTPS/WSS termination, security headers, routing.
+# `tls internal` issues a cert from Caddy's local CA (trust it once, or use
+# mkcert — see README). Replace with a real domain + email for a VPS.
+{$SITE_ADDRESS:localhost} {
+	tls internal
+	encode zstd gzip
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Permissions-Policy "camera=(self), microphone=(), geolocation=()"
+		-Server
+	}
+
+	@app not path /api/docs
+	header @app Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self' wss:; frame-ancestors 'none'"
+
+	# Swagger UI (/api/docs) loads its bundle from jsDelivr and uses an inline bootstrap script.
+	@apidocs path /api/docs
+	header @apidocs Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' https://cdn.jsdelivr.net; img-src 'self' data: https://fastapi.tiangolo.com; frame-ancestors 'none'"
+
+	@backend path /api/* /ws/*
+	handle @backend {
+		reverse_proxy backend:8000
+	}
+
+	handle {
+		reverse_proxy frontend:80
+	}
+}
