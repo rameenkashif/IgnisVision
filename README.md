@@ -34,6 +34,18 @@ docker compose cp caddy:/data/caddy/pki/authorities/local/root.crt ./caddy-root.
 # Linux:   sudo cp caddy-root.crt /usr/local/share/ca-certificates/ && sudo update-ca-certificates
 ```
 
+### Run in GitHub Codespaces
+
+No local install needed. On the repository page: **Code → Codespaces → Create codespace on main**. The first start takes about 5–10 minutes: it builds the images, starts the stack, seeds the demo data, and prints the address and demo password in the terminal. It also opens the app in a browser tab.
+
+- **Address:** `https://<your-codespace>-8080.app.github.dev`; also listed in the **Ports** tab, port 8080.
+- **Accounts:** `admin`, `commander1`, `responder1`, `trainee1`, `trainer1`. The password is random per codespace; it is printed at start and stored in `.env` as `SEED_PASSWORD`.
+- **Phone camera:** the address is already HTTPS. Either sign in to GitHub on the phone's browser, or in the **Ports** tab right-click 8080 → *Port Visibility → Public*. Public means anyone with the address can reach the sign-in page, so switch it back to Private afterwards.
+- **Restart the app** (e.g. after pulling changes): `bash .devcontainer/start.sh`.
+- **Machine size:** a 4-core / 8 GB machine is requested. On the free plan this uses the monthly core-hours twice as fast as a 2-core machine, so **stop the codespace** when you are done (Codespaces → ⋯ → Stop).
+
+How it works: Codespaces serves the app over HTTPS itself, so Caddy listens on plain HTTP on port 8080 behind it (`docker-compose.codespaces.yml`, `Caddyfile.codespaces`). The security headers and routing are the same as the normal setup (`caddy/common.caddy`).
+
 ### Testing the phone camera over Wi-Fi
 
 `getUserMedia` needs HTTPS. Set `SITE_ADDRESS` to this machine's LAN IP (e.g. `192.168.1.20`) and `CORS_ORIGINS=["https://192.168.1.20"]` in `.env`, run `docker compose up -d`, then install `caddy-root.crt` (above) on the phone (iOS: AirDrop it → Settings → Profile → install, then Settings → General → About → Certificate Trust Settings; Android: Settings → Security → Install certificate → CA). Alternatively use [mkcert](https://github.com/FiloSottile/mkcert) (`mkcert 192.168.1.20`, mount the files into the caddy container, and replace `tls internal` with `tls /certs/cert.pem /certs/key.pem`).

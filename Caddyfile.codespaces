@@ -1,0 +1,9 @@
+# GitHub Codespaces: the Codespaces port forwarder already serves the app over HTTPS
+# (https://<codespace>-8080.app.github.dev), so Caddy listens on plain HTTP behind it.
+{
+	auto_https off
+}
+
+:8080 {
+	import /etc/caddy/common.caddy
+}
