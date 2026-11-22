@@ -1,0 +1,12 @@
+# GitHub Codespaces override (used by .devcontainer/start.sh):
+#   docker compose -f docker-compose.yml -f docker-compose.codespaces.yml up -d --build
+# Caddy serves plain HTTP on 8080; Codespaces forwards it as https://<codespace>-8080.app.github.dev.
+services:
+  caddy:
+    ports: !override
+      - "8080:8080"
+    volumes: !override
+      - ./Caddyfile.codespaces:/etc/caddy/Caddyfile:ro
+      - ./caddy/common.caddy:/etc/caddy/common.caddy:ro
+      - caddy_data:/data
+      - caddy_config:/config

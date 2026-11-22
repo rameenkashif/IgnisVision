@@ -7,7 +7,7 @@ on:
 
 jobs:
   backend:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04  # Playwright 1.56 does not support the Ubuntu 26.04 runners
     defaults:
       run:
         working-directory: backend
@@ -39,7 +39,7 @@ jobs:
       - run: pytest -q
 
   frontend:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04  # Playwright 1.56 does not support the Ubuntu 26.04 runners
     defaults:
       run:
         working-directory: frontend
@@ -60,7 +60,7 @@ jobs:
       - run: npm run build
 
   docker:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04  # Playwright 1.56 does not support the Ubuntu 26.04 runners
     needs: [backend, frontend]
     steps:
       - uses: actions/checkout@v4
