@@ -1,4 +1,6 @@
-FROM python:3.11-slim
+# Debian 12 (bookworm), pinned: the default 3.11-slim moved to Debian 13, whose OpenSSL 3.5
+# sends a larger TLS ClientHello that timed out against pypi.org from GitHub Codespaces.
+FROM python:3.11-slim-bookworm
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 WORKDIR /app
 # WeasyPrint (PDF reports): Pango/HarfBuzz for text shaping incl. Urdu; fonts are bundled.
